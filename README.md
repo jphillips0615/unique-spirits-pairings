@@ -1,50 +1,116 @@
-# Welcome to your Expo app 👋
+🍸 Unique Spirits & Pairings
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A premium cross-platform mobile application for discovering exceptional cocktails, learning about the world's finest spirits, and exploring expertly curated food pairings.
 
-## Get started
+Overview
 
-1. Install dependencies
+Unique Spirits & Pairings is a modern mobile app built with React Native and Expo that combines cocktail discovery, spirit education, and food pairing recommendations into one elegant experience.
 
-   ```bash
-   npm install
-   ```
+Rather than simply listing recipes, the app is designed to help users understand the stories, ingredients, techniques, and pairings behind every drink.
 
-2. Start the app
+Our vision is to create an experience that feels more like walking into a luxury cocktail lounge than browsing a recipe app.
 
-   ```bash
-   npx expo start
-   ```
+Current Features
+Premium dark-themed interface
+Home screen
+Explore screen
+Favorites screen
+Responsive mobile layout
+Expo Router navigation
+TypeScript architecture
+Planned Features
+Cocktail Library
+50 Must-Try Cocktails
+Spirit categories
+Glassware guide
+Garnish recommendations
+Bartender tips
+Cocktail history
+Pairings
+Curated food pairings
+Flavor notes
+Serving suggestions
+Smart Features
+Ingredient search
+"What's In My Bar?" cocktail finder
+Shopping lists
+AI Bartender
+Personalized recommendations
+Technology Stack
+React Native
+Expo
+Expo Router
+TypeScript
+Git
+GitHub
+Planned
+Firebase
+Cloud Storage
+Authentication
+AI Integration
+Development Philosophy
 
-In the output, you'll find options to open the app in a
+This project follows professional software development practices.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Modular architecture
+Reusable components
+Clean project organization
+Version control with Git
+Scalable design
+Continuous documentation
+Project Structure
+app/
+assets/
+components/
+constants/
+data/
+docs/
+hooks/
+services/
+types/
+utils/
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+PROJECT/
+Documentation
 
-## Get a fresh project
+Project documentation can be found inside:
 
-When you're ready, run:
+/docs
+/PROJECT
 
-```bash
-npm run reset-project
-```
+These documents include the project roadmap, development rules, design standards, long-term vision, and release planning.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Current Status
 
-## Learn more
+Version: Early Development
 
-To learn more about developing your project with Expo, look at the following resources:
+Current focus:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Building the Drink Engine
+Creating reusable components
+Establishing scalable architecture
+Preparing the cocktail database
+Roadmap
+Phase 1
+Project setup
+Navigation
+Core UI
+Drink Engine
+Search
+Phase 2
+Complete cocktail database
+Pairings
+Favorites
+Categories
+Phase 3
+AI Bartender
+Shopping lists
+User accounts
+Personalized recommendations
+Created By
 
-## Join the community
+Jason Phillips
 
-Join our community of developers creating universal apps.
+GitHub: @jphillips0615
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Building a premium cocktail experience through thoughtful design, clean architecture, and continuous learning.
