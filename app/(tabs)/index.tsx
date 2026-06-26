@@ -1,103 +1,181 @@
-import { StatusBar } from "expo-status-bar";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function HomeScreen() {
-  const drinks = [
-    "Old Fashioned",
-    "Negroni",
-    "Manhattan",
-    "Margarita",
-    "Whiskey Sour",
-  ];
-
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar style="light" />
-
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <View style={styles.hero}>
-        <Text style={styles.logo}>Unique</Text>
-        <Text style={styles.subtitle}>SPIRITS & PAIRINGS</Text>
-        <Text style={styles.tagline}>
-          Exceptional spirits. Perfect pairings.
+        <Text style={styles.kicker}>UNIQUE SPIRITS & PAIRINGS</Text>
+        <Text style={styles.title}>What are we pouring tonight?</Text>
+        <Text style={styles.subtitle}>
+          Discover legendary cocktails, learn the spirits behind them, and pair
+          each pour with food that actually makes sense.
         </Text>
 
-        <Pressable style={styles.primaryButton}>
-          <Text style={styles.primaryButtonText}>Explore Drinks</Text>
-        </Pressable>
+        <TouchableOpacity style={styles.primaryButton}>
+          <Text style={styles.primaryButtonText}>Explore Cocktails</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>50 Must-Try Drinks</Text>
+        <Text style={styles.sectionTitle}>Featured Cocktail</Text>
 
-        {drinks.map((drink, index) => (
-          <View key={drink} style={styles.card}>
-            <Text style={styles.number}>
-              {String(index + 1).padStart(2, "0")}
-            </Text>
-            <View>
-              <Text style={styles.cardTitle}>{drink}</Text>
-              <Text style={styles.cardSubtitle}>
-                Tap to view recipe and pairings
-              </Text>
-            </View>
+        <View style={styles.card}>
+          <Text style={styles.cardKicker}>CLASSIC</Text>
+          <Text style={styles.cardTitle}>Old Fashioned</Text>
+          <Text style={styles.cardText}>
+            Bourbon, bitters, sugar, and orange. Simple, powerful, and timeless.
+          </Text>
+          <Text style={styles.cardLink}>View recipe →</Text>
+        </View>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Tonight’s Pairing Ideas</Text>
+
+        <View style={styles.pairingRow}>
+          <View style={styles.smallCard}>
+            <Text style={styles.smallCardTitle}>🥩 Steak</Text>
+            <Text style={styles.smallCardText}>Bold whiskey cocktails</Text>
           </View>
-        ))}
+
+          <View style={styles.smallCard}>
+            <Text style={styles.smallCardTitle}>🧀 Charcuterie</Text>
+            <Text style={styles.smallCardText}>Bitter, herbal, and dry</Text>
+          </View>
+        </View>
+
+        <View style={styles.pairingRow}>
+          <View style={styles.smallCard}>
+            <Text style={styles.smallCardTitle}>🍫 Dessert</Text>
+            <Text style={styles.smallCardText}>Dark rum and coffee notes</Text>
+          </View>
+
+          <View style={styles.smallCard}>
+            <Text style={styles.smallCardTitle}>🦐 Seafood</Text>
+            <Text style={styles.smallCardText}>Gin, citrus, and bubbles</Text>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#050505" },
-  hero: {
-    paddingTop: 90,
-    paddingHorizontal: 24,
-    paddingBottom: 40,
-    alignItems: "center",
+  screen: {
+    flex: 1,
+    backgroundColor: "#050505",
   },
-  logo: {
-    fontSize: 48,
+  content: {
+    padding: 22,
+    paddingBottom: 120,
+  },
+  hero: {
+    paddingTop: 52,
+    paddingBottom: 34,
+  },
+  kicker: {
     color: "#D9A441",
-    fontWeight: "300",
-    fontStyle: "italic",
+    fontSize: 12,
+    fontWeight: "800",
+    letterSpacing: 2,
+    marginBottom: 16,
+  },
+  title: {
+    color: "#F5E9D6",
+    fontSize: 38,
+    fontWeight: "900",
+    lineHeight: 44,
+    marginBottom: 14,
   },
   subtitle: {
-    color: "#F5E7C8",
-    letterSpacing: 5,
-    fontSize: 15,
-    marginTop: 8,
-  },
-  tagline: {
-    color: "#D8D8D8",
-    fontSize: 18,
-    textAlign: "center",
-    marginTop: 28,
-    marginBottom: 28,
+    color: "#B8A98F",
+    fontSize: 16,
+    lineHeight: 25,
+    marginBottom: 26,
   },
   primaryButton: {
     backgroundColor: "#D9A441",
-    paddingVertical: 14,
-    paddingHorizontal: 42,
-    borderRadius: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 18,
+    alignSelf: "flex-start",
   },
   primaryButtonText: {
     color: "#050505",
-    fontWeight: "700",
-    letterSpacing: 1,
+    fontSize: 14,
+    fontWeight: "900",
+    letterSpacing: 0.5,
   },
-  section: { paddingHorizontal: 20, paddingBottom: 40 },
-  sectionTitle: { color: "#F5E7C8", fontSize: 24, marginBottom: 18 },
-  card: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#101010",
-    borderColor: "#6F4E1F",
-    borderWidth: 1,
-    borderRadius: 16,
-    padding: 18,
+  section: {
+    marginTop: 22,
+  },
+  sectionTitle: {
+    color: "#F5E9D6",
+    fontSize: 21,
+    fontWeight: "900",
     marginBottom: 14,
   },
-  number: { color: "#D9A441", fontSize: 24, marginRight: 18 },
-  cardTitle: { color: "#FFFFFF", fontSize: 18 },
-  cardSubtitle: { color: "#A8A8A8", marginTop: 4 },
+  card: {
+    backgroundColor: "#12100D",
+    borderColor: "#6F4E1F",
+    borderWidth: 1,
+    borderRadius: 28,
+    padding: 22,
+  },
+  cardKicker: {
+    color: "#D9A441",
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 2,
+    marginBottom: 10,
+  },
+  cardTitle: {
+    color: "#F5E9D6",
+    fontSize: 28,
+    fontWeight: "900",
+    marginBottom: 10,
+  },
+  cardText: {
+    color: "#B8A98F",
+    fontSize: 15,
+    lineHeight: 23,
+    marginBottom: 18,
+  },
+  cardLink: {
+    color: "#D9A441",
+    fontSize: 15,
+    fontWeight: "800",
+  },
+  pairingRow: {
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 12,
+  },
+  smallCard: {
+    flex: 1,
+    backgroundColor: "#0F0D0B",
+    borderColor: "#2A2118",
+    borderWidth: 1,
+    borderRadius: 22,
+    padding: 16,
+    minHeight: 110,
+  },
+  smallCardTitle: {
+    color: "#F5E9D6",
+    fontSize: 16,
+    fontWeight: "900",
+    marginBottom: 8,
+  },
+  smallCardText: {
+    color: "#B8A98F",
+    fontSize: 13,
+    lineHeight: 19,
+  },
 });
