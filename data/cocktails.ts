@@ -1,6 +1,8 @@
+import { Cocktail } from "@/types/cocktail";
+
 const oldFashionedImage = require("../assets/images/cocktails/old-fashioned.jpg");
 
-export const cocktails = [
+export const cocktails: Cocktail[] = [
   {
     id: "old-fashioned",
     name: "Old Fashioned",
