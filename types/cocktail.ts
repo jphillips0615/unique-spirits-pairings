@@ -11,4 +11,6 @@ export interface Cocktail {
   glass: string;
   garnish: string;
   flavorProfile: string;
+  history: string;
+  tips: string[];
 }

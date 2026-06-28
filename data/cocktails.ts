@@ -34,5 +34,12 @@ export const cocktails: Cocktail[] = [
     glass: "Rocks Glass",
     garnish: "Orange Peel",
     flavorProfile: "Bold, smooth, slightly sweet, and aromatic",
+    history:
+      "The Old Fashioned is one of the original cocktail templates: spirit, sugar, bitters, and water. It became a symbol of classic American drinking because it lets the whiskey stay front and center.",
+    tips: [
+      "Use a large ice cube so the drink chills slowly without watering down too fast.",
+      "Express the orange peel over the glass before dropping it in.",
+      "Choose a bourbon or rye you would actually enjoy sipping neat.",
+    ],
   },
 ];
