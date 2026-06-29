@@ -15,7 +15,7 @@ export default function SplashScreen() {
     <ImageBackground
       source={require("../../assets/images/splash-cocktail.jpg")}
       style={styles.background}
-      blurRadius={6}
+      imageStyle={styles.backgroundImage}
     >
       <View style={styles.overlay}>
         <Text style={styles.logo}>🥃</Text>
@@ -38,12 +38,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.62)",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     paddingHorizontal: 24,
+    paddingBottom: 120,
   },
   logo: {
     fontSize: 54,
     marginBottom: 18,
+  },
+  backgroundImage: {
+    resizeMode: "cover",
   },
   title: {
     color: "#F5F5F5",
