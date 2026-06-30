@@ -1,10 +1,10 @@
 import { router } from "expo-router";
 import {
-    ImageBackground,
-    Pressable,
-    StyleSheet,
-    Text,
-    View,
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 export default function WelcomeScreen() {
@@ -12,7 +12,8 @@ export default function WelcomeScreen() {
     <ImageBackground
       source={require("../../assets/images/splash-cocktail.jpg")}
       style={styles.background}
-      blurRadius={4}
+      imageStyle={styles.backgroundImage}
+      blurRadius={2}
     >
       <View style={styles.overlay}>
         <View style={styles.content}>
@@ -27,7 +28,10 @@ export default function WelcomeScreen() {
           </Text>
 
           <Pressable
-            style={styles.primaryButton}
+            style={({ pressed }) => [
+              styles.primaryButton,
+              pressed && styles.buttonPressed,
+            ]}
             onPress={() => router.push("/onboarding/Intro")}
           >
             <Text style={styles.primaryButtonText}>Start Exploring</Text>
@@ -49,14 +53,22 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
+  backgroundImage: {
+    resizeMode: "cover",
+    transform: [{ scale: 1.08 }],
+  },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.68)",
+    backgroundColor: "rgba(0,0,0,0.55)",
     justifyContent: "flex-end",
   },
   content: {
     paddingHorizontal: 26,
-    paddingBottom: 58,
+    paddingBottom: 95,
+    paddingTop: 28,
+    backgroundColor: "rgba(8, 8, 8, 0.38)",
+    borderTopLeftRadius: 34,
+    borderTopRightRadius: 34,
   },
   kicker: {
     color: "#C9A227",
@@ -75,10 +87,12 @@ const styles = StyleSheet.create({
     color: "#C9A227",
     fontSize: 42,
     fontWeight: "800",
+    lineHeight: 44,
+    marginTop: -4,
     marginBottom: 18,
   },
   description: {
-    color: "#B5B5B5",
+    color: "#D0D0D0",
     fontSize: 17,
     lineHeight: 26,
     marginBottom: 30,
@@ -88,6 +102,17 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 999,
     alignItems: "center",
+    shadowColor: "#C9A227",
+    shadowOpacity: 0.35,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 6,
+    width: "90%",
+    alignSelf: "center",
+  },
+  buttonPressed: {
+    transform: [{ scale: 0.98 }],
+    opacity: 0.88,
   },
   primaryButtonText: {
     color: "#0B0B0B",
@@ -99,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   secondaryButtonText: {
-    color: "#B5B5B5",
+    color: "#D0D0D0",
     fontSize: 15,
     fontWeight: "600",
   },

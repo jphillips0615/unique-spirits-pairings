@@ -20,8 +20,36 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
+        {/* Onboarding */}
+        <Stack.Screen
+          name="onboarding/Splash"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="onboarding/Welcome"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="onboarding/Intro"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="onboarding/AgeVerification"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="onboarding/ExperienceLevel"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="onboarding/FavoriteSpirits"
+          options={{ headerShown: false }}
+        />
+
+        {/* Main App */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
+        {/* Cocktail Details */}
         <Stack.Screen
           name="cocktail/[id]"
           options={{
@@ -36,9 +64,13 @@ export default function RootLayout() {
           }}
         />
 
+        {/* Modal */}
         <Stack.Screen
           name="modal"
-          options={{ presentation: "modal", title: "Modal" }}
+          options={{
+            presentation: "modal",
+            title: "Modal",
+          }}
         />
       </Stack>
 
