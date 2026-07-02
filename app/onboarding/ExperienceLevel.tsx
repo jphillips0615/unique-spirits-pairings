@@ -13,6 +13,9 @@ const OPTIONS = [
 export default function ExperienceLevel() {
   return (
     <View style={styles.container}>
+      <Pressable style={styles.backButton} onPress={() => router.back()}>
+        <Text style={styles.backButtonText}>‹ Back</Text>
+      </Pressable>
       <Text style={styles.kicker}>PERSONALIZE</Text>
 
       <Text style={styles.title}>What's your experience level?</Text>
@@ -75,6 +78,18 @@ const styles = StyleSheet.create({
   optionText: {
     color: "#F5F5F5",
     fontSize: 18,
+    fontWeight: "700",
+  },
+  backButton: {
+    position: "absolute",
+    top: 55,
+    left: 24,
+    zIndex: 10,
+  },
+
+  backButtonText: {
+    color: "#C9A227",
+    fontSize: 17,
     fontWeight: "700",
   },
 });

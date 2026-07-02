@@ -8,6 +8,9 @@ export default function IntroScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      <Pressable style={styles.backButton} onPress={() => router.back()}>
+        <Text style={styles.backButtonText}>‹ Back</Text>
+      </Pressable>
       <Text style={styles.kicker}>WELCOME</Text>
 
       <Text style={styles.title}>More Than Recipes.</Text>
@@ -126,5 +129,18 @@ const styles = StyleSheet.create({
     color: "#111",
     fontWeight: "800",
     fontSize: 17,
+  },
+
+  backButton: {
+    position: "absolute",
+    top: 55,
+    left: 24,
+    zIndex: 10,
+  },
+
+  backButtonText: {
+    color: "#C9A227",
+    fontSize: 17,
+    fontWeight: "700",
   },
 });
