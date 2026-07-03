@@ -15,7 +15,8 @@ import CocktailCard from "../../components/cards/CocktailCard";
 const logo = require("../../assets/images/branding/logo.png");
 
 export default function HomeScreen() {
-  const featuredCocktail = cocktails[0];
+  const featuredCocktail =
+    cocktails[Math.floor(Math.random() * cocktails.length)];
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
