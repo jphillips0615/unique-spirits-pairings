@@ -27,9 +27,50 @@ export default function HomeScreen() {
           each pour with food that actually makes sense.
         </Text>
 
-        <TouchableOpacity style={styles.primaryButton}>
+        <TouchableOpacity
+          style={styles.primaryButton}
+          onPress={() => router.push("/explore")}
+        >
           <Text style={styles.primaryButtonText}>Explore Cocktails</Text>
         </TouchableOpacity>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Browse by Spirit</Text>
+
+        <View style={styles.spiritRow}>
+          <TouchableOpacity style={styles.spiritCard}>
+            <Text style={styles.spiritEmoji}>🥃</Text>
+            <Text style={styles.spiritName}>Bourbon</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.spiritCard}>
+            <Text style={styles.spiritEmoji}>🍸</Text>
+            <Text style={styles.spiritName}>Gin</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.spiritCard}>
+            <Text style={styles.spiritEmoji}>🍹</Text>
+            <Text style={styles.spiritName}>Rum</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.spiritRow}>
+          <TouchableOpacity style={styles.spiritCard}>
+            <Text style={styles.spiritEmoji}>🌵</Text>
+            <Text style={styles.spiritName}>Tequila</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.spiritCard}>
+            <Text style={styles.spiritEmoji}>🥃</Text>
+            <Text style={styles.spiritName}>Scotch</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.spiritCard}>
+            <Text style={styles.spiritEmoji}>🍷</Text>
+            <Text style={styles.spiritName}>Brandy</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.section}>
@@ -160,5 +201,32 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 19,
+  },
+  spiritRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 14,
+  },
+
+  spiritCard: {
+    flex: 1,
+    backgroundColor: Colors.card,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    marginHorizontal: 4,
+    paddingVertical: 20,
+    alignItems: "center",
+  },
+
+  spiritEmoji: {
+    fontSize: 34,
+    marginBottom: 10,
+  },
+
+  spiritName: {
+    color: Colors.text,
+    fontSize: 15,
+    fontWeight: "800",
   },
 });
