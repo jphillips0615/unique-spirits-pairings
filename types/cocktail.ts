@@ -9,8 +9,9 @@ export interface Cocktail {
   pairings: string[];
   difficulty: string;
   glass: string;
+  ice: string;
   garnish: string;
-  flavorProfile: string;
-  history: string;
+  flavorProfile: string[];
+  story: string;
   tips: string[];
 }

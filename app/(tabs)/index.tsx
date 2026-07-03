@@ -14,6 +14,15 @@ import { router } from "expo-router";
 import CocktailCard from "../../components/cards/CocktailCard";
 const logo = require("../../assets/images/branding/logo.png");
 
+const SPIRITS = [
+  { name: "Bourbon", emoji: "🥃" },
+  { name: "Gin", emoji: "🍸" },
+  { name: "Rum", emoji: "🍹" },
+  { name: "Tequila", emoji: "🌵" },
+  { name: "Scotch", emoji: "🥃" },
+  { name: "Brandy", emoji: "🍷" },
+];
+
 export default function HomeScreen() {
   const featuredCocktail =
     cocktails[Math.floor(Math.random() * cocktails.length)];
@@ -39,38 +48,13 @@ export default function HomeScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Browse by Spirit</Text>
 
-        <View style={styles.spiritRow}>
-          <TouchableOpacity style={styles.spiritCard}>
-            <Text style={styles.spiritEmoji}>🥃</Text>
-            <Text style={styles.spiritName}>Bourbon</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.spiritCard}>
-            <Text style={styles.spiritEmoji}>🍸</Text>
-            <Text style={styles.spiritName}>Gin</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.spiritCard}>
-            <Text style={styles.spiritEmoji}>🍹</Text>
-            <Text style={styles.spiritName}>Rum</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.spiritRow}>
-          <TouchableOpacity style={styles.spiritCard}>
-            <Text style={styles.spiritEmoji}>🌵</Text>
-            <Text style={styles.spiritName}>Tequila</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.spiritCard}>
-            <Text style={styles.spiritEmoji}>🥃</Text>
-            <Text style={styles.spiritName}>Scotch</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.spiritCard}>
-            <Text style={styles.spiritEmoji}>🍷</Text>
-            <Text style={styles.spiritName}>Brandy</Text>
-          </TouchableOpacity>
+        <View style={styles.spiritGrid}>
+          {SPIRITS.map((spirit) => (
+            <TouchableOpacity key={spirit.name} style={styles.spiritCard}>
+              <Text style={styles.spiritEmoji}>{spirit.emoji}</Text>
+              <Text style={styles.spiritName}>{spirit.name}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
 
@@ -82,7 +66,7 @@ export default function HomeScreen() {
           spirit={featuredCocktail.spirit}
           description={featuredCocktail.description}
           image={featuredCocktail.image}
-          onPress={() => router.push("/cocktail/old-fashioned")}
+          onPress={() => router.push(`/cocktail/${featuredCocktail.id}`)}
         />
       </View>
 
@@ -135,13 +119,6 @@ const styles = StyleSheet.create({
     height: 120,
     alignSelf: "center",
     marginBottom: 24,
-  },
-  kicker: {
-    color: Colors.gold,
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 2,
-    marginBottom: 16,
   },
   title: {
     color: Colors.text,
@@ -203,28 +180,24 @@ const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 19,
   },
-  spiritRow: {
+  spiritGrid: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 14,
+    flexWrap: "wrap",
+    gap: 12,
   },
-
   spiritCard: {
-    flex: 1,
+    width: "30.8%",
     backgroundColor: Colors.card,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: Colors.border,
-    marginHorizontal: 4,
     paddingVertical: 20,
     alignItems: "center",
   },
-
   spiritEmoji: {
     fontSize: 34,
     marginBottom: 10,
   },
-
   spiritName: {
     color: Colors.text,
     fontSize: 15,
