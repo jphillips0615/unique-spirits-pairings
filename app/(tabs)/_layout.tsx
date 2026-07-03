@@ -1,6 +1,8 @@
+import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
-import { Text } from "react-native";
+
+import { Colors } from "@/constants/colors";
 
 export default function TabLayout() {
   return (
@@ -8,14 +10,14 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#050505",
-          borderTopColor: "#6F4E1F",
+          backgroundColor: Colors.background,
+          borderTopColor: Colors.border,
           borderTopWidth: 1,
           height: 82,
           paddingTop: 8,
           paddingBottom: 22,
         },
-        tabBarActiveTintColor: "#D9A441",
+        tabBarActiveTintColor: Colors.gold,
         tabBarInactiveTintColor: "#8A8A8A",
         tabBarLabelStyle: {
           fontSize: 12,
@@ -28,8 +30,18 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => (
-            <Text style={{ color, fontSize: 22 }}>⌂</Text>
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="search-outline" size={size} color={color} />
           ),
         }}
       />
@@ -38,8 +50,8 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: "Explore",
-          tabBarIcon: ({ color }) => (
-            <Text style={{ color, fontSize: 21 }}>◆</Text>
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="compass-outline" size={size} color={color} />
           ),
         }}
       />
@@ -48,8 +60,8 @@ export default function TabLayout() {
         name="favorites"
         options={{
           title: "Favorites",
-          tabBarIcon: ({ color }) => (
-            <Text style={{ color, fontSize: 20 }}>★</Text>
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="heart-outline" size={size} color={color} />
           ),
         }}
       />

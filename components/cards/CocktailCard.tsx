@@ -1,13 +1,15 @@
+import { Colors } from "@/constants/colors";
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-
-import { Colors } from "@/constants/colors";
 
 type CocktailCardProps = {
   name: string;
   spirit: string;
   description: string;
   image: any;
+  isFavorite?: boolean;
+  onFavoritePress?: () => void;
   onPress?: () => void;
 };
 
@@ -16,12 +18,20 @@ export default function CocktailCard({
   spirit,
   description,
   image,
+  isFavorite = false,
+  onFavoritePress,
   onPress,
 }: CocktailCardProps) {
   return (
     <Pressable style={styles.card} onPress={onPress}>
       <Image source={image} style={styles.image} />
-
+      <Pressable style={styles.favoriteButton} onPress={onFavoritePress}>
+        <Ionicons
+          name={isFavorite ? "heart" : "heart-outline"}
+          size={24}
+          color={Colors.gold}
+        />
+      </Pressable>
       <View style={styles.content}>
         <Text style={styles.spirit}>{spirit}</Text>
         <Text style={styles.title}>{name}</Text>
@@ -71,5 +81,16 @@ const styles = StyleSheet.create({
   link: {
     color: Colors.gold,
     fontWeight: "700",
+  },
+  favoriteButton: {
+    position: "absolute",
+    top: 14,
+    right: 14,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: "rgba(0,0,0,0.55)",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
