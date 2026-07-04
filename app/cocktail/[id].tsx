@@ -1,8 +1,18 @@
 import { Stack, useLocalSearchParams } from "expo-router";
+import type React from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { Colors } from "@/constants/colors";
 import { cocktails } from "@/data/cocktails";
+
+function InfoPill({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={styles.infoPill}>
+      <Text style={styles.infoLabel}>{label}</Text>
+      <Text style={styles.infoValue}>{value}</Text>
+    </View>
+  );
+}
 
 export default function CocktailDetails() {
   const { id } = useLocalSearchParams();
@@ -24,8 +34,13 @@ export default function CocktailDetails() {
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
       >
-        <Image source={cocktail.image} style={styles.image} />
+        <Image
+          source={cocktail.image}
+          style={styles.image}
+          resizeMode="cover"
+        />
 
         <View style={styles.headerCard}>
           <Text style={styles.spirit}>{cocktail.spirit}</Text>
@@ -33,27 +48,16 @@ export default function CocktailDetails() {
           <Text style={styles.description}>{cocktail.description}</Text>
 
           <View style={styles.infoRow}>
-            <View style={styles.infoPill}>
-              <Text style={styles.infoLabel}>Difficulty</Text>
-              <Text style={styles.infoValue}>{cocktail.difficulty}</Text>
-            </View>
-
-            <View style={styles.infoPill}>
-              <Text style={styles.infoLabel}>Glass</Text>
-              <Text style={styles.infoValue}>{cocktail.glass}</Text>
-            </View>
+            <InfoPill label="Difficulty" value={cocktail.difficulty} />
+            <InfoPill label="Glass" value={cocktail.glass} />
           </View>
 
           <View style={styles.infoRow}>
-            <View style={styles.infoPill}>
-              <Text style={styles.infoLabel}>Garnish</Text>
-              <Text style={styles.infoValue}>{cocktail.garnish}</Text>
-            </View>
-
-            <View style={styles.infoPill}>
-              <Text style={styles.infoLabel}>Flavor</Text>
-              <Text style={styles.infoValue}>{cocktail.flavorProfile}</Text>
-            </View>
+            <InfoPill label="Garnish" value={cocktail.garnish} />
+            <InfoPill
+              label="Flavor"
+              value={cocktail.flavorProfile.join(", ")}
+            />
           </View>
         </View>
 
@@ -84,7 +88,7 @@ export default function CocktailDetails() {
         </Section>
 
         <Section title="📖 Cocktail Story">
-          <Text style={styles.bodyText}>{cocktail.history}</Text>
+          <Text style={styles.bodyText}>{cocktail.story}</Text>
         </Section>
 
         <Section title="💡 Bartender Tips">
@@ -126,16 +130,16 @@ const styles = StyleSheet.create({
 
   image: {
     width: "100%",
-    height: 320,
+    height: 340,
   },
 
   headerCard: {
     margin: 20,
-    marginTop: -32,
+    marginTop: -36,
     backgroundColor: Colors.card,
     borderColor: Colors.border,
     borderWidth: 1,
-    borderRadius: 26,
+    borderRadius: 28,
     padding: 22,
   },
 
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
     color: Colors.gold,
     fontSize: 13,
     fontWeight: "900",
-    letterSpacing: 1.5,
+    letterSpacing: 1.6,
     marginBottom: 8,
     textTransform: "uppercase",
   },
@@ -173,22 +177,22 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 18,
-    padding: 12,
+    padding: 13,
     backgroundColor: Colors.background,
   },
 
   infoLabel: {
     color: Colors.textSecondary,
     fontSize: 11,
-    fontWeight: "700",
-    marginBottom: 4,
+    fontWeight: "800",
+    marginBottom: 5,
     textTransform: "uppercase",
   },
 
   infoValue: {
     color: Colors.text,
     fontSize: 13,
-    fontWeight: "800",
+    fontWeight: "900",
   },
 
   section: {
@@ -230,16 +234,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
 
-  bodyText: {
-    color: Colors.textSecondary,
-    fontSize: 16,
-    lineHeight: 26,
-  },
-
   pairingText: {
     color: Colors.text,
     fontSize: 14,
     fontWeight: "800",
+  },
+
+  bodyText: {
+    color: Colors.textSecondary,
+    fontSize: 16,
+    lineHeight: 26,
   },
 
   center: {
