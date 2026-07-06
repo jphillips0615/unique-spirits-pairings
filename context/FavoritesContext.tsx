@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 
 type FavoritesContextType = {
   favoriteIds: string[];
@@ -6,12 +13,47 @@ type FavoritesContextType = {
   toggleFavorite: (id: string) => void;
 };
 
+const FAVORITES_STORAGE_KEY = "unique-spirits-favorites";
+
 const FavoritesContext = createContext<FavoritesContextType | undefined>(
   undefined,
 );
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    async function loadFavorites() {
+      try {
+        const savedFavorites = await AsyncStorage.getItem(
+          FAVORITES_STORAGE_KEY,
+        );
+
+        if (savedFavorites) {
+          setFavoriteIds(JSON.parse(savedFavorites));
+        }
+      } catch (error) {
+        console.log("Failed to load favorites", error);
+      }
+    }
+
+    loadFavorites();
+  }, []);
+
+  useEffect(() => {
+    async function saveFavorites() {
+      try {
+        await AsyncStorage.setItem(
+          FAVORITES_STORAGE_KEY,
+          JSON.stringify(favoriteIds),
+        );
+      } catch (error) {
+        console.log("Failed to save favorites", error);
+      }
+    }
+
+    saveFavorites();
+  }, [favoriteIds]);
 
   function isFavorite(id: string) {
     return favoriteIds.includes(id);
