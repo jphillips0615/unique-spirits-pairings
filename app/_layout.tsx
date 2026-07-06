@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/colors";
+import { FavoritesProvider } from "@/context/FavoritesContext";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
@@ -9,7 +10,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   return (
-    <>
+    <FavoritesProvider>
       <Stack>
         <Stack.Screen name="onboarding" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -30,6 +31,6 @@ export default function RootLayout() {
       </Stack>
 
       <StatusBar style="light" />
-    </>
+    </FavoritesProvider>
   );
 }

@@ -1,19 +1,19 @@
+import { useFavorites } from "@/context/FavoritesContext";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    FlatList,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  FlatList,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 
 import CocktailCard from "@/components/cards/CocktailCard";
 import { Colors } from "@/constants/colors";
 import { cocktails } from "@/data/cocktails";
-
 const spirits = [
   "All",
   "Whiskey",
@@ -29,7 +29,7 @@ const spirits = [
 export default function SearchScreen() {
   const [searchText, setSearchText] = useState("");
   const [selectedSpirit, setSelectedSpirit] = useState("All");
-
+  const { isFavorite, toggleFavorite } = useFavorites();
   const filteredCocktails = useMemo(() => {
     const query = searchText.toLowerCase().trim();
 
@@ -114,6 +114,8 @@ export default function SearchScreen() {
           spirit={item.spirit}
           description={item.description}
           image={item.image}
+          isFavorite={isFavorite(item.id)}
+          onFavoritePress={() => toggleFavorite(item.id)}
           onPress={() => router.push(`/cocktail/${item.id}`)}
         />
       )}

@@ -34,9 +34,11 @@ export const cocktails: Cocktail[] = [
     difficulty: "Easy",
     glass: "Rocks Glass",
     garnish: "Orange Peel",
-    flavorProfile: "Bold, smooth, slightly sweet, and aromatic",
-    history:
+    ice: "Large Cube",
+    flavorProfile: ["Bold", "Smooth", "Slightly Sweet", "Aromatic"],
+    story:
       "The Old Fashioned is one of the original cocktail templates: spirit, sugar, bitters, and water. It became a symbol of classic American drinking because it lets the whiskey stay front and center.",
+
     tips: [
       "Use a large ice cube so the drink chills slowly without watering down too fast.",
       "Express the orange peel over the glass before dropping it in.",
@@ -71,8 +73,9 @@ export const cocktails: Cocktail[] = [
     difficulty: "Easy",
     glass: "Coupe Glass",
     garnish: "Brandied Cherry",
-    flavorProfile: "Rich, smooth, lightly sweet, herbal, and warming",
-    history:
+    ice: "Served Up",
+    flavorProfile: ["Rich", "Smooth", "Lightly Sweet", "Herbal", "Warming"],
+    story:
       "The Manhattan became one of the defining whiskey cocktails of the late 1800s and remains a classic because of its simple but elegant balance of whiskey, vermouth, and bitters.",
     tips: [
       "Use fresh sweet vermouth and refrigerate it after opening.",

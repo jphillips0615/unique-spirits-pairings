@@ -1,7 +1,14 @@
 import { Colors } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  GestureResponderEvent,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 type CocktailCardProps = {
   name: string;
@@ -22,22 +29,31 @@ export default function CocktailCard({
   onFavoritePress,
   onPress,
 }: CocktailCardProps) {
+  function handleFavoritePress(event: GestureResponderEvent) {
+    event.stopPropagation();
+    onFavoritePress?.();
+  }
+
   return (
     <Pressable style={styles.card} onPress={onPress}>
       <Image source={image} style={styles.image} />
-      <Pressable style={styles.favoriteButton} onPress={onFavoritePress}>
+
+      <Pressable style={styles.favoriteButton} onPress={handleFavoritePress}>
         <Ionicons
           name={isFavorite ? "heart" : "heart-outline"}
           size={24}
           color={Colors.gold}
         />
       </Pressable>
+
       <View style={styles.content}>
         <Text style={styles.spirit}>{spirit}</Text>
         <Text style={styles.title}>{name}</Text>
+
         <Text numberOfLines={2} style={styles.description}>
           {description}
         </Text>
+
         <Text style={styles.link}>View Recipe →</Text>
       </View>
     </Pressable>
@@ -53,13 +69,16 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     marginBottom: 20,
   },
+
   image: {
     width: "100%",
     height: 240,
   },
+
   content: {
     padding: 18,
   },
+
   spirit: {
     color: Colors.gold,
     fontWeight: "700",
@@ -67,21 +86,25 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     fontSize: 12,
   },
+
   title: {
     color: Colors.text,
     fontSize: 26,
     fontWeight: "800",
     marginBottom: 10,
   },
+
   description: {
     color: Colors.textSecondary,
     lineHeight: 22,
     marginBottom: 16,
   },
+
   link: {
     color: Colors.gold,
     fontWeight: "700",
   },
+
   favoriteButton: {
     position: "absolute",
     top: 14,
