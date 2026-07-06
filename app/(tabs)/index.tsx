@@ -54,7 +54,16 @@ export default function HomeScreen() {
 
         <View style={styles.spiritGrid}>
           {SPIRITS.map((spirit) => (
-            <TouchableOpacity key={spirit.name} style={styles.spiritCard}>
+            <TouchableOpacity
+              key={spirit.name}
+              style={styles.spiritCard}
+              onPress={() =>
+                router.push({
+                  pathname: "/search",
+                  params: { spirit: spirit.name },
+                })
+              }
+            >
               <Text style={styles.spiritEmoji}>{spirit.emoji}</Text>
               <Text style={styles.spiritName}>{spirit.name}</Text>
             </TouchableOpacity>

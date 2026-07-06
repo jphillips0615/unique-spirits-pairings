@@ -1,6 +1,6 @@
 import { useFavorites } from "@/context/FavoritesContext";
-import { router } from "expo-router";
-import React, { useMemo, useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FlatList,
   Pressable,
@@ -27,8 +27,16 @@ const spirits = [
 ];
 
 export default function SearchScreen() {
+  const { spirit } = useLocalSearchParams<{ spirit?: string }>();
+
   const [searchText, setSearchText] = useState("");
   const [selectedSpirit, setSelectedSpirit] = useState("All");
+
+  useEffect(() => {
+    if (spirit) {
+      setSelectedSpirit(spirit);
+    }
+  }, [spirit]);
   const { isFavorite, toggleFavorite } = useFavorites();
   const filteredCocktails = useMemo(() => {
     const query = searchText.toLowerCase().trim();
