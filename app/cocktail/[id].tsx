@@ -1,8 +1,17 @@
+import { Ionicons } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams } from "expo-router";
 import type React from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import { Colors } from "@/constants/colors";
+import { useFavorites } from "@/context/FavoritesContext";
 import { cocktails } from "@/data/cocktails";
 
 function InfoPill({ label, value }: { label: string; value: string }) {
@@ -16,6 +25,7 @@ function InfoPill({ label, value }: { label: string; value: string }) {
 
 export default function CocktailDetails() {
   const { id } = useLocalSearchParams();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const cocktail = cocktails.find((c) => c.id === id);
 
@@ -43,8 +53,24 @@ export default function CocktailDetails() {
         />
 
         <View style={styles.headerCard}>
-          <Text style={styles.spirit}>{cocktail.spirit}</Text>
-          <Text style={styles.title}>{cocktail.name}</Text>
+          <View style={styles.titleRow}>
+            <View style={styles.titleTextWrap}>
+              <Text style={styles.spirit}>{cocktail.spirit}</Text>
+              <Text style={styles.title}>{cocktail.name}</Text>
+            </View>
+
+            <Pressable
+              style={styles.favoriteButton}
+              onPress={() => toggleFavorite(cocktail.id)}
+            >
+              <Ionicons
+                name={isFavorite(cocktail.id) ? "heart" : "heart-outline"}
+                size={28}
+                color={Colors.gold}
+              />
+            </Pressable>
+          </View>
+
           <Text style={styles.description}>{cocktail.description}</Text>
 
           <View style={styles.infoRow}>
@@ -141,6 +167,28 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 28,
     padding: 22,
+  },
+
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+
+  titleTextWrap: {
+    flex: 1,
+  },
+
+  favoriteButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Colors.background,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   spirit: {

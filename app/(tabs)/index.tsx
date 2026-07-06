@@ -9,9 +9,11 @@ import {
 } from "react-native";
 
 import { Colors } from "@/constants/colors";
+import { useFavorites } from "@/context/FavoritesContext";
 import { cocktails } from "@/data/cocktails";
 import { router } from "expo-router";
 import CocktailCard from "../../components/cards/CocktailCard";
+
 const logo = require("../../assets/images/branding/logo.png");
 
 const SPIRITS = [
@@ -26,6 +28,8 @@ const SPIRITS = [
 export default function HomeScreen() {
   const featuredCocktail =
     cocktails[Math.floor(Math.random() * cocktails.length)];
+
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
@@ -66,6 +70,8 @@ export default function HomeScreen() {
           spirit={featuredCocktail.spirit}
           description={featuredCocktail.description}
           image={featuredCocktail.image}
+          isFavorite={isFavorite(featuredCocktail.id)}
+          onFavoritePress={() => toggleFavorite(featuredCocktail.id)}
           onPress={() => router.push(`/cocktail/${featuredCocktail.id}`)}
         />
       </View>
