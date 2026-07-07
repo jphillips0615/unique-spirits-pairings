@@ -21,6 +21,9 @@ export default function FavoritesScreen() {
       ListHeaderComponent={
         <View style={styles.header}>
           <Text style={styles.title}>Favorites</Text>
+
+          <View style={styles.topGoldLine} />
+
           <Text style={styles.subtitle}>
             Your saved cocktails and pairings live here.
           </Text>
@@ -29,7 +32,9 @@ export default function FavoritesScreen() {
       ListEmptyComponent={
         <View style={styles.emptyState}>
           <Text style={styles.emptyIcon}>♡</Text>
+
           <Text style={styles.emptyTitle}>No favorites yet</Text>
+
           <Text style={styles.emptyText}>
             Tap the heart on a cocktail card to save it here.
           </Text>
@@ -67,7 +72,15 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 34,
     fontWeight: "900",
-    marginBottom: 8,
+    marginBottom: 10,
+  },
+
+  topGoldLine: {
+    height: 1,
+    backgroundColor: Colors.gold,
+    opacity: 0.8,
+    marginHorizontal: -20,
+    marginBottom: 14,
   },
 
   subtitle: {

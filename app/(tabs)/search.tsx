@@ -14,17 +14,7 @@ import {
 import CocktailCard from "@/components/cards/CocktailCard";
 import { Colors } from "@/constants/colors";
 import { cocktails } from "@/data/cocktails";
-const spirits = [
-  "All",
-  "Whiskey",
-  "Bourbon",
-  "Gin",
-  "Vodka",
-  "Rum",
-  "Tequila",
-  "Brandy",
-  "Scotch",
-];
+import { SEARCH_SPIRIT_FILTERS } from "@/data/spiritCategories";
 
 export default function SearchScreen() {
   const { spirit } = useLocalSearchParams<{ spirit?: string }>();
@@ -84,7 +74,7 @@ export default function SearchScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.filterList}
           >
-            {spirits.map((item) => {
+            {SEARCH_SPIRIT_FILTERS.map((item) => {
               const isSelected = selectedSpirit === item;
 
               return (

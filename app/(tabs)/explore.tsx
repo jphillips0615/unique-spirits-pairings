@@ -1,31 +1,45 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { router } from "expo-router";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+
+import { Colors } from "@/constants/colors";
+import { EXPLORE_SPIRIT_CATEGORIES } from "@/data/spiritCategories";
 
 export default function ExploreScreen() {
-  const categories = [
-    "Whiskey",
-    "Bourbon",
-    "Scotch",
-    "Rum",
-    "Gin",
-    "Vodka",
-    "Tequila",
-    "Brandy",
-    "Cocktails",
-  ];
+  function handleCategoryPress(spirit: string) {
+    router.push({
+      pathname: "/(tabs)/search",
+      params: { spirit },
+    });
+  }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
       <Text style={styles.header}>Spirit Categories</Text>
 
-      {categories.map((category) => (
-        <View key={category} style={styles.card}>
-          <Text style={styles.cardText}>{category}</Text>
-        </View>
-      ))}
-
-      <Text style={styles.comingSoon}>
-        More categories and drink filters coming soon.
+      <Text style={styles.subtitle}>
+        Browse cocktails by the main spirit used in the drink.
       </Text>
+
+      {EXPLORE_SPIRIT_CATEGORIES.map((category) => (
+        <Pressable
+          key={category.label}
+          onPress={() => handleCategoryPress(category.spirit)}
+          style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+        >
+          <View>
+            <Text style={styles.cardText}>{category.label}</Text>
+            <Text style={styles.cardSubtext}>
+              Tap to view matching cocktails
+            </Text>
+          </View>
+
+          <Text style={styles.arrow}>›</Text>
+        </Pressable>
+      ))}
     </ScrollView>
   );
 }
@@ -33,30 +47,61 @@ export default function ExploreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#050505",
-    padding: 20,
+    backgroundColor: Colors.background,
   },
+
+  content: {
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    paddingBottom: 120,
+  },
+
   header: {
-    color: "#D9A441",
-    fontSize: 30,
-    marginBottom: 20,
-    fontWeight: "600",
+    color: Colors.gold,
+    fontSize: 32,
+    marginBottom: 8,
+    fontWeight: "800",
   },
+
+  subtitle: {
+    color: Colors.textSecondary,
+    fontSize: 16,
+    lineHeight: 22,
+    marginBottom: 24,
+  },
+
   card: {
-    backgroundColor: "#101010",
-    borderColor: "#6F4E1F",
+    backgroundColor: Colors.card,
+    borderColor: Colors.border,
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: 18,
     padding: 18,
-    marginBottom: 12,
+    marginBottom: 14,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
+
+  cardPressed: {
+    opacity: 0.75,
+    transform: [{ scale: 0.98 }],
+  },
+
   cardText: {
-    color: "#FFFFFF",
-    fontSize: 18,
+    color: Colors.text,
+    fontSize: 20,
+    fontWeight: "800",
+    marginBottom: 4,
   },
-  comingSoon: {
-    color: "#888",
-    textAlign: "center",
-    marginTop: 20,
+
+  cardSubtext: {
+    color: Colors.textSecondary,
+    fontSize: 14,
+  },
+
+  arrow: {
+    color: Colors.gold,
+    fontSize: 34,
+    fontWeight: "300",
   },
 });

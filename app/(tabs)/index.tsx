@@ -11,19 +11,11 @@ import {
 import { Colors } from "@/constants/colors";
 import { useFavorites } from "@/context/FavoritesContext";
 import { cocktails } from "@/data/cocktails";
+import { HOME_SPIRIT_CATEGORIES } from "@/data/spiritCategories";
 import { router } from "expo-router";
 import CocktailCard from "../../components/cards/CocktailCard";
 
 const logo = require("../../assets/images/branding/logo.png");
-
-const SPIRITS = [
-  { name: "Bourbon", emoji: "🥃" },
-  { name: "Gin", emoji: "🍸" },
-  { name: "Rum", emoji: "🍹" },
-  { name: "Tequila", emoji: "🌵" },
-  { name: "Scotch", emoji: "🥃" },
-  { name: "Brandy", emoji: "🍷" },
-];
 
 export default function HomeScreen() {
   const featuredCocktail =
@@ -53,7 +45,7 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>Browse by Spirit</Text>
 
         <View style={styles.spiritGrid}>
-          {SPIRITS.map((spirit) => (
+          {HOME_SPIRIT_CATEGORIES.map((spirit) => (
             <TouchableOpacity
               key={spirit.name}
               style={styles.spiritCard}
