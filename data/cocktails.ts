@@ -12,6 +12,14 @@ const mintJulepImage = require("../assets/images/cocktails/mint-julep.jpg");
 const sazeracImage = require("../assets/images/cocktails/sazerac.jpg");
 const gimletImage = require("../assets/images/cocktails/gimlet.jpg");
 const french75Image = require("../assets/images/cocktails/french-75.jpg");
+const sidecarImage = require("../assets/images/cocktails/sidecar.jpeg");
+const tomCollinsImage = require("../assets/images/cocktails/tom-collins.jpeg");
+const goldRushImage = require("../assets/images/cocktails/gold-rush.jpg");
+const beesKneesImage = require("../assets/images/cocktails/bees-knees.jpg");
+const aviationImage = require("../assets/images/cocktails/aviation.jpeg");
+const whiteRussianImage = require("../assets/images/cocktails/white-russian.jpg");
+const irishCoffeeImage = require("../assets/images/cocktails/irish-coffee.jpeg");
+const penicillinImage = require("../assets/images/cocktails/pennicillin.jpg");
 
 export const cocktails: Cocktail[] = [
   {
@@ -432,6 +440,304 @@ export const cocktails: Cocktail[] = [
       "Top gently so the bubbles stay lively.",
       "Use dry sparkling wine to keep it balanced.",
       "Serve very cold.",
+    ],
+  },
+  {
+    id: "sidecar",
+    name: "Sidecar",
+    spirit: "Cognac",
+    image: sidecarImage,
+    description:
+      "A bright, elegant classic made with cognac, orange liqueur, and fresh lemon.",
+    ingredients: [
+      "2 oz cognac",
+      "3/4 oz orange liqueur",
+      "3/4 oz fresh lemon juice",
+      "Optional sugar rim",
+      "Orange twist",
+    ],
+    instructions: [
+      "Chill a coupe glass and add a light sugar rim if desired.",
+      "Add cognac, orange liqueur, and lemon juice to a shaker with ice.",
+      "Shake until well chilled.",
+      "Double strain into the prepared glass.",
+      "Garnish with an orange twist.",
+    ],
+    pairings: ["Roast duck", "Baked brie", "Pork tenderloin", "Crème brûlée"],
+    difficulty: "Easy",
+    glass: "Coupe Glass",
+    garnish: "Orange Twist",
+    ice: "Served Up",
+    flavorProfile: ["Citrusy", "Rich", "Tart", "Elegant"],
+    story:
+      "The Sidecar became popular in the early twentieth century and remains one of the best-known cognac cocktails. Its simple sour-style balance allows the warmth of the cognac and the brightness of the citrus to stand together.",
+    tips: [
+      "Use fresh lemon juice for the cleanest flavor.",
+      "Apply only a partial sugar rim so the drink does not become too sweet.",
+      "Choose a cognac you would also enjoy sipping on its own.",
+    ],
+  },
+  {
+    id: "tom-collins",
+    name: "Tom Collins",
+    spirit: "Gin",
+    image: tomCollinsImage,
+    description:
+      "A crisp, refreshing gin cocktail with lemon, simple syrup, and sparkling water.",
+    ingredients: [
+      "2 oz gin",
+      "1 oz fresh lemon juice",
+      "3/4 oz simple syrup",
+      "2 oz club soda",
+      "Lemon wheel",
+      "Cherry",
+    ],
+    instructions: [
+      "Add gin, lemon juice, and simple syrup to a shaker with ice.",
+      "Shake until chilled.",
+      "Strain into a Collins glass filled with fresh ice.",
+      "Top with club soda.",
+      "Garnish with a lemon wheel and cherry.",
+    ],
+    pairings: [
+      "Grilled chicken",
+      "Fish tacos",
+      "Goat cheese salad",
+      "Light seafood dishes",
+    ],
+    difficulty: "Easy",
+    glass: "Collins Glass",
+    garnish: "Lemon Wheel and Cherry",
+    ice: "Cubed Ice",
+    flavorProfile: ["Citrusy", "Refreshing", "Light", "Sparkling"],
+    story:
+      "The Tom Collins became popular in the nineteenth century and helped define the Collins family of tall, sparkling cocktails. Its combination of gin, lemon, sugar, and soda remains simple, balanced, and highly refreshing.",
+    tips: [
+      "Use fresh lemon juice for the brightest flavor.",
+      "Add the club soda after shaking so it stays lively.",
+      "Use plenty of ice to keep the drink cold without watering it down too quickly.",
+    ],
+  },
+  {
+    id: "gold-rush",
+    name: "Gold Rush",
+    spirit: "Bourbon Whiskey",
+    image: goldRushImage,
+    description:
+      "A smooth modern bourbon cocktail balanced with fresh lemon and honey syrup.",
+    ingredients: [
+      "2 oz bourbon whiskey",
+      "3/4 oz fresh lemon juice",
+      "3/4 oz honey syrup",
+      "Lemon twist",
+    ],
+    instructions: [
+      "Add bourbon, lemon juice, and honey syrup to a shaker with ice.",
+      "Shake until thoroughly chilled.",
+      "Strain into a rocks glass over fresh ice.",
+      "Garnish with a lemon twist.",
+    ],
+    pairings: [
+      "Roasted chicken",
+      "Glazed pork",
+      "Sharp cheddar",
+      "Honey-drizzled desserts",
+    ],
+    difficulty: "Easy",
+    glass: "Rocks Glass",
+    garnish: "Lemon Twist",
+    ice: "Large Ice Cube",
+    flavorProfile: ["Rich", "Citrusy", "Honeyed", "Smooth"],
+    story:
+      "Created at New York's Milk & Honey bar in the early 2000s, the Gold Rush is a modern classic. It follows the structure of a whiskey sour while replacing simple syrup with honey for a richer and softer finish.",
+    tips: [
+      "Make honey syrup by mixing equal parts honey and warm water.",
+      "Use fresh lemon juice to keep the cocktail bright and balanced.",
+      "Choose a bourbon with enough body to stand up to the honey.",
+    ],
+  },
+  {
+    id: "bees-knees",
+    name: "Bee's Knees",
+    spirit: "Gin",
+    image: beesKneesImage,
+    description:
+      "A bright Prohibition-era gin cocktail softened with fresh lemon and honey syrup.",
+    ingredients: [
+      "2 oz gin",
+      "3/4 oz fresh lemon juice",
+      "3/4 oz honey syrup",
+      "Lemon twist",
+    ],
+    instructions: [
+      "Add gin, lemon juice, and honey syrup to a shaker with ice.",
+      "Shake until thoroughly chilled.",
+      "Double strain into a chilled coupe glass.",
+      "Garnish with a lemon twist.",
+    ],
+    pairings: [
+      "Goat cheese crostini",
+      "Grilled shrimp",
+      "Roasted chicken",
+      "Lemon tart",
+    ],
+    difficulty: "Easy",
+    glass: "Coupe Glass",
+    garnish: "Lemon Twist",
+    ice: "Served Up",
+    flavorProfile: ["Citrusy", "Floral", "Honeyed", "Bright"],
+    story:
+      "The Bee's Knees emerged during Prohibition, when honey and lemon were often used to soften the rough edges of homemade gin. Today, it remains a simple and elegant classic.",
+    tips: [
+      "Make honey syrup by mixing equal parts honey and warm water.",
+      "Use fresh lemon juice for the best balance.",
+      "A floral or citrus-forward gin works especially well.",
+    ],
+  },
+  {
+    id: "aviation",
+    name: "Aviation",
+    spirit: "Gin",
+    image: aviationImage,
+    description:
+      "A floral and citrus-forward gin cocktail with maraschino liqueur and crème de violette.",
+    ingredients: [
+      "2 oz gin",
+      "1/2 oz maraschino liqueur",
+      "1/4 oz crème de violette",
+      "3/4 oz fresh lemon juice",
+      "Brandied cherry",
+    ],
+    instructions: [
+      "Add gin, maraschino liqueur, crème de violette, and lemon juice to a shaker with ice.",
+      "Shake until thoroughly chilled.",
+      "Double strain into a chilled coupe glass.",
+      "Garnish with a brandied cherry.",
+    ],
+    pairings: [
+      "Goat cheese crostini",
+      "Roasted chicken",
+      "Light seafood dishes",
+      "Lemon shortbread",
+    ],
+    difficulty: "Intermediate",
+    glass: "Coupe Glass",
+    garnish: "Brandied Cherry",
+    ice: "Served Up",
+    flavorProfile: ["Floral", "Citrusy", "Tart", "Elegant"],
+    story:
+      "The Aviation first appeared in the early twentieth century. Its pale violet color and floral character come from crème de violette, while maraschino liqueur adds subtle sweetness and complexity.",
+    tips: [
+      "Use crème de violette sparingly so it does not overpower the drink.",
+      "Fresh lemon juice keeps the floral ingredients balanced.",
+      "A dry London-style gin gives the cocktail a clean backbone.",
+    ],
+  },
+  {
+    id: "white-russian",
+    name: "White Russian",
+    spirit: "Vodka",
+    image: whiteRussianImage,
+    description:
+      "A rich and creamy vodka cocktail made with coffee liqueur and cream.",
+    ingredients: ["2 oz vodka", "1 oz coffee liqueur", "1 oz heavy cream"],
+    instructions: [
+      "Fill a rocks glass with ice.",
+      "Add vodka and coffee liqueur.",
+      "Slowly pour the cream over the top.",
+      "Stir gently before drinking, or leave layered for presentation.",
+    ],
+    pairings: [
+      "Chocolate cake",
+      "Tiramisu",
+      "Salted caramel desserts",
+      "Roasted nuts",
+    ],
+    difficulty: "Easy",
+    glass: "Rocks Glass",
+    garnish: "None",
+    ice: "Cubed Ice",
+    flavorProfile: ["Creamy", "Sweet", "Coffee", "Rich"],
+    story:
+      "The White Russian developed from the Black Russian, a vodka and coffee liqueur cocktail created in the late 1940s. Adding cream transformed it into the smooth dessert-style drink known today.",
+    tips: [
+      "Use chilled cream for the best texture.",
+      "Pour the cream slowly over the back of a spoon for a layered look.",
+      "For a lighter version, use half-and-half instead of heavy cream.",
+    ],
+  },
+  {
+    id: "irish-coffee",
+    name: "Irish Coffee",
+    spirit: "Irish Whiskey",
+    image: irishCoffeeImage,
+    description:
+      "A warming combination of Irish whiskey, hot coffee, brown sugar, and softly whipped cream.",
+    ingredients: [
+      "1 1/2 oz Irish whiskey",
+      "4 oz hot coffee",
+      "2 tsp brown sugar",
+      "1 oz lightly whipped cream",
+    ],
+    instructions: [
+      "Warm an Irish coffee glass with hot water, then empty it.",
+      "Add brown sugar and hot coffee to the glass.",
+      "Stir until the sugar is fully dissolved.",
+      "Add the Irish whiskey and stir gently.",
+      "Float the lightly whipped cream over the back of a spoon.",
+    ],
+    pairings: ["Bread pudding", "Chocolate cake", "Apple tart", "Roasted nuts"],
+    difficulty: "Intermediate",
+    glass: "Irish Coffee Glass",
+    garnish: "Whipped Cream",
+    ice: "None",
+    flavorProfile: ["Warm", "Coffee", "Creamy", "Rich"],
+    story:
+      "Irish Coffee is commonly credited to chef Joe Sheridan, who served the warming drink to travelers in Ireland during the 1940s. It later became internationally popular after being introduced in San Francisco.",
+    tips: [
+      "Use freshly brewed hot coffee.",
+      "Whip the cream only until it thickens slightly so it can still float.",
+      "Sip the coffee through the cream instead of stirring it in.",
+    ],
+  },
+  {
+    id: "penicillin",
+    name: "Penicillin",
+    spirit: "Scotch Whisky",
+    image: penicillinImage,
+    description:
+      "A modern Scotch cocktail with lemon, honey, ginger, and a smoky whisky float.",
+    ingredients: [
+      "2 oz blended Scotch whisky",
+      "3/4 oz fresh lemon juice",
+      "3/4 oz honey-ginger syrup",
+      "1/4 oz smoky Islay Scotch",
+      "Candied ginger",
+    ],
+    instructions: [
+      "Add the blended Scotch, lemon juice, and honey-ginger syrup to a shaker with ice.",
+      "Shake until thoroughly chilled.",
+      "Strain into a rocks glass over fresh ice.",
+      "Float the smoky Scotch over the top.",
+      "Garnish with candied ginger.",
+    ],
+    pairings: [
+      "Smoked salmon",
+      "Grilled pork",
+      "Sharp cheddar",
+      "Ginger desserts",
+    ],
+    difficulty: "Intermediate",
+    glass: "Rocks Glass",
+    garnish: "Candied Ginger",
+    ice: "Large Ice Cube",
+    flavorProfile: ["Smoky", "Citrusy", "Spiced", "Honeyed"],
+    story:
+      "The Penicillin was created in New York in the early 2000s by bartender Sam Ross. Its combination of Scotch, lemon, honey, and ginger quickly made it a modern classic.",
+    tips: [
+      "Use a smoky Scotch only for the float so it does not overpower the drink.",
+      "Make honey-ginger syrup with fresh ginger for the strongest flavor.",
+      "Pour the smoky whisky slowly over the back of a spoon for a cleaner float.",
     ],
   },
 ];
