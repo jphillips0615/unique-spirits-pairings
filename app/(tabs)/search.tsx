@@ -155,6 +155,25 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
 
+  filterHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+
+  filterLabel: {
+    color: Colors.text,
+    fontSize: 14,
+    fontWeight: "700",
+  },
+
+  swipeHint: {
+    color: Colors.gold,
+    fontSize: 13,
+    fontWeight: "700",
+  },
+
   filterList: {
     paddingBottom: 22,
     gap: 10,

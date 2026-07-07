@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     top: 55,
     left: 24,
     zIndex: 10,
+    marginBottom: 10,
   },
 
   backButtonText: {

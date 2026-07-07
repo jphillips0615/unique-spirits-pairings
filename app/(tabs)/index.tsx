@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     paddingBottom: 120,
   },
   hero: {
-    paddingTop: 52,
+    paddingTop: 24,
     paddingBottom: 34,
   },
   logo: {
