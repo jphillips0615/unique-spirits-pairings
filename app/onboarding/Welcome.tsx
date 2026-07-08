@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import {
   ImageBackground,
@@ -8,7 +9,18 @@ import {
   View,
 } from "react-native";
 
+const ONBOARDING_COMPLETE_KEY = "onboardingComplete";
+
 export default function WelcomeScreen() {
+  async function handleSkip() {
+    try {
+      await AsyncStorage.setItem(ONBOARDING_COMPLETE_KEY, "true");
+      router.replace("/(tabs)");
+    } catch (error) {
+      console.error("Unable to save onboarding status:", error);
+    }
+  }
+
   return (
     <View style={styles.screen}>
       <ImageBackground
@@ -41,10 +53,7 @@ export default function WelcomeScreen() {
                 <Text style={styles.primaryButtonText}>Start Exploring</Text>
               </Pressable>
 
-              <Pressable
-                style={styles.secondaryButton}
-                onPress={() => router.replace("/(tabs)")}
-              >
+              <Pressable style={styles.secondaryButton} onPress={handleSkip}>
                 <Text style={styles.secondaryButtonText}>Skip for Now</Text>
               </Pressable>
             </View>

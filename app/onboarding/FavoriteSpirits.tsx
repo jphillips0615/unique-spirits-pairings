@@ -1,12 +1,15 @@
 import { ONBOARDING_SPIRITS } from "@/data/spiritCategories";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 
 const GOLD = "#C9A227";
+const ONBOARDING_COMPLETE_KEY = "onboardingComplete";
 
 export default function FavoriteSpirits() {
   const [selectedSpirits, setSelectedSpirits] = useState<string[]>([]);
+  const [isFinishing, setIsFinishing] = useState(false);
 
   function toggleSpirit(spirit: string) {
     if (spirit === "I'm Open to Everything") {
@@ -25,6 +28,22 @@ export default function FavoriteSpirits() {
         ? withoutOpenOption.filter((item) => item !== spirit)
         : [...withoutOpenOption, spirit];
     });
+  }
+
+  async function handleFinish() {
+    if (isFinishing) {
+      return;
+    }
+
+    setIsFinishing(true);
+
+    try {
+      await AsyncStorage.setItem(ONBOARDING_COMPLETE_KEY, "true");
+      router.replace("/(tabs)");
+    } catch (error) {
+      console.error("Unable to save onboarding status:", error);
+      setIsFinishing(false);
+    }
   }
 
   return (
@@ -68,10 +87,13 @@ export default function FavoriteSpirits() {
       })}
 
       <Pressable
-        style={styles.button}
-        onPress={() => router.replace("/(tabs)")}
+        style={[styles.button, isFinishing && styles.buttonDisabled]}
+        onPress={handleFinish}
+        disabled={isFinishing}
       >
-        <Text style={styles.buttonText}>Finish</Text>
+        <Text style={styles.buttonText}>
+          {isFinishing ? "Finishing..." : "Finish"}
+        </Text>
       </Pressable>
     </ScrollView>
   );
@@ -155,6 +177,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
     marginBottom: 20,
+  },
+
+  buttonDisabled: {
+    opacity: 0.65,
   },
 
   buttonText: {
