@@ -521,7 +521,7 @@ export const cocktails: Cocktail[] = [
   {
     id: "gold-rush",
     name: "Gold Rush",
-    spirit: "Bourbon Whiskey",
+    spirit: "Bourbon",
     image: goldRushImage,
     description:
       "A smooth modern bourbon cocktail balanced with fresh lemon and honey syrup.",
@@ -546,7 +546,7 @@ export const cocktails: Cocktail[] = [
     difficulty: "Easy",
     glass: "Rocks Glass",
     garnish: "Lemon Twist",
-    ice: "Large Ice Cube",
+    ice: "Large Cube",
     flavorProfile: ["Rich", "Citrusy", "Honeyed", "Smooth"],
     story:
       "Created at New York's Milk & Honey bar in the early 2000s, the Gold Rush is a modern classic. It follows the structure of a whiskey sour while replacing simple syrup with honey for a richer and softer finish.",
@@ -620,7 +620,7 @@ export const cocktails: Cocktail[] = [
       "Light seafood dishes",
       "Lemon shortbread",
     ],
-    difficulty: "Intermediate",
+    difficulty: "Medium",
     glass: "Coupe Glass",
     garnish: "Brandied Cherry",
     ice: "Served Up",
@@ -687,7 +687,7 @@ export const cocktails: Cocktail[] = [
       "Float the lightly whipped cream over the back of a spoon.",
     ],
     pairings: ["Bread pudding", "Chocolate cake", "Apple tart", "Roasted nuts"],
-    difficulty: "Intermediate",
+    difficulty: "Medium",
     glass: "Irish Coffee Glass",
     garnish: "Whipped Cream",
     ice: "None",
@@ -727,10 +727,10 @@ export const cocktails: Cocktail[] = [
       "Sharp cheddar",
       "Ginger desserts",
     ],
-    difficulty: "Intermediate",
+    difficulty: "Medium",
     glass: "Rocks Glass",
     garnish: "Candied Ginger",
-    ice: "Large Ice Cube",
+    ice: "Large Cube",
     flavorProfile: ["Smoky", "Citrusy", "Spiced", "Honeyed"],
     story:
       "The Penicillin was created in New York in the early 2000s by bartender Sam Ross. Its combination of Scotch, lemon, honey, and ginger quickly made it a modern classic.",

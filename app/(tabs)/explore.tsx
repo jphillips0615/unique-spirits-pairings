@@ -13,7 +13,7 @@ export default function ExploreScreen() {
   }
 
   function handleAboutPress() {
-    router.push("/about/index");
+    router.push("/about");
   }
 
   return (

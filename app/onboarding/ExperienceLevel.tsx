@@ -4,9 +4,9 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 const GOLD = "#C9A227";
 
 const OPTIONS = [
-  "I'm New to Cocktails",
+  "I&apos;m to Cocktails",
   "I Enjoy Cocktails",
-  "I'm an Enthusiast",
+  "I&apos;m an Enthusiast",
   "Bartender / Professional",
 ];
 
@@ -18,10 +18,11 @@ export default function ExperienceLevel() {
       </Pressable>
       <Text style={styles.kicker}>PERSONALIZE</Text>
 
-      <Text style={styles.title}>What's your experience level?</Text>
+      <Text style={styles.title}>What&apos;s your experience level?</Text>
 
       <Text style={styles.subtitle}>
-        We'll tailor recommendations and explanations based on your experience.
+        We&apos;ll tailor recommendations and explanations based on your
+        experience.
       </Text>
 
       {OPTIONS.map((option) => (
