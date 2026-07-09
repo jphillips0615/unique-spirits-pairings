@@ -8,7 +8,8 @@
     "scheme": "uniquespiritspairingsv2",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jpcketz.uniquespiritsandpairings"
     },
     "android": {
       "adaptiveIcon": {
