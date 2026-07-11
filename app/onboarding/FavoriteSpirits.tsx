@@ -1,3 +1,4 @@
+import { usePreferences } from "@/context/PreferencesContext";
 import { ONBOARDING_SPIRITS } from "@/data/spiritCategories";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
@@ -8,6 +9,7 @@ const GOLD = "#C9A227";
 const ONBOARDING_COMPLETE_KEY = "onboardingComplete";
 
 export default function FavoriteSpirits() {
+  const { setFavoriteSpirits } = usePreferences();
   const [selectedSpirits, setSelectedSpirits] = useState<string[]>([]);
   const [isFinishing, setIsFinishing] = useState(false);
 
@@ -38,6 +40,11 @@ export default function FavoriteSpirits() {
     setIsFinishing(true);
 
     try {
+      const savedSpirits = selectedSpirits.includes("I'm Open to Everything")
+        ? []
+        : selectedSpirits;
+
+      await setFavoriteSpirits(savedSpirits);
       await AsyncStorage.setItem(ONBOARDING_COMPLETE_KEY, "true");
       router.replace("/(tabs)");
     } catch (error) {

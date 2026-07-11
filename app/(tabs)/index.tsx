@@ -10,6 +10,7 @@ import {
 
 import { Colors } from "@/constants/colors";
 import { useFavorites } from "@/context/FavoritesContext";
+import { usePreferences } from "@/context/PreferencesContext";
 import { cocktails } from "@/data/cocktails";
 import { HOME_SPIRIT_CATEGORIES } from "@/data/spiritCategories";
 import { router } from "expo-router";
@@ -18,8 +19,17 @@ import CocktailCard from "../../components/cards/CocktailCard";
 const logo = require("../../assets/images/branding/logo.png");
 
 export default function HomeScreen() {
+  const { preferences } = usePreferences();
+  const preferredCocktails = preferences.favoriteSpirits.length
+    ? cocktails.filter((cocktail) =>
+        preferences.favoriteSpirits.includes(cocktail.spirit),
+      )
+    : cocktails;
+  const recommendationPool = preferredCocktails.length
+    ? preferredCocktails
+    : cocktails;
   const featuredCocktail =
-    cocktails[Math.floor(Math.random() * cocktails.length)];
+    recommendationPool[Math.floor(Math.random() * recommendationPool.length)];
 
   const { isFavorite, toggleFavorite } = useFavorites();
 
@@ -64,7 +74,16 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Featured Cocktail</Text>
+        <Text style={styles.sectionTitle}>
+          {preferences.favoriteSpirits.length
+            ? "Recommended for You"
+            : "Featured Cocktail"}
+        </Text>
+        {preferences.favoriteSpirits.length > 0 && (
+          <Text style={styles.recommendationNote}>
+            Based on your interest in {preferences.favoriteSpirits.join(", ")}.
+          </Text>
+        )}
 
         <CocktailCard
           name={featuredCocktail.name}
@@ -160,6 +179,13 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 21,
     fontWeight: "900",
+    marginBottom: 14,
+  },
+  recommendationNote: {
+    color: Colors.textSecondary,
+    fontSize: 14,
+    lineHeight: 20,
+    marginTop: -6,
     marginBottom: 14,
   },
   pairingRow: {

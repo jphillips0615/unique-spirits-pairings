@@ -43,7 +43,7 @@ export default function AgeVerificationScreen() {
 
       <Pressable
         style={styles.primaryButton}
-        onPress={() => router.push("/onboarding/ExperienceLevel")}
+        onPress={() => router.push("/auth")}
       >
         <Text style={styles.primaryButtonText}>Yes, Continue</Text>
       </Pressable>

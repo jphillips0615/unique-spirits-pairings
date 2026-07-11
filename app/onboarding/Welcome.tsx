@@ -48,7 +48,7 @@ export default function WelcomeScreen() {
                   styles.primaryButton,
                   pressed && styles.buttonPressed,
                 ]}
-                onPress={() => router.push("/onboarding/Intro")}
+                onPress={() => router.push("/onboarding/AgeVerification")}
               >
                 <Text style={styles.primaryButtonText}>Start Exploring</Text>
               </Pressable>
