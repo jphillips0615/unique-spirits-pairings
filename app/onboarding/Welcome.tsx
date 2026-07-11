@@ -83,24 +83,21 @@ const styles = StyleSheet.create({
 
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.55)",
-    justifyContent: "center",
-    paddingTop: 110,
+    backgroundColor: "rgba(0, 0, 0, 0.58)",
   },
 
   safeArea: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
 
   content: {
+    width: "100%",
+    maxWidth: 560,
+    alignSelf: "center",
     paddingHorizontal: 26,
-    paddingBottom: 45,
-    paddingTop: 28,
-    backgroundColor: "rgba(8, 8, 8, 0.38)",
-    borderTopLeftRadius: 34,
-    borderTopRightRadius: 34,
-    transform: [{ translateY: -145 }],
+    paddingVertical: 36,
+    backgroundColor: "rgba(8, 8, 8, 0.58)",
   },
 
   kicker: {
@@ -135,8 +132,11 @@ const styles = StyleSheet.create({
   },
 
   primaryButton: {
+    width: "100%",
+    maxWidth: 460,
+    alignSelf: "center",
     backgroundColor: "#C9A227",
-    paddingVertical: 16,
+    paddingVertical: 17,
     borderRadius: 999,
     alignItems: "center",
     shadowColor: "#C9A227",
@@ -144,8 +144,6 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 6 },
     elevation: 6,
-    width: "90%",
-    alignSelf: "center",
   },
 
   buttonPressed: {

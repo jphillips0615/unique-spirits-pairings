@@ -27,17 +27,16 @@ export default function AccountWelcomeScreen() {
         <View style={styles.overlay}>
           <SafeAreaView style={styles.safeArea}>
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Go back"
               onPress={() => router.back()}
               style={({ pressed }) => [
                 styles.backButton,
                 pressed && styles.pressed,
               ]}
             >
-              <Ionicons name="chevron-back" size={26} color={Colors.gold} />
-
-              <Text style={styles.backButtonText}>Back</Text>
+              <Ionicons name="chevron-back" size={40} color={Colors.gold} />
             </Pressable>
-
             <View style={styles.content}>
               <View style={styles.brandMark}>
                 <Ionicons name="wine-outline" size={34} color={Colors.gold} />
@@ -130,34 +129,28 @@ const styles = StyleSheet.create({
 
   safeArea: {
     flex: 1,
+    justifyContent: "center",
   },
 
   backButton: {
     position: "absolute",
-    top: 42,
+    top: 26,
     left: 18,
     zIndex: 10,
-    flexDirection: "row",
+    width: 54,
+    height: 54,
     alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-  },
-
-  backButtonText: {
-    color: Colors.gold,
-    fontSize: 16,
-    fontWeight: "700",
-    marginLeft: 2,
+    justifyContent: "center",
   },
 
   content: {
-    flex: 1,
     width: "100%",
+    maxWidth: 560,
+    alignSelf: "center",
     justifyContent: "center",
     paddingHorizontal: 26,
-    paddingTop: 90,
-    paddingBottom: 34,
-    backgroundColor: "rgba(8, 8, 8, 0.72)",
+    paddingVertical: 36,
+    backgroundColor: "rgba(8, 8, 8, 0.68)",
   },
 
   brandMark: {
@@ -211,6 +204,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 18,
     gap: 9,
+    width: "100%",
+    maxWidth: 460,
+    alignSelf: "center",
     shadowColor: Colors.gold,
     shadowOpacity: 0.3,
     shadowRadius: 12,
@@ -231,6 +227,9 @@ const styles = StyleSheet.create({
     minHeight: 56,
     borderRadius: 999,
     borderWidth: 1.5,
+    width: "100%",
+    maxWidth: 460,
+    alignSelf: "center",
     borderColor: Colors.gold,
     flexDirection: "row",
     alignItems: "center",
@@ -270,6 +269,9 @@ const styles = StyleSheet.create({
     minHeight: 52,
     borderRadius: 999,
     backgroundColor: "rgba(255, 255, 255, 0.06)",
+    width: "100%",
+    maxWidth: 460,
+    alignSelf: "center",
     borderWidth: 1,
     borderColor: "#333333",
     flexDirection: "row",
