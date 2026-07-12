@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -8,7 +9,6 @@ import {
   Text,
   View,
 } from "react-native";
-
 const GOLD = "#C9A227";
 
 export default function AgeVerificationScreen() {
@@ -78,7 +78,7 @@ export default function AgeVerificationScreen() {
               ]}
               onPress={() => router.back()}
             >
-              <Text style={styles.backButtonText}>‹</Text>
+              <Ionicons name="chevron-back" size={38} color={GOLD} />
             </Pressable>
             <View style={styles.content}>
               <Text style={styles.kicker}>BEFORE WE BEGIN</Text>
@@ -216,20 +216,13 @@ const styles = StyleSheet.create({
 
   backButton: {
     position: "absolute",
-    top: 26,
-    left: 18,
+    top: 20,
+    left: 14,
     zIndex: 10,
-    width: 54,
-    height: 54,
+    width: 56,
+    height: 56,
     alignItems: "center",
     justifyContent: "center",
-  },
-
-  backButtonText: {
-    color: GOLD,
-    fontSize: 46,
-    fontWeight: "300",
-    lineHeight: 48,
   },
 
   buttonPressed: {

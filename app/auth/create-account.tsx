@@ -2,14 +2,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 
 import { Colors } from "@/constants/colors";
@@ -19,6 +19,7 @@ export default function CreateAccountScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
@@ -84,7 +85,9 @@ export default function CreateAccountScreen() {
       hasError = true;
     }
 
-    if (hasError) return;
+    if (hasError) {
+      return;
+    }
 
     setFormMessage(
       "The form is working. Secure account creation will be connected next.",
@@ -97,267 +100,290 @@ export default function CreateAccountScreen() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView
-        contentContainerStyle={styles.content}
+        contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
           onPress={() => router.back()}
           style={({ pressed }) => [
             styles.backButton,
             pressed && styles.pressed,
           ]}
         >
-          <Ionicons name="chevron-back" size={25} color={Colors.gold} />
-          <Text style={styles.backButtonText}>Back</Text>
+          <Ionicons name="chevron-back" size={38} color={Colors.gold} />
         </Pressable>
 
-        <View style={styles.iconContainer}>
-          <Ionicons name="person-add-outline" size={31} color={Colors.gold} />
-        </View>
+        <View style={styles.formContainer}>
+          <View style={styles.iconContainer}>
+            <Ionicons name="person-add-outline" size={31} color={Colors.gold} />
+          </View>
 
-        <Text style={styles.kicker}>JOIN THE EXPERIENCE</Text>
-        <Text style={styles.title}>Create your account.</Text>
+          <Text style={styles.kicker}>JOIN THE EXPERIENCE</Text>
 
-        <Text style={styles.subtitle}>
-          Save your favorites, preferences, and personalized recommendations
-          across devices.
-        </Text>
+          <Text style={styles.title}>Create your account.</Text>
 
-        <Text style={styles.label}>Name</Text>
+          <Text style={styles.subtitle}>
+            Save your favorites, preferences, and personalized recommendations
+            across devices.
+          </Text>
 
-        <View
-          style={[
-            styles.inputContainer,
-            nameError ? styles.inputContainerError : undefined,
-          ]}
-        >
-          <Ionicons
-            name="person-outline"
-            size={20}
-            color={nameError ? "#E57373" : "#8C8C8C"}
-          />
+          <Text style={styles.label}>Name</Text>
 
-          <TextInput
-            value={name}
-            onChangeText={(value) => {
-              setName(value);
-              setNameError("");
-              setFormMessage("");
-            }}
-            placeholder="Your name"
-            placeholderTextColor="#777777"
-            autoCapitalize="words"
-            autoCorrect={false}
-            returnKeyType="next"
-            style={styles.input}
-          />
-        </View>
-
-        {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
-
-        <Text style={styles.label}>Email address</Text>
-
-        <View
-          style={[
-            styles.inputContainer,
-            emailError ? styles.inputContainerError : undefined,
-          ]}
-        >
-          <Ionicons
-            name="mail-outline"
-            size={20}
-            color={emailError ? "#E57373" : "#8C8C8C"}
-          />
-
-          <TextInput
-            value={email}
-            onChangeText={(value) => {
-              setEmail(value);
-              setEmailError("");
-              setFormMessage("");
-            }}
-            placeholder="you@example.com"
-            placeholderTextColor="#777777"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="next"
-            style={styles.input}
-          />
-        </View>
-
-        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
-
-        <Text style={styles.label}>Password</Text>
-
-        <View
-          style={[
-            styles.inputContainer,
-            passwordError ? styles.inputContainerError : undefined,
-          ]}
-        >
-          <Ionicons
-            name="lock-closed-outline"
-            size={20}
-            color={passwordError ? "#E57373" : "#8C8C8C"}
-          />
-
-          <TextInput
-            value={password}
-            onChangeText={(value) => {
-              setPassword(value);
-              setPasswordError("");
-              setFormMessage("");
-            }}
-            placeholder="At least 8 characters"
-            placeholderTextColor="#777777"
-            secureTextEntry={!showPassword}
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="next"
-            style={styles.input}
-          />
-
-          <Pressable
-            onPress={() => setShowPassword((current) => !current)}
-            hitSlop={10}
-          >
-            <Ionicons
-              name={showPassword ? "eye-off-outline" : "eye-outline"}
-              size={22}
-              color="#A7A7A7"
-            />
-          </Pressable>
-        </View>
-
-        {passwordError ? (
-          <Text style={styles.errorText}>{passwordError}</Text>
-        ) : null}
-
-        <Text style={styles.label}>Confirm password</Text>
-
-        <View
-          style={[
-            styles.inputContainer,
-            confirmPasswordError ? styles.inputContainerError : undefined,
-          ]}
-        >
-          <Ionicons
-            name="shield-checkmark-outline"
-            size={20}
-            color={confirmPasswordError ? "#E57373" : "#8C8C8C"}
-          />
-
-          <TextInput
-            value={confirmPassword}
-            onChangeText={(value) => {
-              setConfirmPassword(value);
-              setConfirmPasswordError("");
-              setFormMessage("");
-            }}
-            placeholder="Enter your password again"
-            placeholderTextColor="#777777"
-            secureTextEntry={!showConfirmPassword}
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="done"
-            onSubmitEditing={handleCreateAccount}
-            style={styles.input}
-          />
-
-          <Pressable
-            onPress={() => setShowConfirmPassword((current) => !current)}
-            hitSlop={10}
-          >
-            <Ionicons
-              name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
-              size={22}
-              color="#A7A7A7"
-            />
-          </Pressable>
-        </View>
-
-        {confirmPasswordError ? (
-          <Text style={styles.errorText}>{confirmPasswordError}</Text>
-        ) : null}
-
-        <Pressable
-          onPress={() => {
-            setAgeConfirmed((current) => !current);
-            setAgeError("");
-            setFormMessage("");
-          }}
-          style={({ pressed }) => [styles.ageRow, pressed && styles.pressed]}
-        >
           <View
             style={[
-              styles.checkbox,
-              ageConfirmed && styles.checkboxSelected,
-              ageError ? styles.checkboxError : undefined,
+              styles.inputContainer,
+              nameError ? styles.inputContainerError : undefined,
             ]}
           >
-            {ageConfirmed ? (
-              <Ionicons name="checkmark" size={18} color="#0B0B0B" />
-            ) : null}
-          </View>
-
-          <Text style={styles.ageText}>
-            I confirm that I am of legal drinking age in my location.
-          </Text>
-        </Pressable>
-
-        {ageError ? <Text style={styles.ageErrorText}>{ageError}</Text> : null}
-
-        {formMessage ? (
-          <View style={styles.messageBox}>
             <Ionicons
-              name="information-circle-outline"
-              size={21}
-              color={Colors.gold}
+              name="person-outline"
+              size={20}
+              color={nameError ? "#E57373" : "#8C8C8C"}
             />
 
-            <Text style={styles.messageText}>{formMessage}</Text>
+            <TextInput
+              value={name}
+              onChangeText={(value) => {
+                setName(value);
+                setNameError("");
+                setFormMessage("");
+              }}
+              placeholder="Your name"
+              placeholderTextColor="#777777"
+              autoCapitalize="words"
+              autoCorrect={false}
+              returnKeyType="next"
+              style={styles.input}
+            />
           </View>
-        ) : null}
 
-        <Pressable
-          onPress={handleCreateAccount}
-          style={({ pressed }) => [
-            styles.primaryButton,
-            pressed && styles.pressed,
-          ]}
-        >
-          <Text style={styles.primaryButtonText}>Create Account</Text>
-          <Ionicons name="arrow-forward" size={20} color="#0B0B0B" />
-        </Pressable>
+          {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
 
-        <View style={styles.signInRow}>
-          <Text style={styles.signInText}>Already have an account?</Text>
+          <Text style={styles.label}>Email address</Text>
+
+          <View
+            style={[
+              styles.inputContainer,
+              emailError ? styles.inputContainerError : undefined,
+            ]}
+          >
+            <Ionicons
+              name="mail-outline"
+              size={20}
+              color={emailError ? "#E57373" : "#8C8C8C"}
+            />
+
+            <TextInput
+              value={email}
+              onChangeText={(value) => {
+                setEmail(value);
+                setEmailError("");
+                setFormMessage("");
+              }}
+              placeholder="you@example.com"
+              placeholderTextColor="#777777"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType="next"
+              style={styles.input}
+            />
+          </View>
+
+          {emailError ? (
+            <Text style={styles.errorText}>{emailError}</Text>
+          ) : null}
+
+          <Text style={styles.label}>Password</Text>
+
+          <View
+            style={[
+              styles.inputContainer,
+              passwordError ? styles.inputContainerError : undefined,
+            ]}
+          >
+            <Ionicons
+              name="lock-closed-outline"
+              size={20}
+              color={passwordError ? "#E57373" : "#8C8C8C"}
+            />
+
+            <TextInput
+              value={password}
+              onChangeText={(value) => {
+                setPassword(value);
+                setPasswordError("");
+                setFormMessage("");
+              }}
+              placeholder="At least 8 characters"
+              placeholderTextColor="#777777"
+              secureTextEntry={!showPassword}
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType="next"
+              style={styles.input}
+            />
+
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={
+                showPassword ? "Hide password" : "Show password"
+              }
+              onPress={() => setShowPassword((current) => !current)}
+              hitSlop={10}
+            >
+              <Ionicons
+                name={showPassword ? "eye-off-outline" : "eye-outline"}
+                size={22}
+                color="#A7A7A7"
+              />
+            </Pressable>
+          </View>
+
+          {passwordError ? (
+            <Text style={styles.errorText}>{passwordError}</Text>
+          ) : null}
+
+          <Text style={styles.label}>Confirm password</Text>
+
+          <View
+            style={[
+              styles.inputContainer,
+              confirmPasswordError ? styles.inputContainerError : undefined,
+            ]}
+          >
+            <Ionicons
+              name="shield-checkmark-outline"
+              size={20}
+              color={confirmPasswordError ? "#E57373" : "#8C8C8C"}
+            />
+
+            <TextInput
+              value={confirmPassword}
+              onChangeText={(value) => {
+                setConfirmPassword(value);
+                setConfirmPasswordError("");
+                setFormMessage("");
+              }}
+              placeholder="Enter your password again"
+              placeholderTextColor="#777777"
+              secureTextEntry={!showConfirmPassword}
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType="done"
+              onSubmitEditing={handleCreateAccount}
+              style={styles.input}
+            />
+
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={
+                showConfirmPassword
+                  ? "Hide confirmed password"
+                  : "Show confirmed password"
+              }
+              onPress={() => setShowConfirmPassword((current) => !current)}
+              hitSlop={10}
+            >
+              <Ionicons
+                name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
+                size={22}
+                color="#A7A7A7"
+              />
+            </Pressable>
+          </View>
+
+          {confirmPasswordError ? (
+            <Text style={styles.errorText}>{confirmPasswordError}</Text>
+          ) : null}
 
           <Pressable
-            onPress={() => router.replace("/auth/sign-in")}
-            style={({ pressed }) => pressed && styles.pressed}
+            accessibilityRole="checkbox"
+            accessibilityState={{
+              checked: ageConfirmed,
+            }}
+            onPress={() => {
+              setAgeConfirmed((current) => !current);
+              setAgeError("");
+              setFormMessage("");
+            }}
+            style={({ pressed }) => [styles.ageRow, pressed && styles.pressed]}
           >
-            <Text style={styles.signInLink}>Sign in</Text>
+            <View
+              style={[
+                styles.checkbox,
+                ageConfirmed && styles.checkboxSelected,
+                ageError ? styles.checkboxError : undefined,
+              ]}
+            >
+              {ageConfirmed ? (
+                <Ionicons name="checkmark" size={18} color="#0B0B0B" />
+              ) : null}
+            </View>
+
+            <Text style={styles.ageText}>
+              I confirm that I am of legal drinking age in my location.
+            </Text>
           </Pressable>
+
+          {ageError ? (
+            <Text style={styles.ageErrorText}>{ageError}</Text>
+          ) : null}
+
+          {formMessage ? (
+            <View style={styles.messageBox}>
+              <Ionicons
+                name="information-circle-outline"
+                size={21}
+                color={Colors.gold}
+              />
+
+              <Text style={styles.messageText}>{formMessage}</Text>
+            </View>
+          ) : null}
+
+          <Pressable
+            onPress={handleCreateAccount}
+            style={({ pressed }) => [
+              styles.primaryButton,
+              pressed && styles.pressed,
+            ]}
+          >
+            <Text style={styles.primaryButtonText}>Create Account</Text>
+
+            <Ionicons name="arrow-forward" size={20} color="#0B0B0B" />
+          </Pressable>
+
+          <View style={styles.signInRow}>
+            <Text style={styles.signInText}>Already have an account?</Text>
+
+            <Pressable
+              onPress={() => router.replace("/auth/sign-in")}
+              style={({ pressed }) => pressed && styles.pressed}
+            >
+              <Text style={styles.signInLink}>Sign in</Text>
+            </Pressable>
+          </View>
+
+          <Pressable
+            onPress={() => router.replace("/onboarding/CreateProfile")}
+            style={({ pressed }) => [
+              styles.guestButton,
+              pressed && styles.pressed,
+            ]}
+          >
+            <Text style={styles.guestButtonText}>Continue as Guest</Text>
+          </Pressable>
+
+          <Text style={styles.privacyNote}>
+            By creating an account, you agree to use the app responsibly and
+            acknowledge that cocktail content is intended for adults of legal
+            drinking age.
+          </Text>
         </View>
-
-        <Pressable
-          onPress={() => router.replace("/onboarding/CreateProfile")}
-          style={({ pressed }) => [
-            styles.guestButton,
-            pressed && styles.pressed,
-          ]}
-        >
-          <Text style={styles.guestButtonText}>Continue as Guest</Text>
-        </Pressable>
-
-        <Text style={styles.privacyNote}>
-          By creating an account, you agree to use the app responsibly and
-          acknowledge that cocktail content is intended for adults of legal
-          drinking age.
-        </Text>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -369,27 +395,29 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
 
-  content: {
+  scrollContent: {
     flexGrow: 1,
+    justifyContent: "center",
     paddingHorizontal: 26,
-    paddingTop: 76,
-    paddingBottom: 42,
+    paddingTop: 92,
+    paddingBottom: 44,
   },
 
   backButton: {
     position: "absolute",
-    top: 24,
-    left: 18,
-    flexDirection: "row",
+    top: 20,
+    left: 14,
+    zIndex: 10,
+    width: 56,
+    height: 56,
     alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 6,
+    justifyContent: "center",
   },
 
-  backButtonText: {
-    color: Colors.gold,
-    fontSize: 16,
-    fontWeight: "700",
+  formContainer: {
+    width: "100%",
+    maxWidth: 560,
+    alignSelf: "center",
   },
 
   iconContainer: {
@@ -531,7 +559,10 @@ const styles = StyleSheet.create({
   },
 
   primaryButton: {
+    width: "100%",
+    maxWidth: 460,
     minHeight: 58,
+    alignSelf: "center",
     borderRadius: 999,
     backgroundColor: Colors.gold,
     flexDirection: "row",

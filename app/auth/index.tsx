@@ -1,12 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import {
-    ImageBackground,
-    Pressable,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
+  ImageBackground,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 import { Colors } from "@/constants/colors";
@@ -21,6 +21,7 @@ export default function AccountWelcomeScreen() {
       <ImageBackground
         source={require("../../assets/images/splash-cocktail.jpg")}
         style={styles.background}
+        imageStyle={styles.backgroundImage}
         resizeMode="cover"
         blurRadius={2}
       >
@@ -35,8 +36,9 @@ export default function AccountWelcomeScreen() {
                 pressed && styles.pressed,
               ]}
             >
-              <Ionicons name="chevron-back" size={40} color={Colors.gold} />
+              <Ionicons name="chevron-back" size={38} color={Colors.gold} />
             </Pressable>
+
             <View style={styles.content}>
               <View style={styles.brandMark}>
                 <Ionicons name="wine-outline" size={34} color={Colors.gold} />
@@ -45,6 +47,7 @@ export default function AccountWelcomeScreen() {
               <Text style={styles.kicker}>YOUR EXPERIENCE</Text>
 
               <Text style={styles.title}>Welcome to</Text>
+
               <Text style={styles.titleAccent}>Unique Spirits & Pairings</Text>
 
               <Text style={styles.description}>
@@ -82,7 +85,9 @@ export default function AccountWelcomeScreen() {
 
               <View style={styles.dividerRow}>
                 <View style={styles.divider} />
+
                 <Text style={styles.dividerText}>OR</Text>
+
                 <View style={styles.divider} />
               </View>
 
@@ -121,10 +126,13 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 
+  backgroundImage: {
+    resizeMode: "cover",
+  },
+
   overlay: {
     flex: 1,
-    width: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.35)",
+    backgroundColor: "rgba(0, 0, 0, 0.58)",
   },
 
   safeArea: {
@@ -134,11 +142,11 @@ const styles = StyleSheet.create({
 
   backButton: {
     position: "absolute",
-    top: 26,
-    left: 18,
+    top: 20,
+    left: 14,
     zIndex: 10,
-    width: 54,
-    height: 54,
+    width: 56,
+    height: 56,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -149,7 +157,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     paddingHorizontal: 26,
-    paddingVertical: 36,
+    paddingVertical: 38,
     backgroundColor: "rgba(8, 8, 8, 0.68)",
   },
 
@@ -196,17 +204,17 @@ const styles = StyleSheet.create({
   },
 
   primaryButton: {
+    width: "100%",
+    maxWidth: 460,
     minHeight: 56,
+    alignSelf: "center",
     borderRadius: 999,
     backgroundColor: Colors.gold,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 18,
     gap: 9,
-    width: "100%",
-    maxWidth: 460,
-    alignSelf: "center",
+    marginBottom: 18,
     shadowColor: Colors.gold,
     shadowOpacity: 0.3,
     shadowRadius: 12,
@@ -224,18 +232,18 @@ const styles = StyleSheet.create({
   },
 
   outlineButton: {
-    minHeight: 56,
-    borderRadius: 999,
-    borderWidth: 1.5,
     width: "100%",
     maxWidth: 460,
+    minHeight: 56,
     alignSelf: "center",
+    borderRadius: 999,
+    borderWidth: 1.5,
     borderColor: Colors.gold,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 32,
     gap: 9,
+    marginBottom: 32,
     backgroundColor: "rgba(217, 164, 65, 0.05)",
   },
 
@@ -246,6 +254,9 @@ const styles = StyleSheet.create({
   },
 
   dividerRow: {
+    width: "100%",
+    maxWidth: 460,
+    alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 24,
@@ -258,7 +269,7 @@ const styles = StyleSheet.create({
   },
 
   dividerText: {
-    color: "#777777",
+    color: "#888888",
     fontSize: 12,
     fontWeight: "800",
     letterSpacing: 2,
@@ -266,14 +277,14 @@ const styles = StyleSheet.create({
   },
 
   guestButton: {
-    minHeight: 52,
-    borderRadius: 999,
-    backgroundColor: "rgba(255, 255, 255, 0.06)",
     width: "100%",
     maxWidth: 460,
+    minHeight: 52,
     alignSelf: "center",
+    borderRadius: 999,
+    backgroundColor: "rgba(255, 255, 255, 0.06)",
     borderWidth: 1,
-    borderColor: "#333333",
+    borderColor: "#555555",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -287,7 +298,7 @@ const styles = StyleSheet.create({
   },
 
   guestNote: {
-    color: "#888888",
+    color: "#999999",
     fontSize: 12,
     lineHeight: 18,
     textAlign: "center",

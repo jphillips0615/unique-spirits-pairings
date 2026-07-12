@@ -1,5 +1,7 @@
+import { Colors } from "@/constants/colors";
 import { usePreferences } from "@/context/PreferencesContext";
 import { ONBOARDING_SPIRITS } from "@/data/spiritCategories";
+import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -59,8 +61,16 @@ export default function FavoriteSpirits() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Pressable style={styles.backButton} onPress={() => router.back()}>
-        <Text style={styles.backButtonText}>‹ Back</Text>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Go back"
+        style={({ pressed }) => [
+          styles.backButton,
+          pressed && styles.buttonPressed,
+        ]}
+        onPress={() => router.back()}
+      >
+        <Ionicons name="chevron-back" size={38} color={Colors.gold} />
       </Pressable>
 
       <Text style={styles.kicker}>PERSONALIZE</Text>
@@ -120,15 +130,18 @@ const styles = StyleSheet.create({
 
   backButton: {
     position: "absolute",
-    top: 25,
-    left: 24,
+    top: 20,
+    left: 14,
     zIndex: 10,
+    width: 56,
+    height: 56,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
-  backButtonText: {
-    color: GOLD,
-    fontSize: 17,
-    fontWeight: "700",
+  buttonPressed: {
+    opacity: 0.75,
+    transform: [{ scale: 0.96 }],
   },
 
   kicker: {

@@ -3,6 +3,7 @@ import {
   ExperienceLevel,
   usePreferences,
 } from "@/context/PreferencesContext";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -20,6 +21,7 @@ const GOLD = "#C9A227";
 
 export default function CreateProfileScreen() {
   const { preferences, savePreferences } = usePreferences();
+
   const [displayName, setDisplayName] = useState(preferences.displayName);
   const [experienceLevel, setExperienceLevel] =
     useState<ExperienceLevel | null>(preferences.experienceLevel);
@@ -28,15 +30,19 @@ export default function CreateProfileScreen() {
   const canContinue = displayName.trim().length > 0 && experienceLevel !== null;
 
   async function handleContinue() {
-    if (!canContinue || isSaving || !experienceLevel) return;
+    if (!canContinue || isSaving || !experienceLevel) {
+      return;
+    }
 
     setIsSaving(true);
+
     try {
       await savePreferences({
         ...preferences,
         displayName: displayName.trim(),
         experienceLevel,
       });
+
       router.push("/onboarding/FavoriteSpirits");
     } catch (error) {
       console.error("Unable to create profile:", error);
@@ -54,102 +60,232 @@ export default function CreateProfileScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <Text style={styles.backButtonText}>‹ Back</Text>
-        </Pressable>
-
-        <Text style={styles.kicker}>CREATE YOUR PROFILE</Text>
-        <Text style={styles.title}>Make the app yours.</Text>
-        <Text style={styles.subtitle}>
-          Your name and experience level help us personalize recommendations and
-          explain recipes at the right level.
-        </Text>
-
-        <Text style={styles.label}>What should we call you?</Text>
-        <TextInput
-          value={displayName}
-          onChangeText={setDisplayName}
-          placeholder="Your name"
-          placeholderTextColor="#777"
-          autoCapitalize="words"
-          maxLength={30}
-          style={styles.input}
-        />
-
-        <Text style={styles.label}>Experience level</Text>
-        <View style={styles.options}>
-          {EXPERIENCE_LEVELS.map((level) => {
-            const selected = experienceLevel === level;
-            return (
-              <Pressable
-                key={level}
-                style={[styles.option, selected && styles.optionSelected]}
-                onPress={() => setExperienceLevel(level)}
-              >
-                <Text style={[styles.optionText, selected && styles.selectedText]}>
-                  {level}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
-
         <Pressable
-          style={[
-            styles.primaryButton,
-            (!canContinue || isSaving) && styles.buttonDisabled,
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          onPress={() => router.back()}
+          style={({ pressed }) => [
+            styles.backButton,
+            pressed && styles.buttonPressed,
           ]}
-          onPress={handleContinue}
-          disabled={!canContinue || isSaving}
         >
-          <Text style={styles.primaryButtonText}>
-            {isSaving ? "Creating Profile..." : "Create Profile"}
-          </Text>
+          <Ionicons name="chevron-back" size={38} color={GOLD} />
         </Pressable>
+
+        <View style={styles.formContainer}>
+          <Text style={styles.kicker}>CREATE YOUR PROFILE</Text>
+
+          <Text style={styles.title}>Make the app yours.</Text>
+
+          <Text style={styles.subtitle}>
+            Your name and experience level help us personalize recommendations
+            and explain recipes at the right level.
+          </Text>
+
+          <Text style={styles.label}>What should we call you?</Text>
+
+          <TextInput
+            value={displayName}
+            onChangeText={setDisplayName}
+            placeholder="Your name"
+            placeholderTextColor="#777777"
+            autoCapitalize="words"
+            autoCorrect={false}
+            maxLength={30}
+            returnKeyType="done"
+            style={styles.input}
+          />
+
+          <Text style={styles.label}>Experience level</Text>
+
+          <View style={styles.options}>
+            {EXPERIENCE_LEVELS.map((level) => {
+              const selected = experienceLevel === level;
+
+              return (
+                <Pressable
+                  key={level}
+                  onPress={() => setExperienceLevel(level)}
+                  style={({ pressed }) => [
+                    styles.option,
+                    selected && styles.optionSelected,
+                    pressed && styles.optionPressed,
+                  ]}
+                >
+                  <Text
+                    style={[styles.optionText, selected && styles.selectedText]}
+                  >
+                    {level}
+                  </Text>
+
+                  {selected ? (
+                    <Ionicons name="checkmark-circle" size={23} color={GOLD} />
+                  ) : null}
+                </Pressable>
+              );
+            })}
+          </View>
+
+          <Pressable
+            onPress={handleContinue}
+            disabled={!canContinue || isSaving}
+            style={({ pressed }) => [
+              styles.primaryButton,
+              (!canContinue || isSaving) && styles.buttonDisabled,
+              pressed && canContinue && !isSaving && styles.buttonPressed,
+            ]}
+          >
+            <Text style={styles.primaryButtonText}>
+              {isSaving ? "Creating Profile..." : "Create Profile"}
+            </Text>
+
+            {!isSaving ? (
+              <Ionicons name="arrow-forward" size={20} color="#111111" />
+            ) : null}
+          </Pressable>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: "#090909" },
-  content: { padding: 24, paddingTop: 78, paddingBottom: 54 },
-  backButton: { position: "absolute", top: 28, left: 24 },
-  backButtonText: { color: GOLD, fontSize: 17, fontWeight: "700" },
-  kicker: { color: GOLD, letterSpacing: 3, fontWeight: "800", marginBottom: 10 },
-  title: { color: "#fff", fontSize: 38, fontWeight: "900", marginBottom: 14 },
-  subtitle: { color: "#CFCFCF", fontSize: 17, lineHeight: 26, marginBottom: 32 },
-  label: { color: "#F5F5F5", fontSize: 17, fontWeight: "800", marginBottom: 12 },
+  screen: {
+    flex: 1,
+    backgroundColor: "#090909",
+  },
+
+  content: {
+    flexGrow: 1,
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    paddingTop: 88,
+    paddingBottom: 54,
+  },
+
+  backButton: {
+    position: "absolute",
+    top: 20,
+    left: 14,
+    zIndex: 10,
+    width: 56,
+    height: 56,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  formContainer: {
+    width: "100%",
+    maxWidth: 560,
+    alignSelf: "center",
+  },
+
+  kicker: {
+    color: GOLD,
+    fontSize: 12,
+    letterSpacing: 3,
+    fontWeight: "800",
+    marginBottom: 12,
+  },
+
+  title: {
+    color: "#FFFFFF",
+    fontSize: 38,
+    lineHeight: 44,
+    fontWeight: "900",
+    marginBottom: 16,
+  },
+
+  subtitle: {
+    color: "#CFCFCF",
+    fontSize: 17,
+    lineHeight: 26,
+    marginBottom: 34,
+  },
+
+  label: {
+    color: "#F5F5F5",
+    fontSize: 17,
+    fontWeight: "800",
+    marginBottom: 12,
+  },
+
   input: {
     backgroundColor: "#151515",
     borderWidth: 1,
     borderColor: "#2A2A2A",
     borderRadius: 18,
-    color: "#fff",
+    color: "#FFFFFF",
     fontSize: 17,
     paddingHorizontal: 18,
     paddingVertical: 17,
-    marginBottom: 28,
+    marginBottom: 30,
   },
-  options: { marginBottom: 18 },
+
+  options: {
+    marginBottom: 20,
+  },
+
   option: {
+    minHeight: 60,
     backgroundColor: "#151515",
     borderRadius: 18,
     borderWidth: 1,
     borderColor: "#2A2A2A",
-    padding: 18,
+    paddingHorizontal: 18,
+    paddingVertical: 16,
     marginBottom: 12,
-  },
-  optionSelected: { backgroundColor: "rgba(201, 162, 39, 0.18)", borderColor: GOLD },
-  optionText: { color: "#F5F5F5", fontSize: 16, fontWeight: "700" },
-  selectedText: { color: GOLD, fontWeight: "900" },
-  primaryButton: {
-    backgroundColor: GOLD,
-    paddingVertical: 18,
-    borderRadius: 999,
+    flexDirection: "row",
     alignItems: "center",
-    marginTop: 8,
+    justifyContent: "space-between",
   },
-  buttonDisabled: { opacity: 0.45 },
-  primaryButtonText: { color: "#111", fontSize: 17, fontWeight: "900" },
+
+  optionSelected: {
+    backgroundColor: "rgba(201, 162, 39, 0.18)",
+    borderColor: GOLD,
+  },
+
+  optionPressed: {
+    opacity: 0.82,
+  },
+
+  optionText: {
+    color: "#F5F5F5",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+
+  selectedText: {
+    color: GOLD,
+    fontWeight: "900",
+  },
+
+  primaryButton: {
+    minHeight: 58,
+    width: "100%",
+    maxWidth: 460,
+    alignSelf: "center",
+    backgroundColor: GOLD,
+    borderRadius: 999,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 9,
+    marginTop: 10,
+  },
+
+  buttonDisabled: {
+    opacity: 0.45,
+  },
+
+  buttonPressed: {
+    opacity: 0.82,
+    transform: [{ scale: 0.98 }],
+  },
+
+  primaryButtonText: {
+    color: "#111111",
+    fontSize: 17,
+    fontWeight: "900",
+  },
 });

@@ -2,14 +2,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 
 import { Colors } from "@/constants/colors";
@@ -18,6 +18,7 @@ export default function SignInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [formMessage, setFormMessage] = useState("");
@@ -51,7 +52,9 @@ export default function SignInScreen() {
       hasError = true;
     }
 
-    if (hasError) return;
+    if (hasError) {
+      return;
+    }
 
     setFormMessage(
       "The form is working. Secure online sign-in will be connected next.",
@@ -64,172 +67,183 @@ export default function SignInScreen() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView
-        contentContainerStyle={styles.content}
+        contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
           onPress={() => router.back()}
           style={({ pressed }) => [
             styles.backButton,
             pressed && styles.pressed,
           ]}
         >
-          <Ionicons name="chevron-back" size={25} color={Colors.gold} />
-          <Text style={styles.backButtonText}>Back</Text>
+          <Ionicons name="chevron-back" size={38} color={Colors.gold} />
         </Pressable>
 
-        <View style={styles.iconContainer}>
-          <Ionicons name="log-in-outline" size={32} color={Colors.gold} />
-        </View>
-
-        <Text style={styles.kicker}>WELCOME BACK</Text>
-        <Text style={styles.title}>Sign in to your account.</Text>
-
-        <Text style={styles.subtitle}>
-          Access your saved cocktails, preferences, and personalized
-          recommendations.
-        </Text>
-
-        <Text style={styles.label}>Email address</Text>
-
-        <View
-          style={[
-            styles.inputContainer,
-            emailError ? styles.inputContainerError : undefined,
-          ]}
-        >
-          <Ionicons
-            name="mail-outline"
-            size={20}
-            color={emailError ? "#E57373" : "#8C8C8C"}
-          />
-
-          <TextInput
-            value={email}
-            onChangeText={(value) => {
-              setEmail(value);
-              setEmailError("");
-              setFormMessage("");
-            }}
-            placeholder="you@example.com"
-            placeholderTextColor="#777777"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="next"
-            style={styles.input}
-          />
-        </View>
-
-        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
-
-        <Text style={styles.label}>Password</Text>
-
-        <View
-          style={[
-            styles.inputContainer,
-            passwordError ? styles.inputContainerError : undefined,
-          ]}
-        >
-          <Ionicons
-            name="lock-closed-outline"
-            size={20}
-            color={passwordError ? "#E57373" : "#8C8C8C"}
-          />
-
-          <TextInput
-            value={password}
-            onChangeText={(value) => {
-              setPassword(value);
-              setPasswordError("");
-              setFormMessage("");
-            }}
-            placeholder="Enter your password"
-            placeholderTextColor="#777777"
-            secureTextEntry={!showPassword}
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="done"
-            onSubmitEditing={handleSignIn}
-            style={styles.input}
-          />
-
-          <Pressable
-            onPress={() => setShowPassword((current) => !current)}
-            hitSlop={10}
-          >
-            <Ionicons
-              name={showPassword ? "eye-off-outline" : "eye-outline"}
-              size={22}
-              color="#A7A7A7"
-            />
-          </Pressable>
-        </View>
-
-        {passwordError ? (
-          <Text style={styles.errorText}>{passwordError}</Text>
-        ) : null}
-
-        <Pressable
-          onPress={() =>
-            setFormMessage(
-              "Password recovery will be connected with account authentication.",
-            )
-          }
-          style={({ pressed }) => [
-            styles.forgotButton,
-            pressed && styles.pressed,
-          ]}
-        >
-          <Text style={styles.forgotButtonText}>Forgot password?</Text>
-        </Pressable>
-
-        {formMessage ? (
-          <View style={styles.messageBox}>
-            <Ionicons
-              name="information-circle-outline"
-              size={21}
-              color={Colors.gold}
-            />
-
-            <Text style={styles.messageText}>{formMessage}</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.iconContainer}>
+            <Ionicons name="log-in-outline" size={32} color={Colors.gold} />
           </View>
-        ) : null}
 
-        <Pressable
-          onPress={handleSignIn}
-          style={({ pressed }) => [
-            styles.primaryButton,
-            pressed && styles.pressed,
-          ]}
-        >
-          <Text style={styles.primaryButtonText}>Sign In</Text>
-          <Ionicons name="arrow-forward" size={20} color="#0B0B0B" />
-        </Pressable>
+          <Text style={styles.kicker}>WELCOME BACK</Text>
 
-        <View style={styles.createAccountRow}>
-          <Text style={styles.createAccountText}>
-            Don&apos;t have an account?
+          <Text style={styles.title}>Sign in to your account.</Text>
+
+          <Text style={styles.subtitle}>
+            Access your saved cocktails, preferences, and personalized
+            recommendations.
           </Text>
 
-          <Pressable
-            onPress={() => router.replace("/auth/create-account")}
-            style={({ pressed }) => pressed && styles.pressed}
+          <Text style={styles.label}>Email address</Text>
+
+          <View
+            style={[
+              styles.inputContainer,
+              emailError ? styles.inputContainerError : undefined,
+            ]}
           >
-            <Text style={styles.createAccountLink}>Create one</Text>
+            <Ionicons
+              name="mail-outline"
+              size={20}
+              color={emailError ? "#E57373" : "#8C8C8C"}
+            />
+
+            <TextInput
+              value={email}
+              onChangeText={(value) => {
+                setEmail(value);
+                setEmailError("");
+                setFormMessage("");
+              }}
+              placeholder="you@example.com"
+              placeholderTextColor="#777777"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType="next"
+              style={styles.input}
+            />
+          </View>
+
+          {emailError ? (
+            <Text style={styles.errorText}>{emailError}</Text>
+          ) : null}
+
+          <Text style={styles.label}>Password</Text>
+
+          <View
+            style={[
+              styles.inputContainer,
+              passwordError ? styles.inputContainerError : undefined,
+            ]}
+          >
+            <Ionicons
+              name="lock-closed-outline"
+              size={20}
+              color={passwordError ? "#E57373" : "#8C8C8C"}
+            />
+
+            <TextInput
+              value={password}
+              onChangeText={(value) => {
+                setPassword(value);
+                setPasswordError("");
+                setFormMessage("");
+              }}
+              placeholder="Enter your password"
+              placeholderTextColor="#777777"
+              secureTextEntry={!showPassword}
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType="done"
+              onSubmitEditing={handleSignIn}
+              style={styles.input}
+            />
+
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={
+                showPassword ? "Hide password" : "Show password"
+              }
+              onPress={() => setShowPassword((current) => !current)}
+              hitSlop={10}
+            >
+              <Ionicons
+                name={showPassword ? "eye-off-outline" : "eye-outline"}
+                size={22}
+                color="#A7A7A7"
+              />
+            </Pressable>
+          </View>
+
+          {passwordError ? (
+            <Text style={styles.errorText}>{passwordError}</Text>
+          ) : null}
+
+          <Pressable
+            onPress={() =>
+              setFormMessage(
+                "Password recovery will be connected with account authentication.",
+              )
+            }
+            style={({ pressed }) => [
+              styles.forgotButton,
+              pressed && styles.pressed,
+            ]}
+          >
+            <Text style={styles.forgotButtonText}>Forgot password?</Text>
+          </Pressable>
+
+          {formMessage ? (
+            <View style={styles.messageBox}>
+              <Ionicons
+                name="information-circle-outline"
+                size={21}
+                color={Colors.gold}
+              />
+
+              <Text style={styles.messageText}>{formMessage}</Text>
+            </View>
+          ) : null}
+
+          <Pressable
+            onPress={handleSignIn}
+            style={({ pressed }) => [
+              styles.primaryButton,
+              pressed && styles.pressed,
+            ]}
+          >
+            <Text style={styles.primaryButtonText}>Sign In</Text>
+
+            <Ionicons name="arrow-forward" size={20} color="#0B0B0B" />
+          </Pressable>
+
+          <View style={styles.createAccountRow}>
+            <Text style={styles.createAccountText}>
+              Don&apos;t have an account?
+            </Text>
+
+            <Pressable
+              onPress={() => router.replace("/auth/create-account")}
+              style={({ pressed }) => pressed && styles.pressed}
+            >
+              <Text style={styles.createAccountLink}>Create one</Text>
+            </Pressable>
+          </View>
+
+          <Pressable
+            onPress={() => router.replace("/onboarding/CreateProfile")}
+            style={({ pressed }) => [
+              styles.guestButton,
+              pressed && styles.pressed,
+            ]}
+          >
+            <Text style={styles.guestButtonText}>Continue as Guest</Text>
           </Pressable>
         </View>
-
-        <Pressable
-          onPress={() => router.replace("/onboarding/CreateProfile")}
-          style={({ pressed }) => [
-            styles.guestButton,
-            pressed && styles.pressed,
-          ]}
-        >
-          <Text style={styles.guestButtonText}>Continue as Guest</Text>
-        </Pressable>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -241,27 +255,29 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
 
-  content: {
+  scrollContent: {
     flexGrow: 1,
+    justifyContent: "center",
     paddingHorizontal: 26,
-    paddingTop: 76,
-    paddingBottom: 42,
+    paddingTop: 92,
+    paddingBottom: 44,
   },
 
   backButton: {
     position: "absolute",
-    top: 24,
-    left: 18,
-    flexDirection: "row",
+    top: 20,
+    left: 14,
+    zIndex: 10,
+    width: 56,
+    height: 56,
     alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 6,
+    justifyContent: "center",
   },
 
-  backButtonText: {
-    color: Colors.gold,
-    fontSize: 16,
-    fontWeight: "700",
+  formContainer: {
+    width: "100%",
+    maxWidth: 560,
+    alignSelf: "center",
   },
 
   iconContainer: {
@@ -372,7 +388,10 @@ const styles = StyleSheet.create({
   },
 
   primaryButton: {
+    width: "100%",
+    maxWidth: 460,
     minHeight: 58,
+    alignSelf: "center",
     borderRadius: 999,
     backgroundColor: Colors.gold,
     flexDirection: "row",
