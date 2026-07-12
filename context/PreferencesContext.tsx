@@ -19,6 +19,7 @@ export type ExperienceLevel = (typeof EXPERIENCE_LEVELS)[number];
 
 export type UserPreferences = {
   displayName: string;
+  profileImageUri: string | null;
   experienceLevel: ExperienceLevel | null;
   favoriteSpirits: string[];
 };
@@ -32,8 +33,10 @@ type PreferencesContextValue = {
 };
 
 const STORAGE_KEY = "userPreferences";
+
 const DEFAULT_PREFERENCES: UserPreferences = {
   displayName: "",
+  profileImageUri: null,
   experienceLevel: null,
   favoriteSpirits: [],
 };
@@ -42,17 +45,28 @@ const PreferencesContext = createContext<PreferencesContextValue | undefined>(
   undefined,
 );
 
-export function PreferencesProvider({ children }: { children: React.ReactNode }) {
+export function PreferencesProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [preferences, setPreferences] =
     useState<UserPreferences>(DEFAULT_PREFERENCES);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadPreferences() {
       try {
-        const saved = await AsyncStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          setPreferences({ ...DEFAULT_PREFERENCES, ...JSON.parse(saved) });
+        const savedPreferences = await AsyncStorage.getItem(STORAGE_KEY);
+
+        if (savedPreferences) {
+          const parsedPreferences = JSON.parse(savedPreferences);
+
+          setPreferences({
+            ...DEFAULT_PREFERENCES,
+            ...parsedPreferences,
+          });
         }
       } catch (error) {
         console.error("Unable to load user preferences:", error);
@@ -66,12 +80,16 @@ export function PreferencesProvider({ children }: { children: React.ReactNode })
 
   const savePreferences = useCallback(async (next: UserPreferences) => {
     setPreferences(next);
+
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   }, []);
 
   const setFavoriteSpirits = useCallback(
     async (favoriteSpirits: string[]) => {
-      await savePreferences({ ...preferences, favoriteSpirits });
+      await savePreferences({
+        ...preferences,
+        favoriteSpirits,
+      });
     },
     [preferences, savePreferences],
   );
@@ -89,7 +107,13 @@ export function PreferencesProvider({ children }: { children: React.ReactNode })
       setFavoriteSpirits,
       resetPreferences,
     }),
-    [preferences, isLoading, savePreferences, setFavoriteSpirits, resetPreferences],
+    [
+      preferences,
+      isLoading,
+      savePreferences,
+      setFavoriteSpirits,
+      resetPreferences,
+    ],
   );
 
   return (

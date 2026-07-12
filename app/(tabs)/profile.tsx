@@ -5,8 +5,12 @@ import {
   usePreferences,
 } from "@/context/PreferencesContext";
 import { ONBOARDING_SPIRITS } from "@/data/spiritCategories";
+import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { useEffect, useMemo, useState } from "react";
 import {
+  Alert,
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -17,7 +21,11 @@ import {
 
 export default function ProfileScreen() {
   const { preferences, savePreferences } = usePreferences();
+
   const [displayName, setDisplayName] = useState(preferences.displayName);
+  const [profileImageUri, setProfileImageUri] = useState<string | null>(
+    preferences.profileImageUri,
+  );
   const [experienceLevel, setExperienceLevel] =
     useState<ExperienceLevel | null>(preferences.experienceLevel);
   const [favoriteSpirits, setFavoriteSpirits] = useState(
@@ -28,6 +36,7 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     setDisplayName(preferences.displayName);
+    setProfileImageUri(preferences.profileImageUri);
     setExperienceLevel(preferences.experienceLevel);
     setFavoriteSpirits(preferences.favoriteSpirits);
   }, [preferences]);
@@ -39,13 +48,60 @@ export default function ProfileScreen() {
 
     return (
       displayName.trim() !== preferences.displayName ||
+      profileImageUri !== preferences.profileImageUri ||
       experienceLevel !== preferences.experienceLevel ||
       !sameSpirits
     );
-  }, [displayName, experienceLevel, favoriteSpirits, preferences]);
+  }, [
+    displayName,
+    profileImageUri,
+    experienceLevel,
+    favoriteSpirits,
+    preferences,
+  ]);
+
+  async function handleChoosePhoto() {
+    try {
+      const permissionResult =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (!permissionResult.granted) {
+        Alert.alert(
+          "Photo Access Needed",
+          "Please allow photo access so you can choose a profile picture.",
+        );
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.8,
+      });
+
+      if (!result.canceled && result.assets.length > 0) {
+        setProfileImageUri(result.assets[0].uri);
+        setShowSaved(false);
+      }
+    } catch (error) {
+      console.error("Unable to choose profile photo:", error);
+
+      Alert.alert(
+        "Unable to Choose Photo",
+        "Something went wrong while opening your photo library.",
+      );
+    }
+  }
+
+  function handleRemovePhoto() {
+    setProfileImageUri(null);
+    setShowSaved(false);
+  }
 
   function toggleSpirit(spirit: string) {
     setShowSaved(false);
+
     setFavoriteSpirits((current) =>
       current.includes(spirit)
         ? current.filter((item) => item !== spirit)
@@ -54,16 +110,21 @@ export default function ProfileScreen() {
   }
 
   async function handleSave() {
-    if (!hasChanges || isSaving || !experienceLevel || !displayName.trim()) return;
+    if (!hasChanges || isSaving || !experienceLevel || !displayName.trim()) {
+      return;
+    }
 
     setIsSaving(true);
     setShowSaved(false);
+
     try {
       await savePreferences({
         displayName: displayName.trim(),
+        profileImageUri,
         experienceLevel,
         favoriteSpirits,
       });
+
       setShowSaved(true);
     } catch (error) {
       console.error("Unable to save profile:", error);
@@ -74,6 +135,7 @@ export default function ProfileScreen() {
 
   function handleCancel() {
     setDisplayName(preferences.displayName);
+    setProfileImageUri(preferences.profileImageUri);
     setExperienceLevel(preferences.experienceLevel);
     setFavoriteSpirits(preferences.favoriteSpirits);
     setShowSaved(false);
@@ -82,15 +144,67 @@ export default function ProfileScreen() {
   const canSave = hasChanges && !!displayName.trim() && !!experienceLevel;
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
       <Text style={styles.kicker}>YOUR TASTE</Text>
+
       <Text style={styles.title}>Profile & Preferences</Text>
+
       <Text style={styles.subtitle}>
         Make changes below, then press Save Changes when everything looks right.
       </Text>
 
+      <View style={styles.photoSection}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={
+            profileImageUri ? "Change profile picture" : "Add a profile picture"
+          }
+          onPress={handleChoosePhoto}
+          style={({ pressed }) => [
+            styles.photoButton,
+            pressed && styles.photoButtonPressed,
+          ]}
+        >
+          {profileImageUri ? (
+            <Image
+              source={{ uri: profileImageUri }}
+              style={styles.profileImage}
+            />
+          ) : (
+            <View style={styles.profilePlaceholder}>
+              <Ionicons name="person" size={46} color={Colors.gold} />
+            </View>
+          )}
+
+          <View style={styles.cameraBadge}>
+            <Ionicons name="camera" size={18} color="#111111" />
+          </View>
+        </Pressable>
+
+        <Text style={styles.photoText}>
+          {profileImageUri ? "Tap photo to change" : "Add profile photo"}
+        </Text>
+
+        {profileImageUri ? (
+          <Pressable
+            onPress={handleRemovePhoto}
+            style={({ pressed }) => [
+              styles.removePhotoButton,
+              pressed && styles.pressed,
+            ]}
+          >
+            <Text style={styles.removePhotoText}>Remove Photo</Text>
+          </Pressable>
+        ) : null}
+      </View>
+
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Display Name</Text>
+
         <TextInput
           value={displayName}
           onChangeText={(value) => {
@@ -107,20 +221,36 @@ export default function ProfileScreen() {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Experience Level</Text>
+
         {EXPERIENCE_LEVELS.map((level) => {
           const selected = experienceLevel === level;
+
           return (
             <Pressable
               key={level}
-              style={[styles.option, selected && styles.optionSelected]}
+              style={({ pressed }) => [
+                styles.option,
+                selected && styles.optionSelected,
+                pressed && styles.pressed,
+              ]}
               onPress={() => {
                 setExperienceLevel(level);
                 setShowSaved(false);
               }}
             >
-              <Text style={[styles.optionText, selected && styles.selectedText]}>
+              <Text
+                style={[styles.optionText, selected && styles.selectedText]}
+              >
                 {level}
               </Text>
+
+              {selected ? (
+                <Ionicons
+                  name="checkmark-circle"
+                  size={22}
+                  color={Colors.gold}
+                />
+              ) : null}
             </Pressable>
           );
         })}
@@ -128,21 +258,31 @@ export default function ProfileScreen() {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Favorite Spirits</Text>
+
         <Text style={styles.helperText}>
-          Leave everything unselected to keep recommendations open to all spirits.
+          Leave everything unselected to keep recommendations open to all
+          spirits.
         </Text>
+
         <View style={styles.chipGrid}>
           {ONBOARDING_SPIRITS.filter(
             (spirit) => spirit !== "I'm Open to Everything",
           ).map((spirit) => {
             const selected = favoriteSpirits.includes(spirit);
+
             return (
               <Pressable
                 key={spirit}
-                style={[styles.chip, selected && styles.chipSelected]}
+                style={({ pressed }) => [
+                  styles.chip,
+                  selected && styles.chipSelected,
+                  pressed && styles.pressed,
+                ]}
                 onPress={() => toggleSpirit(spirit)}
               >
-                <Text style={[styles.chipText, selected && styles.selectedText]}>
+                <Text
+                  style={[styles.chipText, selected && styles.selectedText]}
+                >
                   {spirit}
                 </Text>
               </Pressable>
@@ -151,10 +291,16 @@ export default function ProfileScreen() {
         </View>
       </View>
 
-      {showSaved && <Text style={styles.savedMessage}>✓ Preferences saved</Text>}
+      {showSaved ? (
+        <Text style={styles.savedMessage}>✓ Preferences saved</Text>
+      ) : null}
 
       <Pressable
-        style={[styles.saveButton, !canSave && styles.buttonDisabled]}
+        style={({ pressed }) => [
+          styles.saveButton,
+          !canSave && styles.buttonDisabled,
+          pressed && canSave && styles.pressed,
+        ]}
         onPress={handleSave}
         disabled={!canSave || isSaving}
       >
@@ -163,37 +309,242 @@ export default function ProfileScreen() {
         </Text>
       </Pressable>
 
-      {hasChanges && (
-        <Pressable style={styles.cancelButton} onPress={handleCancel}>
+      {hasChanges ? (
+        <Pressable
+          style={({ pressed }) => [
+            styles.cancelButton,
+            pressed && styles.pressed,
+          ]}
+          onPress={handleCancel}
+        >
           <Text style={styles.cancelButtonText}>Cancel Changes</Text>
         </Pressable>
-      )}
+      ) : null}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: Colors.background },
-  content: { padding: 22, paddingTop: 54, paddingBottom: 120 },
-  kicker: { color: Colors.gold, fontWeight: "800", letterSpacing: 3, marginBottom: 10 },
-  title: { color: Colors.text, fontSize: 36, fontWeight: "900", marginBottom: 14 },
-  subtitle: { color: Colors.textSecondary, fontSize: 16, lineHeight: 24 },
-  section: { marginTop: 34 },
-  sectionTitle: { color: Colors.text, fontSize: 21, fontWeight: "900", marginBottom: 14 },
-  helperText: { color: Colors.textSecondary, fontSize: 14, lineHeight: 21, marginTop: -6, marginBottom: 16 },
-  input: { backgroundColor: Colors.card, borderWidth: 1, borderColor: Colors.border, borderRadius: 18, color: Colors.text, fontSize: 16, paddingHorizontal: 18, paddingVertical: 16 },
-  option: { backgroundColor: Colors.card, borderWidth: 1, borderColor: Colors.border, borderRadius: 18, padding: 18, marginBottom: 12 },
-  optionSelected: { backgroundColor: "rgba(217, 164, 65, 0.16)", borderColor: Colors.gold },
-  optionText: { color: Colors.text, fontSize: 16, fontWeight: "700" },
-  selectedText: { color: Colors.gold, fontWeight: "900" },
-  chipGrid: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
-  chip: { backgroundColor: Colors.card, borderWidth: 1, borderColor: Colors.border, borderRadius: 999, paddingVertical: 12, paddingHorizontal: 18 },
-  chipSelected: { backgroundColor: "rgba(217, 164, 65, 0.16)", borderColor: Colors.gold },
-  chipText: { color: Colors.text, fontSize: 15, fontWeight: "700" },
-  savedMessage: { color: Colors.gold, fontSize: 15, fontWeight: "800", textAlign: "center", marginTop: 34 },
-  saveButton: { backgroundColor: Colors.gold, borderRadius: 999, paddingVertical: 17, alignItems: "center", marginTop: 20 },
-  buttonDisabled: { opacity: 0.4 },
-  saveButtonText: { color: "#111", fontSize: 17, fontWeight: "900" },
-  cancelButton: { paddingVertical: 16, alignItems: "center" },
-  cancelButtonText: { color: Colors.textSecondary, fontSize: 15, fontWeight: "700" },
+  screen: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+
+  content: {
+    padding: 22,
+    paddingTop: 54,
+    paddingBottom: 120,
+  },
+
+  kicker: {
+    color: Colors.gold,
+    fontWeight: "800",
+    letterSpacing: 3,
+    marginBottom: 10,
+  },
+
+  title: {
+    color: Colors.text,
+    fontSize: 36,
+    fontWeight: "900",
+    marginBottom: 14,
+  },
+
+  subtitle: {
+    color: Colors.textSecondary,
+    fontSize: 16,
+    lineHeight: 24,
+  },
+
+  photoSection: {
+    alignItems: "center",
+    marginTop: 30,
+  },
+
+  photoButton: {
+    width: 118,
+    height: 118,
+  },
+
+  photoButtonPressed: {
+    opacity: 0.82,
+    transform: [{ scale: 0.97 }],
+  },
+
+  profilePlaceholder: {
+    width: 118,
+    height: 118,
+    borderRadius: 59,
+    backgroundColor: Colors.card,
+    borderWidth: 2,
+    borderColor: Colors.gold,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  profileImage: {
+    width: 118,
+    height: 118,
+    borderRadius: 59,
+    borderWidth: 2,
+    borderColor: Colors.gold,
+  },
+
+  cameraBadge: {
+    position: "absolute",
+    right: 0,
+    bottom: 2,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.gold,
+    borderWidth: 3,
+    borderColor: Colors.background,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  photoText: {
+    color: Colors.gold,
+    fontSize: 14,
+    fontWeight: "800",
+    marginTop: 12,
+  },
+
+  removePhotoButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    marginTop: 2,
+  },
+
+  removePhotoText: {
+    color: Colors.textSecondary,
+    fontSize: 14,
+    fontWeight: "700",
+  },
+
+  section: {
+    marginTop: 34,
+  },
+
+  sectionTitle: {
+    color: Colors.text,
+    fontSize: 21,
+    fontWeight: "900",
+    marginBottom: 14,
+  },
+
+  helperText: {
+    color: Colors.textSecondary,
+    fontSize: 14,
+    lineHeight: 21,
+    marginTop: -6,
+    marginBottom: 16,
+  },
+
+  input: {
+    backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 18,
+    color: Colors.text,
+    fontSize: 16,
+    paddingHorizontal: 18,
+    paddingVertical: 16,
+  },
+
+  option: {
+    backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 18,
+    padding: 18,
+    marginBottom: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
+  optionSelected: {
+    backgroundColor: "rgba(217, 164, 65, 0.16)",
+    borderColor: Colors.gold,
+  },
+
+  optionText: {
+    color: Colors.text,
+    fontSize: 16,
+    fontWeight: "700",
+  },
+
+  selectedText: {
+    color: Colors.gold,
+    fontWeight: "900",
+  },
+
+  chipGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 12,
+  },
+
+  chip: {
+    backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 999,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+  },
+
+  chipSelected: {
+    backgroundColor: "rgba(217, 164, 65, 0.16)",
+    borderColor: Colors.gold,
+  },
+
+  chipText: {
+    color: Colors.text,
+    fontSize: 15,
+    fontWeight: "700",
+  },
+
+  savedMessage: {
+    color: Colors.gold,
+    fontSize: 15,
+    fontWeight: "800",
+    textAlign: "center",
+    marginTop: 34,
+  },
+
+  saveButton: {
+    backgroundColor: Colors.gold,
+    borderRadius: 999,
+    paddingVertical: 17,
+    alignItems: "center",
+    marginTop: 20,
+  },
+
+  buttonDisabled: {
+    opacity: 0.4,
+  },
+
+  saveButtonText: {
+    color: "#111111",
+    fontSize: 17,
+    fontWeight: "900",
+  },
+
+  cancelButton: {
+    paddingVertical: 16,
+    alignItems: "center",
+  },
+
+  cancelButtonText: {
+    color: Colors.textSecondary,
+    fontSize: 15,
+    fontWeight: "700",
+  },
+
+  pressed: {
+    opacity: 0.82,
+  },
 });
