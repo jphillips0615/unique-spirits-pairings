@@ -12,10 +12,6 @@ export default function ExploreScreen() {
     });
   }
 
-  function handleAboutPress() {
-    router.push("/about");
-  }
-
   return (
     <ScrollView
       style={styles.container}
@@ -34,7 +30,7 @@ export default function ExploreScreen() {
           onPress={() => handleCategoryPress(category.spirit)}
           style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
         >
-          <View>
+          <View style={styles.cardContent}>
             <Text style={styles.cardText}>{category.label}</Text>
 
             <Text style={styles.cardSubtext}>
@@ -45,28 +41,6 @@ export default function ExploreScreen() {
           <Text style={styles.arrow}>›</Text>
         </Pressable>
       ))}
-
-      <View style={styles.divider} />
-
-      <Text style={styles.infoHeader}>App Information</Text>
-
-      <Pressable
-        onPress={handleAboutPress}
-        style={({ pressed }) => [
-          styles.aboutCard,
-          pressed && styles.cardPressed,
-        ]}
-      >
-        <View style={styles.aboutTextContainer}>
-          <Text style={styles.aboutTitle}>About & Safety</Text>
-
-          <Text style={styles.aboutSubtitle}>
-            Responsible drinking, allergy information, and app details
-          </Text>
-        </View>
-
-        <Text style={styles.arrow}>›</Text>
-      </Pressable>
     </ScrollView>
   );
 }
@@ -114,6 +88,11 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.98 }],
   },
 
+  cardContent: {
+    flex: 1,
+    paddingRight: 16,
+  },
+
   cardText: {
     color: Colors.text,
     fontSize: 20,
@@ -130,49 +109,5 @@ const styles = StyleSheet.create({
     color: Colors.gold,
     fontSize: 34,
     fontWeight: "300",
-  },
-
-  divider: {
-    height: 1,
-    backgroundColor: Colors.gold,
-    opacity: 0.65,
-    marginTop: 14,
-    marginBottom: 24,
-  },
-
-  infoHeader: {
-    color: Colors.gold,
-    fontSize: 22,
-    fontWeight: "800",
-    marginBottom: 14,
-  },
-
-  aboutCard: {
-    backgroundColor: Colors.card,
-    borderColor: Colors.border,
-    borderWidth: 1,
-    borderRadius: 18,
-    padding: 18,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-
-  aboutTextContainer: {
-    flex: 1,
-    paddingRight: 16,
-  },
-
-  aboutTitle: {
-    color: Colors.text,
-    fontSize: 19,
-    fontWeight: "800",
-    marginBottom: 5,
-  },
-
-  aboutSubtitle: {
-    color: Colors.textSecondary,
-    fontSize: 14,
-    lineHeight: 20,
   },
 });

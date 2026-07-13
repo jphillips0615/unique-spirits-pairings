@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { Href, router } from "expo-router";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { Colors } from "@/constants/colors";
@@ -13,11 +13,13 @@ export default function AboutScreen() {
     >
       <View style={styles.headerRow}>
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
           onPress={() => {
             if (router.canGoBack()) {
               router.back();
             } else {
-              router.replace("/(tabs)/explore");
+              router.replace("/(tabs)/profile");
             }
           }}
           style={({ pressed }) => [
@@ -67,43 +69,57 @@ export default function AboutScreen() {
 
       <View style={styles.linkCard}>
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Open privacy policy"
+          onPress={() => router.push("/about/privacy" as Href)}
           style={({ pressed }) => [
             styles.linkRow,
             pressed && styles.buttonPressed,
           ]}
         >
           <Text style={styles.linkText}>Privacy Policy</Text>
+
           <Ionicons name="chevron-forward" size={20} color={Colors.gold} />
         </Pressable>
 
         <View style={styles.linkDivider} />
 
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Open terms of use"
+          onPress={() => router.push("/about/terms" as Href)}
           style={({ pressed }) => [
             styles.linkRow,
             pressed && styles.buttonPressed,
           ]}
         >
           <Text style={styles.linkText}>Terms of Use</Text>
+
           <Ionicons name="chevron-forward" size={20} color={Colors.gold} />
         </Pressable>
 
         <View style={styles.linkDivider} />
 
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Open contact page"
+          onPress={() => router.push("/about/contact" as Href)}
           style={({ pressed }) => [
             styles.linkRow,
             pressed && styles.buttonPressed,
           ]}
         >
           <Text style={styles.linkText}>Contact Us</Text>
+
           <Ionicons name="chevron-forward" size={20} color={Colors.gold} />
         </Pressable>
       </View>
 
       <View style={styles.versionContainer}>
         <Text style={styles.appName}>Unique Spirits & Pairings</Text>
+
         <Text style={styles.version}>Version 1.0.0</Text>
+
         <Text style={styles.copyright}>
           Please enjoy every pour responsibly.
         </Text>
@@ -123,6 +139,7 @@ function InfoSection({ icon, title, text }: InfoSectionProps) {
     <View style={styles.section}>
       <View style={styles.sectionTitleRow}>
         <Ionicons name={icon} size={24} color={Colors.gold} />
+
         <Text style={styles.sectionTitle}>{title}</Text>
       </View>
 
