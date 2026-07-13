@@ -52,23 +52,28 @@ export default function MyBarScreen() {
     [inventory],
   );
 
-  const readyToMake = useMemo(
-    () =>
-      cocktailMatches
-        .filter((match) => match.canMake)
-        .slice(0, READY_TO_MAKE_LIMIT),
+  const allReadyToMake = useMemo(
+    () => cocktailMatches.filter((match) => match.canMake),
     [cocktailMatches],
   );
 
-  const almostThere = useMemo(
+  const allAlmostThere = useMemo(
     () =>
-      cocktailMatches
-        .filter(
-          (match) =>
-            !match.canMake && match.missingCount > 0 && match.missingCount <= 2,
-        )
-        .slice(0, ALMOST_THERE_LIMIT),
+      cocktailMatches.filter(
+        (match) =>
+          !match.canMake && match.missingCount > 0 && match.missingCount <= 2,
+      ),
     [cocktailMatches],
+  );
+
+  const readyToMake = useMemo(
+    () => allReadyToMake.slice(0, READY_TO_MAKE_LIMIT),
+    [allReadyToMake],
+  );
+
+  const almostThere = useMemo(
+    () => allAlmostThere.slice(0, ALMOST_THERE_LIMIT),
+    [allAlmostThere],
   );
 
   async function handleToggleIngredient(ingredient: string) {
@@ -159,6 +164,10 @@ export default function MyBarScreen() {
     router.push(`/cocktail/${cocktailId}` as Href);
   }
 
+  function openAllMatches(filter: "ready" | "almost") {
+    router.push(`/my-bar-results?filter=${filter}` as Href);
+  }
+
   return (
     <ScrollView
       style={styles.screen}
@@ -188,7 +197,9 @@ export default function MyBarScreen() {
         </View>
 
         <View style={styles.summaryResults}>
-          <Text style={styles.summaryResultNumber}>{readyToMake.length}</Text>
+          <Text style={styles.summaryResultNumber}>
+            {allReadyToMake.length}
+          </Text>
           <Text style={styles.summaryResultLabel}>ready now</Text>
         </View>
 
@@ -232,7 +243,29 @@ export default function MyBarScreen() {
                 <Text style={styles.matchSectionTitle}>Ready to Make</Text>
               </View>
 
-              <Text style={styles.matchCount}>{readyToMake.length}</Text>
+              <View style={styles.matchHeaderActions}>
+                <Text style={styles.matchCount}>{allReadyToMake.length}</Text>
+
+                {allReadyToMake.length > READY_TO_MAKE_LIMIT ? (
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel="View all ready to make cocktails"
+                    onPress={() => openAllMatches("ready")}
+                    style={({ pressed }) => [
+                      styles.viewAllButton,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <Text style={styles.viewAllText}>View All</Text>
+
+                    <Ionicons
+                      name="chevron-forward"
+                      size={17}
+                      color={Colors.gold}
+                    />
+                  </Pressable>
+                ) : null}
+              </View>
             </View>
 
             <Text style={styles.matchSectionDescription}>
@@ -278,7 +311,29 @@ export default function MyBarScreen() {
                 <Text style={styles.matchSectionTitle}>Almost There</Text>
               </View>
 
-              <Text style={styles.matchCount}>{almostThere.length}</Text>
+              <View style={styles.matchHeaderActions}>
+                <Text style={styles.matchCount}>{allAlmostThere.length}</Text>
+
+                {allAlmostThere.length > ALMOST_THERE_LIMIT ? (
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel="View all almost there cocktails"
+                    onPress={() => openAllMatches("almost")}
+                    style={({ pressed }) => [
+                      styles.viewAllButton,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <Text style={styles.viewAllText}>View All</Text>
+
+                    <Ionicons
+                      name="chevron-forward"
+                      size={17}
+                      color={Colors.gold}
+                    />
+                  </Pressable>
+                ) : null}
+              </View>
             </View>
 
             <Text style={styles.matchSectionDescription}>
@@ -708,6 +763,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 9,
+  },
+
+  matchHeaderActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+
+  viewAllButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 6,
+    paddingLeft: 8,
+  },
+
+  viewAllText: {
+    color: Colors.gold,
+    fontSize: 12,
+    fontWeight: "900",
   },
 
   matchSectionTitle: {
