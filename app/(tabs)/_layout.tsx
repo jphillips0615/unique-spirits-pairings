@@ -20,9 +20,9 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors.gold,
         tabBarInactiveTintColor: "#8A8A8A",
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: "700",
-          letterSpacing: 0.8,
+          letterSpacing: 0.4,
         },
       }}
     >
@@ -37,21 +37,21 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="search"
-        options={{
-          title: "Search",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="search-outline" size={size} color={color} />
-          ),
-        }}
-      />
-
-      <Tabs.Screen
         name="explore"
         options={{
           title: "Explore",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="compass-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="my-bar"
+        options={{
+          title: "My Bar",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="wine-outline" size={size} color={color} />
           ),
         }}
       />
@@ -73,6 +73,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" size={size} color={color} />
           ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="search"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

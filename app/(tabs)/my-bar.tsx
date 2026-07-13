@@ -2,7 +2,6 @@ import { Colors } from "@/constants/colors";
 import { useBarInventory } from "@/context/BarInventoryContext";
 import { BAR_INGREDIENT_CATEGORIES } from "@/data/barIngredients";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import { useMemo, useState } from "react";
 import {
     Alert,
@@ -128,23 +127,15 @@ export default function MyBarScreen() {
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Go back"
-        onPress={() => router.back()}
-        style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
-      >
-        <Ionicons name="chevron-back" size={38} color={Colors.gold} />
-      </Pressable>
-
       <View style={styles.header}>
-        <Text style={styles.kicker}>YOUR HOME BAR</Text>
+        <Text style={styles.kicker}>YOUR PERSONAL COLLECTION</Text>
 
-        <Text style={styles.title}>What’s in My Bar?</Text>
+        <Text style={styles.title}>My Unique Bar</Text>
 
         <Text style={styles.subtitle}>
-          Select the bottles, mixers, and ingredients you already have. We’ll
-          use them to show what you can make and what you’re missing.
+          Build your personal bar by selecting the bottles, mixers, and
+          ingredients you already have. We’ll use your collection to show what
+          you can make and what you’re missing.
         </Text>
       </View>
 
@@ -323,19 +314,8 @@ const styles = StyleSheet.create({
 
   content: {
     paddingHorizontal: 22,
-    paddingTop: 86,
+    paddingTop: 54,
     paddingBottom: 120,
-  },
-
-  backButton: {
-    position: "absolute",
-    top: 18,
-    left: 10,
-    width: 56,
-    height: 56,
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 10,
   },
 
   header: {

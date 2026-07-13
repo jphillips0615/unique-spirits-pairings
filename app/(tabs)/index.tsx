@@ -60,7 +60,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={styles.myBarCard}
           activeOpacity={0.82}
-          onPress={() => router.push("/my-bar" as Href)}
+          onPress={() => router.push("/(tabs)/my-bar" as Href)}
         >
           <View style={styles.myBarIcon}>
             <Ionicons name="wine-outline" size={28} color={Colors.gold} />
@@ -69,11 +69,11 @@ export default function HomeScreen() {
           <View style={styles.myBarContent}>
             <Text style={styles.myBarKicker}>PERSONALIZED RECOMMENDATIONS</Text>
 
-            <Text style={styles.myBarTitle}>What’s in My Bar?</Text>
+            <Text style={styles.myBarTitle}>My Unique Bar</Text>
 
             <Text style={styles.myBarText}>
-              Save the bottles and ingredients you already have, then discover
-              what you can make.
+              Build your personal collection, then discover what you can make
+              with what you already have.
             </Text>
           </View>
 
