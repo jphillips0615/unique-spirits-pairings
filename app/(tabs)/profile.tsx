@@ -7,6 +7,7 @@ import {
 import { ONBOARDING_SPIRITS } from "@/data/spiritCategories";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { Href, router } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
@@ -320,6 +321,38 @@ export default function ProfileScreen() {
           <Text style={styles.cancelButtonText}>Cancel Changes</Text>
         </Pressable>
       ) : null}
+      <View style={styles.appInformationSection}>
+        <Text style={styles.appInformationHeading}>APP & SUPPORT</Text>
+
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Open app information"
+          onPress={() => router.push("/about" as Href)}
+          style={({ pressed }) => [
+            styles.informationCard,
+            pressed && styles.pressed,
+          ]}
+        >
+          <View style={styles.informationIcon}>
+            <Ionicons
+              name="information-circle-outline"
+              size={26}
+              color={Colors.gold}
+            />
+          </View>
+
+          <View style={styles.informationContent}>
+            <Text style={styles.informationTitle}>App Information</Text>
+
+            <Text style={styles.informationDescription}>
+              Learn about Unique Spirits & Pairings, responsible enjoyment,
+              safety, privacy, and other important details.
+            </Text>
+          </View>
+
+          <Ionicons name="chevron-forward" size={22} color={Colors.gold} />
+        </Pressable>
+      </View>
     </ScrollView>
   );
 }
@@ -542,6 +575,59 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 15,
     fontWeight: "700",
+  },
+
+  appInformationSection: {
+    marginTop: 38,
+    paddingTop: 28,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+  },
+
+  appInformationHeading: {
+    color: Colors.gold,
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 2.2,
+    marginBottom: 14,
+  },
+
+  informationCard: {
+    minHeight: 96,
+    backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 22,
+    padding: 17,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+  },
+
+  informationIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    backgroundColor: "rgba(217, 164, 65, 0.14)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  informationContent: {
+    flex: 1,
+  },
+
+  informationTitle: {
+    color: Colors.text,
+    fontSize: 17,
+    fontWeight: "900",
+    marginBottom: 5,
+  },
+
+  informationDescription: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    lineHeight: 19,
   },
 
   pressed: {
