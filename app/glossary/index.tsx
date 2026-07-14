@@ -1,18 +1,18 @@
 import { Colors } from "@/constants/colors";
 import {
-    INGREDIENT_GLOSSARY,
-    searchIngredientGlossary,
+  INGREDIENT_GLOSSARY,
+  searchIngredientGlossary,
 } from "@/data/ingredientGlossary";
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
 import { useMemo, useState } from "react";
 import {
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 
 export default function IngredientGlossaryScreen() {
@@ -57,6 +57,19 @@ export default function IngredientGlossaryScreen() {
         Explore unfamiliar spirits, liqueurs, bitters, syrups, and other
         cocktail ingredients in plain English.
       </Text>
+
+      <View style={styles.locationNotice}>
+        <Ionicons
+          name="information-circle-outline"
+          size={21}
+          color={Colors.gold}
+        />
+
+        <Text style={styles.locationNoticeText}>
+          You can return to the glossary anytime from Profile under App &
+          Support.
+        </Text>
+      </View>
 
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color={Colors.textSecondary} />
@@ -296,6 +309,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 21,
     textAlign: "center",
+  },
+
+  locationNotice: {
+    backgroundColor: "rgba(217, 164, 65, 0.1)",
+    borderWidth: 1,
+    borderColor: Colors.gold,
+    borderRadius: 18,
+    padding: 15,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 10,
+    marginBottom: 20,
+  },
+
+  locationNoticeText: {
+    flex: 1,
+    color: Colors.textSecondary,
+    fontSize: 13,
+    lineHeight: 20,
   },
 
   noticeCard: {
