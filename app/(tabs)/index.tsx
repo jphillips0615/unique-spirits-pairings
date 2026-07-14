@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -10,32 +10,106 @@ import {
   View,
 } from "react-native";
 
+import CocktailCard from "@/components/cards/CocktailCard";
 import { Colors } from "@/constants/colors";
 import { useFavorites } from "@/context/FavoritesContext";
 import { usePreferences } from "@/context/PreferencesContext";
 import { cocktails } from "@/data/cocktails";
 import { HOME_SPIRIT_CATEGORIES } from "@/data/spiritCategories";
-import CocktailCard from "../../components/cards/CocktailCard";
+import { useRecommendationHistory } from "@/hooks/useRecommendationHistory";
+import { getCocktailRecommendations } from "@/utils/cocktailRecommendations";
 
 const logo = require("../../assets/images/branding/logo.png");
 
 export default function HomeScreen() {
   const { preferences } = usePreferences();
+  const { favoriteIds, isFavorite, toggleFavorite } = useFavorites();
 
-  const preferredCocktails = preferences.favoriteSpirits.length
-    ? cocktails.filter((cocktail) =>
-        preferences.favoriteSpirits.includes(cocktail.spirit),
-      )
-    : cocktails;
+  const [selectedRecommendationId, setSelectedRecommendationId] = useState<
+    string | null
+  >(null);
 
-  const recommendationPool = preferredCocktails.length
-    ? preferredCocktails
-    : cocktails;
+  const { recentCocktailIds, isHistoryLoaded, rememberRecommendation } =
+    useRecommendationHistory();
 
-  const featuredCocktail =
-    recommendationPool[Math.floor(Math.random() * recommendationPool.length)];
+  const recommendations = useMemo(
+    () =>
+      getCocktailRecommendations({
+        cocktails,
+        preferences,
+        favoriteIds,
+      }),
+    [preferences, favoriteIds],
+  );
 
-  const { isFavorite, toggleFavorite } = useFavorites();
+  const freshRecommendations = useMemo(() => {
+    const unseenRecommendations = recommendations.filter(
+      (recommendation) =>
+        !recentCocktailIds.includes(recommendation.cocktail.id),
+    );
+
+    return unseenRecommendations.length
+      ? unseenRecommendations
+      : recommendations;
+  }, [recommendations, recentCocktailIds]);
+
+  useEffect(() => {
+    setSelectedRecommendationId(null);
+  }, [preferences, favoriteIds]);
+
+  useEffect(() => {
+    if (
+      !isHistoryLoaded ||
+      selectedRecommendationId ||
+      !freshRecommendations.length
+    ) {
+      return;
+    }
+
+    const firstRecommendation = freshRecommendations[0];
+
+    setSelectedRecommendationId(firstRecommendation.cocktail.id);
+    rememberRecommendation(firstRecommendation.cocktail.id);
+  }, [
+    freshRecommendations,
+    isHistoryLoaded,
+    rememberRecommendation,
+    selectedRecommendationId,
+  ]);
+
+  const currentRecommendation =
+    recommendations.find(
+      (recommendation) =>
+        recommendation.cocktail.id === selectedRecommendationId,
+    ) ??
+    freshRecommendations[0] ??
+    null;
+
+  function showAnotherRecommendation() {
+    if (!currentRecommendation || recommendations.length <= 1) {
+      return;
+    }
+
+    const unseenOptions = recommendations.filter(
+      (recommendation) =>
+        recommendation.cocktail.id !== currentRecommendation.cocktail.id &&
+        !recentCocktailIds.includes(recommendation.cocktail.id),
+    );
+
+    const fallbackOptions = recommendations.filter(
+      (recommendation) =>
+        recommendation.cocktail.id !== currentRecommendation.cocktail.id,
+    );
+
+    const nextRecommendation = unseenOptions[0] ?? fallbackOptions[0];
+
+    if (!nextRecommendation) {
+      return;
+    }
+
+    setSelectedRecommendationId(nextRecommendation.cocktail.id);
+    rememberRecommendation(nextRecommendation.cocktail.id);
+  }
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
@@ -105,27 +179,82 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>
-          {preferences.favoriteSpirits.length
-            ? "Recommended for You"
-            : "Featured Cocktail"}
-        </Text>
+        <View style={styles.recommendationHeader}>
+          <View style={styles.recommendationHeading}>
+            <Text style={styles.sectionTitle}>Recommended for You</Text>
 
-        {preferences.favoriteSpirits.length > 0 ? (
-          <Text style={styles.recommendationNote}>
-            Based on your interest in {preferences.favoriteSpirits.join(", ")}.
-          </Text>
-        ) : null}
+            <Text style={styles.recommendationCounter}>
+              {currentRecommendation
+                ? `Personalized pick • ${recommendations.length} available`
+                : "No recommendations"}
+            </Text>
+          </View>
 
-        <CocktailCard
-          name={featuredCocktail.name}
-          spirit={featuredCocktail.spirit}
-          description={featuredCocktail.description}
-          image={featuredCocktail.image}
-          isFavorite={isFavorite(featuredCocktail.id)}
-          onFavoritePress={() => toggleFavorite(featuredCocktail.id)}
-          onPress={() => router.push(`/cocktail/${featuredCocktail.id}`)}
-        />
+          {recommendations.length > 1 ? (
+            <TouchableOpacity
+              style={styles.anotherButton}
+              activeOpacity={0.82}
+              onPress={showAnotherRecommendation}
+            >
+              <Ionicons name="refresh" size={17} color={Colors.gold} />
+
+              <Text style={styles.anotherButtonText}>Show Me Another</Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
+
+        {currentRecommendation ? (
+          <>
+            <View style={styles.reasonCard}>
+              <View style={styles.reasonIcon}>
+                <Ionicons
+                  name="sparkles-outline"
+                  size={22}
+                  color={Colors.gold}
+                />
+              </View>
+
+              <View style={styles.reasonContent}>
+                <Text style={styles.reasonTitle}>Why we recommended this</Text>
+
+                <Text style={styles.reasonText}>
+                  {currentRecommendation.explanation}
+                </Text>
+              </View>
+            </View>
+
+            <CocktailCard
+              name={currentRecommendation.cocktail.name}
+              spirit={currentRecommendation.cocktail.spirit}
+              description={currentRecommendation.cocktail.description}
+              image={currentRecommendation.cocktail.image}
+              isFavorite={isFavorite(currentRecommendation.cocktail.id)}
+              onFavoritePress={() =>
+                toggleFavorite(currentRecommendation.cocktail.id)
+              }
+              onPress={() =>
+                router.push(`/cocktail/${currentRecommendation.cocktail.id}`)
+              }
+            />
+          </>
+        ) : (
+          <View style={styles.emptyRecommendationCard}>
+            <Ionicons
+              name="wine-outline"
+              size={34}
+              color={Colors.textSecondary}
+            />
+
+            <Text style={styles.emptyRecommendationTitle}>
+              No recommendation available
+            </Text>
+
+            <Text style={styles.emptyRecommendationText}>
+              Add cocktails to the library to begin receiving personalized
+              recommendations.
+            </Text>
+          </View>
+        )}
       </View>
 
       <View style={styles.section}>
@@ -269,12 +398,102 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
 
-  recommendationNote: {
+  recommendationHeader: {
+    marginBottom: 14,
+  },
+
+  recommendationHeading: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+
+  recommendationCounter: {
+    color: Colors.textSecondary,
+    fontSize: 12,
+    fontWeight: "700",
+    marginBottom: 14,
+  },
+
+  anotherButton: {
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 7,
+    borderWidth: 1,
+    borderColor: Colors.gold,
+    borderRadius: 14,
+    paddingVertical: 9,
+    paddingHorizontal: 13,
+  },
+
+  anotherButtonText: {
+    color: Colors.gold,
+    fontSize: 12,
+    fontWeight: "900",
+  },
+
+  reasonCard: {
+    backgroundColor: "rgba(217, 164, 65, 0.1)",
+    borderWidth: 1,
+    borderColor: "rgba(217, 164, 65, 0.45)",
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 14,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 12,
+  },
+
+  reasonIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 14,
+    backgroundColor: "rgba(217, 164, 65, 0.14)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  reasonContent: {
+    flex: 1,
+  },
+
+  reasonTitle: {
+    color: Colors.gold,
+    fontSize: 13,
+    fontWeight: "900",
+    marginBottom: 5,
+  },
+
+  reasonText: {
     color: Colors.textSecondary,
     fontSize: 14,
-    lineHeight: 20,
-    marginTop: -6,
-    marginBottom: 14,
+    lineHeight: 21,
+  },
+
+  emptyRecommendationCard: {
+    backgroundColor: Colors.card,
+    borderColor: Colors.border,
+    borderWidth: 1,
+    borderRadius: 22,
+    padding: 24,
+    alignItems: "center",
+  },
+
+  emptyRecommendationTitle: {
+    color: Colors.text,
+    fontSize: 17,
+    fontWeight: "900",
+    marginTop: 12,
+    marginBottom: 6,
+  },
+
+  emptyRecommendationText: {
+    color: Colors.textSecondary,
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: "center",
   },
 
   pairingRow: {

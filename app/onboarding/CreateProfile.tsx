@@ -1,6 +1,8 @@
 import {
   EXPERIENCE_LEVELS,
   ExperienceLevel,
+  FLAVOR_PREFERENCES,
+  FlavorPreference,
   usePreferences,
 } from "@/context/PreferencesContext";
 import { Ionicons } from "@expo/vector-icons";
@@ -26,11 +28,18 @@ export default function CreateProfileScreen() {
   const { preferences, savePreferences } = usePreferences();
 
   const [displayName, setDisplayName] = useState(preferences.displayName);
+
   const [profileImageUri, setProfileImageUri] = useState<string | null>(
     preferences.profileImageUri,
   );
+
   const [experienceLevel, setExperienceLevel] =
     useState<ExperienceLevel | null>(preferences.experienceLevel);
+
+  const [favoriteFlavors, setFavoriteFlavors] = useState<FlavorPreference[]>(
+    preferences.favoriteFlavors,
+  );
+
   const [isSaving, setIsSaving] = useState(false);
 
   const canContinue = displayName.trim().length > 0 && experienceLevel !== null;
@@ -45,6 +54,7 @@ export default function CreateProfileScreen() {
           "Photo Access Needed",
           "Please allow photo access so you can choose a profile picture.",
         );
+
         return;
       }
 
@@ -68,6 +78,14 @@ export default function CreateProfileScreen() {
     }
   }
 
+  function toggleFlavor(flavor: FlavorPreference) {
+    setFavoriteFlavors((currentFlavors) =>
+      currentFlavors.includes(flavor)
+        ? currentFlavors.filter((currentFlavor) => currentFlavor !== flavor)
+        : [...currentFlavors, flavor],
+    );
+  }
+
   async function handleContinue() {
     if (!canContinue || isSaving || !experienceLevel) {
       return;
@@ -81,11 +99,18 @@ export default function CreateProfileScreen() {
         displayName: displayName.trim(),
         profileImageUri,
         experienceLevel,
+        favoriteFlavors,
       });
 
       router.push("/onboarding/FavoriteSpirits");
     } catch (error) {
       console.error("Unable to create profile:", error);
+
+      Alert.alert(
+        "Unable to Create Profile",
+        "Something went wrong while saving your profile. Please try again.",
+      );
+
       setIsSaving(false);
     }
   }
@@ -118,8 +143,8 @@ export default function CreateProfileScreen() {
           <Text style={styles.title}>Make the app yours.</Text>
 
           <Text style={styles.subtitle}>
-            Your name and experience level help us personalize recommendations
-            and explain recipes at the right level.
+            Your profile, experience level, and favorite flavors help us
+            recommend drinks that better match your taste.
           </Text>
 
           <Pressable
@@ -193,6 +218,46 @@ export default function CreateProfileScreen() {
 
                   {selected ? (
                     <Ionicons name="checkmark-circle" size={23} color={GOLD} />
+                  ) : null}
+                </Pressable>
+              );
+            })}
+          </View>
+
+          <Text style={styles.label}>Favorite flavors</Text>
+
+          <Text style={styles.helperText}>
+            Choose as many as you like. You can change these later from your
+            profile.
+          </Text>
+
+          <View style={styles.flavorGrid}>
+            {FLAVOR_PREFERENCES.map((flavor) => {
+              const selected = favoriteFlavors.includes(flavor);
+
+              return (
+                <Pressable
+                  key={flavor}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected }}
+                  onPress={() => toggleFlavor(flavor)}
+                  style={({ pressed }) => [
+                    styles.flavorChip,
+                    selected && styles.flavorChipSelected,
+                    pressed && styles.optionPressed,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.flavorChipText,
+                      selected && styles.selectedText,
+                    ]}
+                  >
+                    {flavor}
+                  </Text>
+
+                  {selected ? (
+                    <Ionicons name="checkmark" size={17} color={GOLD} />
                   ) : null}
                 </Pressable>
               );
@@ -336,6 +401,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
+  helperText: {
+    color: "#A9A9A9",
+    fontSize: 14,
+    lineHeight: 21,
+    marginTop: -4,
+    marginBottom: 16,
+  },
+
   input: {
     backgroundColor: "#151515",
     borderWidth: 1,
@@ -384,6 +457,38 @@ const styles = StyleSheet.create({
   selectedText: {
     color: GOLD,
     fontWeight: "900",
+  },
+
+  flavorGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 12,
+    marginBottom: 30,
+  },
+
+  flavorChip: {
+    minHeight: 46,
+    backgroundColor: "#151515",
+    borderWidth: 1,
+    borderColor: "#2A2A2A",
+    borderRadius: 999,
+    paddingVertical: 11,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 7,
+  },
+
+  flavorChipSelected: {
+    backgroundColor: "rgba(201, 162, 39, 0.18)",
+    borderColor: GOLD,
+  },
+
+  flavorChipText: {
+    color: "#F5F5F5",
+    fontSize: 15,
+    fontWeight: "700",
   },
 
   primaryButton: {

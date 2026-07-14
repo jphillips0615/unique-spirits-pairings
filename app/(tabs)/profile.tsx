@@ -2,6 +2,8 @@ import { Colors } from "@/constants/colors";
 import {
   EXPERIENCE_LEVELS,
   ExperienceLevel,
+  FLAVOR_PREFERENCES,
+  FlavorPreference,
   usePreferences,
 } from "@/context/PreferencesContext";
 import { ONBOARDING_SPIRITS } from "@/data/spiritCategories";
@@ -24,14 +26,22 @@ export default function ProfileScreen() {
   const { preferences, savePreferences } = usePreferences();
 
   const [displayName, setDisplayName] = useState(preferences.displayName);
+
   const [profileImageUri, setProfileImageUri] = useState<string | null>(
     preferences.profileImageUri,
   );
+
   const [experienceLevel, setExperienceLevel] =
     useState<ExperienceLevel | null>(preferences.experienceLevel);
-  const [favoriteSpirits, setFavoriteSpirits] = useState(
+
+  const [favoriteSpirits, setFavoriteSpirits] = useState<string[]>(
     preferences.favoriteSpirits,
   );
+
+  const [favoriteFlavors, setFavoriteFlavors] = useState<FlavorPreference[]>(
+    preferences.favoriteFlavors,
+  );
+
   const [isSaving, setIsSaving] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
 
@@ -40,6 +50,7 @@ export default function ProfileScreen() {
     setProfileImageUri(preferences.profileImageUri);
     setExperienceLevel(preferences.experienceLevel);
     setFavoriteSpirits(preferences.favoriteSpirits);
+    setFavoriteFlavors(preferences.favoriteFlavors);
   }, [preferences]);
 
   const hasChanges = useMemo(() => {
@@ -47,17 +58,23 @@ export default function ProfileScreen() {
       [...favoriteSpirits].sort().join("|") ===
       [...preferences.favoriteSpirits].sort().join("|");
 
+    const sameFlavors =
+      [...favoriteFlavors].sort().join("|") ===
+      [...preferences.favoriteFlavors].sort().join("|");
+
     return (
       displayName.trim() !== preferences.displayName ||
       profileImageUri !== preferences.profileImageUri ||
       experienceLevel !== preferences.experienceLevel ||
-      !sameSpirits
+      !sameSpirits ||
+      !sameFlavors
     );
   }, [
     displayName,
     profileImageUri,
     experienceLevel,
     favoriteSpirits,
+    favoriteFlavors,
     preferences,
   ]);
 
@@ -71,6 +88,7 @@ export default function ProfileScreen() {
           "Photo Access Needed",
           "Please allow photo access so you can choose a profile picture.",
         );
+
         return;
       }
 
@@ -110,6 +128,16 @@ export default function ProfileScreen() {
     );
   }
 
+  function toggleFlavor(flavor: FlavorPreference) {
+    setShowSaved(false);
+
+    setFavoriteFlavors((current) =>
+      current.includes(flavor)
+        ? current.filter((item) => item !== flavor)
+        : [...current, flavor],
+    );
+  }
+
   async function handleSave() {
     if (!hasChanges || isSaving || !experienceLevel || !displayName.trim()) {
       return;
@@ -124,11 +152,17 @@ export default function ProfileScreen() {
         profileImageUri,
         experienceLevel,
         favoriteSpirits,
+        favoriteFlavors,
       });
 
       setShowSaved(true);
     } catch (error) {
       console.error("Unable to save profile:", error);
+
+      Alert.alert(
+        "Unable to Save",
+        "Something went wrong while saving your preferences.",
+      );
     } finally {
       setIsSaving(false);
     }
@@ -139,6 +173,7 @@ export default function ProfileScreen() {
     setProfileImageUri(preferences.profileImageUri);
     setExperienceLevel(preferences.experienceLevel);
     setFavoriteSpirits(preferences.favoriteSpirits);
+    setFavoriteFlavors(preferences.favoriteFlavors);
     setShowSaved(false);
   }
 
@@ -292,6 +327,39 @@ export default function ProfileScreen() {
         </View>
       </View>
 
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Favorite Flavors</Text>
+
+        <Text style={styles.helperText}>
+          Choose the flavor styles you usually enjoy. These help improve your
+          recommendations.
+        </Text>
+
+        <View style={styles.chipGrid}>
+          {FLAVOR_PREFERENCES.map((flavor) => {
+            const selected = favoriteFlavors.includes(flavor);
+
+            return (
+              <Pressable
+                key={flavor}
+                style={({ pressed }) => [
+                  styles.chip,
+                  selected && styles.chipSelected,
+                  pressed && styles.pressed,
+                ]}
+                onPress={() => toggleFlavor(flavor)}
+              >
+                <Text
+                  style={[styles.chipText, selected && styles.selectedText]}
+                >
+                  {flavor}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      </View>
+
       {showSaved ? (
         <Text style={styles.savedMessage}>✓ Preferences saved</Text>
       ) : null}
@@ -321,6 +389,7 @@ export default function ProfileScreen() {
           <Text style={styles.cancelButtonText}>Cancel Changes</Text>
         </Pressable>
       ) : null}
+
       <View style={styles.appInformationSection}>
         <Text style={styles.appInformationHeading}>APP & SUPPORT</Text>
 

@@ -15,13 +15,28 @@ export const EXPERIENCE_LEVELS = [
   "Bartender / Professional",
 ] as const;
 
+export const FLAVOR_PREFERENCES = [
+  "Sweet",
+  "Citrusy",
+  "Tart",
+  "Bitter",
+  "Herbal",
+  "Smoky",
+  "Spicy",
+  "Refreshing",
+  "Rich",
+  "Dry",
+] as const;
+
 export type ExperienceLevel = (typeof EXPERIENCE_LEVELS)[number];
+export type FlavorPreference = (typeof FLAVOR_PREFERENCES)[number];
 
 export type UserPreferences = {
   displayName: string;
   profileImageUri: string | null;
   experienceLevel: ExperienceLevel | null;
   favoriteSpirits: string[];
+  favoriteFlavors: FlavorPreference[];
 };
 
 type PreferencesContextValue = {
@@ -29,6 +44,7 @@ type PreferencesContextValue = {
   isLoading: boolean;
   savePreferences: (next: UserPreferences) => Promise<void>;
   setFavoriteSpirits: (spirits: string[]) => Promise<void>;
+  setFavoriteFlavors: (flavors: FlavorPreference[]) => Promise<void>;
   resetPreferences: () => Promise<void>;
 };
 
@@ -39,6 +55,7 @@ const DEFAULT_PREFERENCES: UserPreferences = {
   profileImageUri: null,
   experienceLevel: null,
   favoriteSpirits: [],
+  favoriteFlavors: [],
 };
 
 const PreferencesContext = createContext<PreferencesContextValue | undefined>(
@@ -66,6 +83,12 @@ export function PreferencesProvider({
           setPreferences({
             ...DEFAULT_PREFERENCES,
             ...parsedPreferences,
+            favoriteSpirits: Array.isArray(parsedPreferences.favoriteSpirits)
+              ? parsedPreferences.favoriteSpirits
+              : [],
+            favoriteFlavors: Array.isArray(parsedPreferences.favoriteFlavors)
+              ? parsedPreferences.favoriteFlavors
+              : [],
           });
         }
       } catch (error) {
@@ -94,6 +117,16 @@ export function PreferencesProvider({
     [preferences, savePreferences],
   );
 
+  const setFavoriteFlavors = useCallback(
+    async (favoriteFlavors: FlavorPreference[]) => {
+      await savePreferences({
+        ...preferences,
+        favoriteFlavors,
+      });
+    },
+    [preferences, savePreferences],
+  );
+
   const resetPreferences = useCallback(async () => {
     setPreferences(DEFAULT_PREFERENCES);
     await AsyncStorage.removeItem(STORAGE_KEY);
@@ -105,6 +138,7 @@ export function PreferencesProvider({
       isLoading,
       savePreferences,
       setFavoriteSpirits,
+      setFavoriteFlavors,
       resetPreferences,
     }),
     [
@@ -112,6 +146,7 @@ export function PreferencesProvider({
       isLoading,
       savePreferences,
       setFavoriteSpirits,
+      setFavoriteFlavors,
       resetPreferences,
     ],
   );
