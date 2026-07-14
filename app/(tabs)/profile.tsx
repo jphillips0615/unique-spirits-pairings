@@ -326,10 +326,36 @@ export default function ProfileScreen() {
 
         <Pressable
           accessibilityRole="button"
+          accessibilityLabel="Open ingredient glossary"
+          onPress={() => router.push("/glossary" as Href)}
+          style={({ pressed }) => [
+            styles.informationCard,
+            pressed && styles.pressed,
+          ]}
+        >
+          <View style={styles.informationIcon}>
+            <Ionicons name="book-outline" size={26} color={Colors.gold} />
+          </View>
+
+          <View style={styles.informationContent}>
+            <Text style={styles.informationTitle}>Ingredient Glossary</Text>
+
+            <Text style={styles.informationDescription}>
+              Learn what unfamiliar spirits, liqueurs, bitters, syrups, and
+              cocktail ingredients are, how they taste, and how they are used.
+            </Text>
+          </View>
+
+          <Ionicons name="chevron-forward" size={22} color={Colors.gold} />
+        </Pressable>
+
+        <Pressable
+          accessibilityRole="button"
           accessibilityLabel="Open app information"
           onPress={() => router.push("/about" as Href)}
           style={({ pressed }) => [
             styles.informationCard,
+            styles.secondaryInformationCard,
             pressed && styles.pressed,
           ]}
         >
@@ -602,6 +628,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 14,
+  },
+
+  secondaryInformationCard: {
+    marginTop: 12,
   },
 
   informationIcon: {
