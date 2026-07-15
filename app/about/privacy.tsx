@@ -150,12 +150,16 @@ const styles = StyleSheet.create({
   },
 
   headerRow: {
-    flexDirection: "row",
+    position: "relative",
+    minHeight: 44,
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 18,
   },
 
   backButton: {
+    position: "absolute",
+    left: 0,
     width: 42,
     height: 42,
     borderRadius: 21,
@@ -164,14 +168,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.card,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 14,
   },
 
   header: {
-    flex: 1,
     color: Colors.gold,
     fontSize: 30,
     fontWeight: "900",
+    textAlign: "center",
+    paddingHorizontal: 52,
   },
 
   updated: {
@@ -180,6 +184,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     letterSpacing: 0.5,
     marginBottom: 14,
+    textAlign: "center",
   },
 
   intro: {
@@ -187,6 +192,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 25,
     marginBottom: 26,
+    textAlign: "center",
   },
 
   section: {
@@ -198,6 +204,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "900",
     marginBottom: 8,
+    textAlign: "center",
   },
 
   sectionText: {

@@ -161,12 +161,16 @@ const styles = StyleSheet.create({
   },
 
   headerRow: {
-    flexDirection: "row",
+    position: "relative",
+    minHeight: 46,
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 24,
   },
 
   backButton: {
+    position: "absolute",
+    left: 0,
     width: 42,
     height: 42,
     borderRadius: 21,
@@ -175,19 +179,20 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.card,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 14,
   },
 
   header: {
     color: Colors.gold,
     fontSize: 32,
     fontWeight: "900",
+    textAlign: "center",
   },
 
   intro: {
     color: Colors.textSecondary,
     fontSize: 16,
     lineHeight: 25,
+    textAlign: "center",
   },
 
   divider: {
@@ -208,14 +213,16 @@ const styles = StyleSheet.create({
   sectionTitleRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 10,
+    gap: 10,
   },
 
   sectionTitle: {
     color: Colors.text,
     fontSize: 18,
     fontWeight: "900",
-    marginLeft: 10,
+    textAlign: "center",
   },
 
   sectionText: {
@@ -241,9 +248,12 @@ const styles = StyleSheet.create({
   },
 
   linkText: {
+    flex: 1,
     color: Colors.text,
     fontSize: 16,
     fontWeight: "800",
+    textAlign: "center",
+    marginLeft: 20,
   },
 
   linkDivider: {
@@ -266,6 +276,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "900",
     marginBottom: 5,
+    textAlign: "center",
   },
 
   version: {
@@ -273,10 +284,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "800",
     marginBottom: 8,
+    textAlign: "center",
   },
 
   copyright: {
     color: Colors.textSecondary,
     fontSize: 12,
+    textAlign: "center",
   },
 });

@@ -188,12 +188,16 @@ const styles = StyleSheet.create({
   },
 
   headerRow: {
-    flexDirection: "row",
+    position: "relative",
+    minHeight: 44,
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 18,
   },
 
   backButton: {
+    position: "absolute",
+    left: 0,
     width: 42,
     height: 42,
     borderRadius: 21,
@@ -202,14 +206,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.card,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 14,
   },
 
   header: {
-    flex: 1,
     color: Colors.gold,
     fontSize: 30,
     fontWeight: "900",
+    textAlign: "center",
+    paddingHorizontal: 52,
   },
 
   intro: {
@@ -217,6 +221,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 25,
     marginBottom: 26,
+    textAlign: "center",
   },
 
   contactCard: {
@@ -244,6 +249,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "900",
     marginBottom: 9,
+    textAlign: "center",
   },
 
   contactText: {
@@ -285,6 +291,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     letterSpacing: 2.2,
     marginBottom: 14,
+    textAlign: "center",
   },
 
   supportSection: {
@@ -299,14 +306,16 @@ const styles = StyleSheet.create({
   supportTitleRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 9,
+    gap: 10,
   },
 
   supportTitle: {
     color: Colors.text,
     fontSize: 17,
     fontWeight: "900",
-    marginLeft: 10,
+    textAlign: "center",
   },
 
   supportText: {
@@ -332,6 +341,7 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 20,
+    textAlign: "center",
   },
 
   buttonPressed: {
