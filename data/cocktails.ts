@@ -4,8 +4,8 @@ const oldFashionedImage = require("../assets/images/cocktails/old-fashioned.jpg"
 const manhattanImage = require("../assets/images/cocktails/manhattan.jpg");
 const negroniImage = require("../assets/images/cocktails/negroni.jpg");
 const martiniImage = require("../assets/images/cocktails/martini.jpeg");
-const margaritaImage = require("../assets/images/cocktails/margarta.jpeg");
-const mojitoImage = require("../assets/images/cocktails/mojihto.jpeg");
+const margaritaImage = require("../assets/images/cocktails/margarita.jpeg");
+const mojitoImage = require("../assets/images/cocktails/mojito.jpeg");
 const bourbonSourImage = require("../assets/images/cocktails/bourbon-sour.jpg");
 const boulevardierImage = require("../assets/images/cocktails/boulevardier.jpg");
 const mintJulepImage = require("../assets/images/cocktails/mint-julep.jpg");
@@ -19,7 +19,17 @@ const beesKneesImage = require("../assets/images/cocktails/bees-knees.jpg");
 const aviationImage = require("../assets/images/cocktails/aviation.jpeg");
 const whiteRussianImage = require("../assets/images/cocktails/white-russian.jpg");
 const irishCoffeeImage = require("../assets/images/cocktails/irish-coffee.jpeg");
-const penicillinImage = require("../assets/images/cocktails/pennicillin.jpg");
+const penicillinImage = require("../assets/images/cocktails/penicillin.jpg");
+const brandyAlexanderImage = require("../assets/images/cocktails/brandy-alexander.jpg");
+const cosmopolitanImage = require("../assets/images/cocktails/cosmopolitan.jpg");
+const daiquiriImage = require("../assets/images/cocktails/daiquiri.jpg");
+const darkAndStormyImage = require("../assets/images/cocktails/dark-and-stormy.jpg");
+const espressoMartiniImage = require("../assets/images/cocktails/espresso-martini.jpg");
+const maiTaiImage = require("../assets/images/cocktails/mai-tai.jpg");
+const moscowMuleImage = require("../assets/images/cocktails/moscow-mule.jpg");
+const palomaImage = require("../assets/images/cocktails/paloma.jpg");
+const tequilaSunriseImage = require("../assets/images/cocktails/tequila-sunrise.jpg");
+const tommysMargaritaImage = require("../assets/images/cocktails/tommys-margarita.jpg");
 
 export const cocktails: Cocktail[] = [
   {
@@ -738,6 +748,348 @@ export const cocktails: Cocktail[] = [
       "Use a smoky Scotch only for the float so it does not overpower the drink.",
       "Make honey-ginger syrup with fresh ginger for the strongest flavor.",
       "Pour the smoky whisky slowly over the back of a spoon for a cleaner float.",
+    ],
+  },
+
+  {
+    id: "brandy-alexander",
+    name: "Brandy Alexander",
+    spirit: "Brandy",
+    image: brandyAlexanderImage,
+    description:
+      "A silky dessert cocktail combining brandy, dark crème de cacao, and cream.",
+    ingredients: [
+      "1 1/2 oz brandy or cognac",
+      "1 oz dark crème de cacao",
+      "1 oz heavy cream",
+      "Freshly grated nutmeg",
+    ],
+    instructions: [
+      "Add brandy, crème de cacao, and cream to a shaker with ice.",
+      "Shake until thoroughly chilled.",
+      "Double strain into a chilled coupe glass.",
+      "Garnish with freshly grated nutmeg.",
+    ],
+    pairings: ["Chocolate mousse", "Tiramisu", "Spiced nuts", "Vanilla custard"],
+    difficulty: "Easy",
+    glass: "Coupe Glass",
+    garnish: "Freshly Grated Nutmeg",
+    ice: "Served Up",
+    flavorProfile: ["Creamy", "Chocolate", "Rich", "Warming"],
+    story:
+      "The Brandy Alexander became a popular after-dinner cocktail in the early twentieth century. Its smooth blend of brandy, chocolate liqueur, and cream makes it feel almost like a drinkable dessert.",
+    tips: [
+      "Use very cold cream for the smoothest texture.",
+      "Shake firmly to fully combine and aerate the ingredients.",
+      "Grate the nutmeg fresh over the drink for the best aroma.",
+    ],
+  },
+  {
+    id: "cosmopolitan",
+    name: "Cosmopolitan",
+    spirit: "Vodka",
+    image: cosmopolitanImage,
+    description:
+      "A crisp pink vodka cocktail with cranberry, orange liqueur, and fresh lime.",
+    ingredients: [
+      "1 1/2 oz citrus vodka",
+      "3/4 oz orange liqueur",
+      "1/2 oz fresh lime juice",
+      "1/2 oz cranberry juice",
+      "Orange twist",
+    ],
+    instructions: [
+      "Add all liquid ingredients to a shaker with ice.",
+      "Shake until very cold.",
+      "Double strain into a chilled coupe or martini glass.",
+      "Garnish with an orange twist.",
+    ],
+    pairings: ["Goat cheese crostini", "Shrimp cocktail", "Smoked salmon", "Berry desserts"],
+    difficulty: "Easy",
+    glass: "Coupe Glass",
+    garnish: "Orange Twist",
+    ice: "Served Up",
+    flavorProfile: ["Citrusy", "Tart", "Lightly Sweet", "Crisp"],
+    story:
+      "The Cosmopolitan rose to prominence in the late twentieth century and became an icon of modern cocktail culture. Its appeal comes from a clean balance of citrus, cranberry, and vodka.",
+    tips: [
+      "Use only enough cranberry juice to give the drink a pale pink color.",
+      "Fresh lime juice keeps the cocktail bright instead of sugary.",
+      "Chill the serving glass before straining.",
+    ],
+  },
+  {
+    id: "daiquiri",
+    name: "Daiquiri",
+    spirit: "Rum",
+    image: daiquiriImage,
+    description:
+      "A clean Cuban classic made with white rum, fresh lime, and simple syrup.",
+    ingredients: [
+      "2 oz white rum",
+      "1 oz fresh lime juice",
+      "3/4 oz simple syrup",
+      "Lime wheel",
+    ],
+    instructions: [
+      "Add rum, lime juice, and simple syrup to a shaker with ice.",
+      "Shake until thoroughly chilled.",
+      "Double strain into a chilled coupe glass.",
+      "Garnish with a lime wheel.",
+    ],
+    pairings: ["Ceviche", "Grilled fish", "Cuban sandwiches", "Fresh tropical fruit"],
+    difficulty: "Easy",
+    glass: "Coupe Glass",
+    garnish: "Lime Wheel",
+    ice: "Served Up",
+    flavorProfile: ["Citrusy", "Tart", "Refreshing", "Clean"],
+    story:
+      "The classic Daiquiri is not a frozen drink but a simple shaken combination of rum, lime, and sugar. Its three-part structure is one of the purest tests of balance in cocktail making.",
+    tips: [
+      "Use fresh lime juice and a clean white rum.",
+      "Adjust the syrup slightly depending on the acidity of the lime.",
+      "Shake hard so the drink is properly chilled and diluted.",
+    ],
+  },
+  {
+    id: "dark-and-stormy",
+    name: "Dark 'n' Stormy",
+    spirit: "Rum",
+    image: darkAndStormyImage,
+    description:
+      "A bold highball pairing dark rum with spicy ginger beer and fresh lime.",
+    ingredients: [
+      "2 oz dark rum",
+      "4 oz ginger beer",
+      "1/2 oz fresh lime juice",
+      "Lime wedge",
+    ],
+    instructions: [
+      "Fill a highball glass with ice.",
+      "Add ginger beer and lime juice.",
+      "Float the dark rum over the top.",
+      "Garnish with a lime wedge and stir before drinking.",
+    ],
+    pairings: ["Jerk chicken", "Barbecue ribs", "Fish tacos", "Spiced nuts"],
+    difficulty: "Easy",
+    glass: "Highball Glass",
+    garnish: "Lime Wedge",
+    ice: "Cubed Ice",
+    flavorProfile: ["Spicy", "Dark", "Citrusy", "Refreshing"],
+    story:
+      "The Dark 'n' Stormy is closely associated with Bermuda, where dark rum and ginger beer became a natural pairing. The layered presentation suggests storm clouds gathering over a bright sea.",
+    tips: [
+      "Use a strongly flavored ginger beer rather than mild ginger ale.",
+      "Pour the rum slowly for a dramatic layered appearance.",
+      "Stir before drinking so the flavors combine evenly.",
+    ],
+  },
+  {
+    id: "espresso-martini",
+    name: "Espresso Martini",
+    spirit: "Vodka",
+    image: espressoMartiniImage,
+    description:
+      "A rich, energizing cocktail combining vodka, coffee liqueur, and fresh espresso.",
+    ingredients: [
+      "1 1/2 oz vodka",
+      "1 oz coffee liqueur",
+      "1 oz fresh espresso",
+      "1/4 oz simple syrup",
+      "3 coffee beans",
+    ],
+    instructions: [
+      "Add vodka, coffee liqueur, espresso, and simple syrup to a shaker with ice.",
+      "Shake very hard until cold and foamy.",
+      "Double strain into a chilled coupe or martini glass.",
+      "Garnish with three coffee beans.",
+    ],
+    pairings: ["Tiramisu", "Chocolate cake", "Salted caramel", "Roasted hazelnuts"],
+    difficulty: "Medium",
+    glass: "Coupe Glass",
+    garnish: "Three Coffee Beans",
+    ice: "Served Up",
+    flavorProfile: ["Coffee", "Rich", "Bittersweet", "Silky"],
+    story:
+      "The Espresso Martini was created in London in the 1980s. Fresh espresso and vigorous shaking give the cocktail its signature creamy foam without using dairy.",
+    tips: [
+      "Use fresh espresso for the strongest aroma and best foam.",
+      "Shake harder and longer than a typical cocktail.",
+      "Let hot espresso cool briefly so it does not melt too much ice.",
+    ],
+  },
+  {
+    id: "mai-tai",
+    name: "Mai Tai",
+    spirit: "Rum",
+    image: maiTaiImage,
+    description:
+      "A complex tropical rum cocktail with lime, orange curaçao, and almond-rich orgeat.",
+    ingredients: [
+      "1 oz aged Jamaican rum",
+      "1 oz aged agricole-style rum",
+      "3/4 oz fresh lime juice",
+      "1/2 oz orange curaçao",
+      "1/2 oz orgeat syrup",
+      "1/4 oz simple syrup",
+      "Mint sprig and lime shell",
+    ],
+    instructions: [
+      "Add all liquid ingredients to a shaker with ice.",
+      "Shake until chilled.",
+      "Pour into a rocks glass over crushed ice.",
+      "Garnish with a mint sprig and spent lime shell.",
+    ],
+    pairings: ["Pork skewers", "Coconut shrimp", "Grilled pineapple", "Spicy noodles"],
+    difficulty: "Medium",
+    glass: "Rocks Glass",
+    garnish: "Mint Sprig and Lime Shell",
+    ice: "Crushed Ice",
+    flavorProfile: ["Tropical", "Nutty", "Citrusy", "Complex"],
+    story:
+      "The Mai Tai is a cornerstone of tiki cocktail culture. A proper version focuses on quality rum, fresh lime, orange curaçao, and orgeat rather than a blend of random fruit juices.",
+    tips: [
+      "Use two complementary aged rums for greater depth.",
+      "Do not substitute almond extract for real orgeat.",
+      "Slap the mint gently before garnishing to release its aroma.",
+    ],
+  },
+  {
+    id: "moscow-mule",
+    name: "Moscow Mule",
+    spirit: "Vodka",
+    image: moscowMuleImage,
+    description:
+      "A bright and spicy vodka highball made with ginger beer and fresh lime.",
+    ingredients: [
+      "2 oz vodka",
+      "1/2 oz fresh lime juice",
+      "4 oz ginger beer",
+      "Lime wheel",
+    ],
+    instructions: [
+      "Fill a copper mug or highball glass with ice.",
+      "Add vodka and fresh lime juice.",
+      "Top with ginger beer.",
+      "Stir gently and garnish with a lime wheel.",
+    ],
+    pairings: ["Fish tacos", "Grilled chicken", "Spicy appetizers", "Soft pretzels"],
+    difficulty: "Easy",
+    glass: "Copper Mug",
+    garnish: "Lime Wheel",
+    ice: "Cubed Ice",
+    flavorProfile: ["Spicy", "Citrusy", "Refreshing", "Crisp"],
+    story:
+      "The Moscow Mule helped popularize vodka in the United States during the 1940s. Its memorable copper mug and sharp ginger-lime profile made it an enduring highball.",
+    tips: [
+      "Choose a ginger beer with strong spice and low sweetness.",
+      "Use fresh lime juice instead of bottled lime flavoring.",
+      "A copper mug keeps the drink feeling especially cold, but a highball glass works too.",
+    ],
+  },
+  {
+    id: "paloma",
+    name: "Paloma",
+    spirit: "Tequila",
+    image: palomaImage,
+    description:
+      "A refreshing tequila highball built around grapefruit, lime, and sparkling soda.",
+    ingredients: [
+      "2 oz blanco tequila",
+      "2 oz fresh grapefruit juice",
+      "1/2 oz fresh lime juice",
+      "1/2 oz agave syrup",
+      "2 oz club soda",
+      "Pinch of salt",
+      "Grapefruit wedge",
+    ],
+    instructions: [
+      "Add tequila, grapefruit juice, lime juice, agave, and salt to a shaker with ice.",
+      "Shake briefly until chilled.",
+      "Strain into a highball glass over fresh ice.",
+      "Top with club soda and garnish with a grapefruit wedge.",
+    ],
+    pairings: ["Carnitas tacos", "Ceviche", "Grilled shrimp", "Chili-lime fruit"],
+    difficulty: "Easy",
+    glass: "Highball Glass",
+    garnish: "Grapefruit Wedge",
+    ice: "Cubed Ice",
+    flavorProfile: ["Grapefruit", "Citrusy", "Refreshing", "Slightly Bitter"],
+    story:
+      "The Paloma is one of Mexico's most beloved tequila drinks. Grapefruit gives it a refreshing balance of sweetness, acidity, and gentle bitterness.",
+    tips: [
+      "A small pinch of salt makes the grapefruit taste brighter.",
+      "Adjust agave depending on the sweetness of the grapefruit.",
+      "For a simpler version, use a quality grapefruit soda instead of juice and club soda.",
+    ],
+  },
+  {
+    id: "tequila-sunrise",
+    name: "Tequila Sunrise",
+    spirit: "Tequila",
+    image: tequilaSunriseImage,
+    description:
+      "A colorful tequila cocktail layered with orange juice and grenadine.",
+    ingredients: [
+      "2 oz blanco tequila",
+      "4 oz fresh orange juice",
+      "1/2 oz grenadine",
+      "Orange slice and cherry",
+    ],
+    instructions: [
+      "Fill a highball glass with ice.",
+      "Add tequila and orange juice, then stir gently.",
+      "Slowly pour grenadine down the inside of the glass so it sinks.",
+      "Do not stir after adding grenadine.",
+      "Garnish with an orange slice and cherry.",
+    ],
+    pairings: ["Breakfast tacos", "Grilled chicken", "Pork carnitas", "Fresh fruit"],
+    difficulty: "Easy",
+    glass: "Highball Glass",
+    garnish: "Orange Slice and Cherry",
+    ice: "Cubed Ice",
+    flavorProfile: ["Fruity", "Citrusy", "Sweet", "Bright"],
+    story:
+      "The modern Tequila Sunrise became famous in the 1970s. Its name comes from the red-to-orange gradient formed when grenadine settles beneath the orange juice.",
+    tips: [
+      "Pour the grenadine slowly to preserve the sunrise effect.",
+      "Use fresh orange juice for a brighter flavor.",
+      "Serve before stirring so the layered colors remain visible.",
+    ],
+  },
+  {
+    id: "tommys-margarita",
+    name: "Tommy's Margarita",
+    spirit: "Tequila",
+    image: tommysMargaritaImage,
+    description:
+      "A modern Margarita variation that replaces orange liqueur with agave syrup.",
+    ingredients: [
+      "2 oz blanco tequila",
+      "1 oz fresh lime juice",
+      "1/2 oz agave syrup",
+      "Lime wheel",
+      "Optional salt rim",
+    ],
+    instructions: [
+      "Salt part of a rocks glass rim if desired.",
+      "Add tequila, lime juice, and agave syrup to a shaker with ice.",
+      "Shake until thoroughly chilled.",
+      "Strain over fresh ice in the prepared glass.",
+      "Garnish with a lime wheel.",
+    ],
+    pairings: ["Carne asada", "Guacamole", "Grilled shrimp", "Spicy street corn"],
+    difficulty: "Easy",
+    glass: "Rocks Glass",
+    garnish: "Lime Wheel",
+    ice: "Cubed Ice",
+    flavorProfile: ["Agave", "Citrusy", "Tart", "Clean"],
+    story:
+      "Tommy's Margarita was created at Tommy's Mexican Restaurant in San Francisco. Removing orange liqueur and using agave syrup places more attention on the tequila itself.",
+    tips: [
+      "Use a good blanco tequila because it is the center of the drink.",
+      "Adjust agave syrup to match the acidity of your lime juice.",
+      "A half-salted rim lets the drinker choose each sip.",
     ],
   },
 ];
