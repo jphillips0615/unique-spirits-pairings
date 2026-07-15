@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: "900",
     marginBottom: 10,
+    textAlign: "center",
   },
 
   topGoldLine: {
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 16,
     lineHeight: 24,
+    textAlign: "center",
   },
 
   emptyState: {
@@ -101,6 +103,7 @@ const styles = StyleSheet.create({
     color: Colors.gold,
     fontSize: 54,
     marginBottom: 14,
+    textAlign: "center",
   },
 
   emptyTitle: {
@@ -108,6 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "900",
     marginBottom: 8,
+    textAlign: "center",
   },
 
   emptyText: {

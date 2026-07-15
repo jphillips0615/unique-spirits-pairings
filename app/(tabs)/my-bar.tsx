@@ -642,6 +642,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     letterSpacing: 3,
     marginBottom: 10,
+    textAlign: "center",
   },
 
   title: {
@@ -650,12 +651,14 @@ const styles = StyleSheet.create({
     lineHeight: 43,
     fontWeight: "900",
     marginBottom: 14,
+    textAlign: "center",
   },
 
   subtitle: {
     color: Colors.textSecondary,
     fontSize: 16,
     lineHeight: 24,
+    textAlign: "center",
   },
 
   summaryCard: {
@@ -674,6 +677,7 @@ const styles = StyleSheet.create({
     color: Colors.gold,
     fontSize: 34,
     fontWeight: "900",
+    textAlign: "center",
   },
 
   summaryLabel: {
@@ -681,6 +685,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
     marginTop: 2,
+    textAlign: "center",
   },
 
   summaryResults: {
@@ -694,6 +699,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 25,
     fontWeight: "900",
+    textAlign: "center",
   },
 
   summaryResultLabel: {
@@ -701,6 +707,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "700",
     marginTop: 2,
+    textAlign: "center",
   },
 
   clearButton: {
@@ -739,6 +746,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "900",
     marginBottom: 8,
+    textAlign: "center",
   },
 
   emptyBarText: {
@@ -753,21 +761,22 @@ const styles = StyleSheet.create({
   },
 
   matchSectionHeader: {
-    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     marginBottom: 8,
+    gap: 8,
   },
 
   matchSectionHeading: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: 9,
   },
 
   matchHeaderActions: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: 10,
   },
 
@@ -788,6 +797,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 22,
     fontWeight: "900",
+    textAlign: "center",
   },
 
   matchCount: {
@@ -807,6 +817,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 21,
     marginBottom: 15,
+    textAlign: "center",
   },
 
   matchCard: {
@@ -961,6 +972,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "900",
     marginBottom: 5,
+    textAlign: "center",
   },
 
   noMatchesText: {
@@ -981,6 +993,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     letterSpacing: 2.2,
     marginBottom: 14,
+    textAlign: "center",
   },
 
   searchContainer: {
@@ -1012,6 +1025,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "900",
     marginBottom: 8,
+    textAlign: "center",
   },
 
   categoryDescription: {
@@ -1019,6 +1033,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 21,
     marginBottom: 15,
+    textAlign: "center",
   },
 
   ingredientGrid: {
@@ -1071,6 +1086,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: "900",
     marginTop: 12,
+    textAlign: "center",
   },
 
   emptySearchText: {

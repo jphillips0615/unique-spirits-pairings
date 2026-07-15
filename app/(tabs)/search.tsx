@@ -27,7 +27,9 @@ export default function SearchScreen() {
       setSelectedSpirit(spirit);
     }
   }, [spirit]);
+
   const { isFavorite, toggleFavorite } = useFavorites();
+
   const filteredCocktails = useMemo(() => {
     const query = searchText.toLowerCase().trim();
 
@@ -100,7 +102,9 @@ export default function SearchScreen() {
       ListEmptyComponent={
         <View style={styles.emptyState}>
           <Text style={styles.emptyIcon}>🍸</Text>
+
           <Text style={styles.emptyTitle}>No cocktails found</Text>
+
           <Text style={styles.emptyText}>
             Try another cocktail, spirit, or ingredient.
           </Text>
@@ -135,12 +139,15 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: "800",
     marginBottom: 8,
+    textAlign: "center",
   },
 
   subtitle: {
     color: Colors.textSecondary,
     fontSize: 16,
+    lineHeight: 22,
     marginBottom: 20,
+    textAlign: "center",
   },
 
   searchInput: {
@@ -153,25 +160,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     fontSize: 16,
     marginBottom: 18,
-  },
-
-  filterHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-
-  filterLabel: {
-    color: Colors.text,
-    fontSize: 14,
-    fontWeight: "700",
-  },
-
-  swipeHint: {
-    color: Colors.gold,
-    fontSize: 13,
-    fontWeight: "700",
   },
 
   filterList: {
@@ -196,6 +184,7 @@ const styles = StyleSheet.create({
   chipText: {
     color: Colors.textSecondary,
     fontWeight: "700",
+    textAlign: "center",
   },
 
   chipTextSelected: {
@@ -217,6 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "800",
     marginBottom: 8,
+    textAlign: "center",
   },
 
   emptyText: {
