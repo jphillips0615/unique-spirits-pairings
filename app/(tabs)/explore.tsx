@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     marginBottom: 8,
     fontWeight: "800",
+    textAlign: "center",
   },
 
   subtitle: {
@@ -69,18 +70,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 22,
     marginBottom: 24,
+    textAlign: "center",
   },
 
   card: {
+    position: "relative",
     backgroundColor: Colors.card,
     borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 18,
-    padding: 18,
+    paddingVertical: 18,
+    paddingHorizontal: 52,
     marginBottom: 14,
-    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
 
   cardPressed: {
@@ -89,8 +92,7 @@ const styles = StyleSheet.create({
   },
 
   cardContent: {
-    flex: 1,
-    paddingRight: 16,
+    alignItems: "center",
   },
 
   cardText: {
@@ -98,14 +100,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "800",
     marginBottom: 4,
+    textAlign: "center",
   },
 
   cardSubtext: {
     color: Colors.textSecondary,
     fontSize: 14,
+    textAlign: "center",
   },
 
   arrow: {
+    position: "absolute",
+    right: 18,
     color: Colors.gold,
     fontSize: 34,
     fontWeight: "300",
