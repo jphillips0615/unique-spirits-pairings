@@ -317,6 +317,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     lineHeight: 44,
     marginBottom: 14,
+    textAlign: "center",
   },
 
   subtitle: {
@@ -324,6 +325,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 25,
     marginBottom: 26,
+    textAlign: "center",
   },
 
   primaryButton: {
@@ -331,7 +333,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 18,
-    alignSelf: "flex-start",
+    alignSelf: "center",
   },
 
   primaryButtonText: {
@@ -372,6 +374,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     letterSpacing: 1.4,
     marginBottom: 5,
+    textAlign: "center",
   },
 
   myBarTitle: {
@@ -379,6 +382,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: "900",
     marginBottom: 5,
+    textAlign: "center",
   },
 
   myBarText: {
@@ -396,6 +400,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "900",
     marginBottom: 14,
+    textAlign: "center",
   },
 
   recommendationHeader: {
@@ -403,10 +408,8 @@ const styles = StyleSheet.create({
   },
 
   recommendationHeading: {
-    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    gap: 12,
+    gap: 4,
   },
 
   recommendationCounter: {
@@ -414,10 +417,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "700",
     marginBottom: 14,
+    textAlign: "center",
   },
 
   anotherButton: {
-    alignSelf: "flex-start",
+    alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
     gap: 7,
@@ -464,6 +468,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "900",
     marginBottom: 5,
+    textAlign: "center",
   },
 
   reasonText: {
@@ -487,6 +492,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     marginTop: 12,
     marginBottom: 6,
+    textAlign: "center",
   },
 
   emptyRecommendationText: {
@@ -517,6 +523,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "900",
     marginBottom: 8,
+    textAlign: "center",
   },
 
   smallCardText: {
