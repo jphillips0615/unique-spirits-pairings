@@ -172,12 +172,17 @@ const styles = StyleSheet.create({
   },
 
   headerRow: {
-    flexDirection: "row",
+    position: "relative",
+    minHeight: 62,
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 18,
   },
 
   backButton: {
+    position: "absolute",
+    left: 0,
+    top: 4,
     width: 46,
     height: 46,
     borderRadius: 23,
@@ -186,11 +191,12 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 14,
   },
 
   headerText: {
-    flex: 1,
+    width: "100%",
+    paddingHorizontal: 54,
+    alignItems: "center",
   },
 
   kicker: {
@@ -199,12 +205,14 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     letterSpacing: 2.2,
     marginBottom: 4,
+    textAlign: "center",
   },
 
   title: {
     color: Colors.text,
     fontSize: 30,
     fontWeight: "900",
+    textAlign: "center",
   },
 
   subtitle: {
@@ -212,6 +220,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 23,
     marginBottom: 22,
+    textAlign: "center",
   },
 
   searchContainer: {
@@ -239,6 +248,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "800",
     marginBottom: 14,
+    textAlign: "center",
   },
 
   entryCard: {
@@ -271,6 +281,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 18,
     fontWeight: "900",
+    textAlign: "center",
   },
 
   entryCategory: {
@@ -279,6 +290,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     marginTop: 3,
     marginBottom: 7,
+    textAlign: "center",
   },
 
   entryDescription: {
@@ -302,6 +314,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     marginTop: 12,
     marginBottom: 8,
+    textAlign: "center",
   },
 
   emptyText: {
@@ -318,7 +331,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     padding: 15,
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     gap: 10,
     marginBottom: 20,
   },
@@ -328,6 +341,7 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 20,
+    textAlign: "center",
   },
 
   noticeCard: {
