@@ -224,12 +224,17 @@ const styles = StyleSheet.create({
   },
 
   headerRow: {
-    flexDirection: "row",
+    position: "relative",
+    minHeight: 64,
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
   },
 
   backButton: {
+    position: "absolute",
+    left: 0,
+    top: 4,
     width: 46,
     height: 46,
     borderRadius: 23,
@@ -238,11 +243,12 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 14,
   },
 
   headerText: {
-    flex: 1,
+    width: "100%",
+    paddingHorizontal: 56,
+    alignItems: "center",
   },
 
   kicker: {
@@ -251,6 +257,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     letterSpacing: 2.2,
     marginBottom: 4,
+    textAlign: "center",
   },
 
   title: {
@@ -258,11 +265,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     lineHeight: 36,
     fontWeight: "900",
+    textAlign: "center",
   },
 
   categoryRow: {
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "center",
     gap: 10,
     marginBottom: 22,
   },
@@ -322,6 +331,7 @@ const styles = StyleSheet.create({
 
   pronunciationContent: {
     flex: 1,
+    alignItems: "center",
   },
 
   pronunciationLabel: {
@@ -331,12 +341,14 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: "uppercase",
     marginBottom: 4,
+    textAlign: "center",
   },
 
   pronunciationText: {
     color: Colors.text,
     fontSize: 17,
     fontWeight: "800",
+    textAlign: "center",
   },
 
   section: {
@@ -351,6 +363,7 @@ const styles = StyleSheet.create({
   sectionHeadingRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: 10,
     marginBottom: 12,
   },
@@ -359,6 +372,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 18,
     fontWeight: "900",
+    textAlign: "center",
   },
 
   sectionText: {
@@ -370,6 +384,7 @@ const styles = StyleSheet.create({
   tagGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "center",
     gap: 9,
   },
 
@@ -386,6 +401,7 @@ const styles = StyleSheet.create({
     color: Colors.gold,
     fontSize: 13,
     fontWeight: "800",
+    textAlign: "center",
   },
 
   list: {
@@ -434,6 +450,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "900",
     marginBottom: 6,
+    textAlign: "center",
   },
 
   noteText: {
@@ -456,6 +473,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     marginTop: 14,
     marginBottom: 8,
+    textAlign: "center",
   },
 
   missingText: {
