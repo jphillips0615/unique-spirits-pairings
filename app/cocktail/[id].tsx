@@ -60,6 +60,12 @@ export default function CocktailDetails() {
             </View>
 
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={
+                isFavorite(cocktail.id)
+                  ? `Remove ${cocktail.name} from favorites`
+                  : `Add ${cocktail.name} to favorites`
+              }
               style={styles.favoriteButton}
               onPress={() => toggleFavorite(cocktail.id)}
             >
@@ -170,17 +176,22 @@ const styles = StyleSheet.create({
   },
 
   titleRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    gap: 12,
+    position: "relative",
+    minHeight: 92,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   titleTextWrap: {
-    flex: 1,
+    width: "100%",
+    paddingHorizontal: 52,
+    alignItems: "center",
   },
 
   favoriteButton: {
+    position: "absolute",
+    right: 0,
+    top: 0,
     width: 48,
     height: 48,
     borderRadius: 24,
@@ -198,13 +209,16 @@ const styles = StyleSheet.create({
     letterSpacing: 1.6,
     marginBottom: 8,
     textTransform: "uppercase",
+    textAlign: "center",
   },
 
   title: {
     color: Colors.text,
     fontSize: 36,
+    lineHeight: 42,
     fontWeight: "900",
     marginBottom: 12,
+    textAlign: "center",
   },
 
   description: {
@@ -212,6 +226,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 25,
     marginBottom: 18,
+    textAlign: "center",
   },
 
   infoRow: {
@@ -227,6 +242,8 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     padding: 13,
     backgroundColor: Colors.background,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   infoLabel: {
@@ -235,12 +252,14 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     marginBottom: 5,
     textTransform: "uppercase",
+    textAlign: "center",
   },
 
   infoValue: {
     color: Colors.text,
     fontSize: 13,
     fontWeight: "900",
+    textAlign: "center",
   },
 
   section: {
@@ -258,6 +277,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "900",
     marginBottom: 14,
+    textAlign: "center",
   },
 
   listItem: {
@@ -270,6 +290,7 @@ const styles = StyleSheet.create({
   pairingGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "center",
     gap: 10,
   },
 
@@ -286,6 +307,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 14,
     fontWeight: "800",
+    textAlign: "center",
   },
 
   bodyText: {
@@ -304,5 +326,6 @@ const styles = StyleSheet.create({
   error: {
     color: Colors.text,
     fontSize: 18,
+    textAlign: "center",
   },
 });
