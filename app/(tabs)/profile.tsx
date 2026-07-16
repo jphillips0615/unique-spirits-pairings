@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/colors";
+import { useAuth } from "@/context/AuthContext";
 import {
   EXPERIENCE_LEVELS,
   ExperienceLevel,
@@ -19,11 +20,13 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 
 export default function ProfileScreen() {
   const { preferences, savePreferences } = usePreferences();
+
+  const { user, isSignedIn, signOut } = useAuth();
 
   const [displayName, setDisplayName] = useState(preferences.displayName);
 
@@ -43,6 +46,7 @@ export default function ProfileScreen() {
   );
 
   const [isSaving, setIsSaving] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
 
   useEffect(() => {
@@ -175,6 +179,45 @@ export default function ProfileScreen() {
     setFavoriteSpirits(preferences.favoriteSpirits);
     setFavoriteFlavors(preferences.favoriteFlavors);
     setShowSaved(false);
+  }
+
+  async function handleSignOut() {
+    if (isSigningOut) {
+      return;
+    }
+
+    Alert.alert(
+      "Sign Out",
+      "Are you sure you want to sign out of your account?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Sign Out",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              setIsSigningOut(true);
+
+              await signOut();
+
+              router.replace("/auth");
+            } catch (error) {
+              console.error("Unable to sign out:", error);
+
+              Alert.alert(
+                "Unable to Sign Out",
+                "Something went wrong while signing you out. Please try again.",
+              );
+
+              setIsSigningOut(false);
+            }
+          },
+        },
+      ],
+    );
   }
 
   const canSave = hasChanges && !!displayName.trim() && !!experienceLevel;
@@ -389,6 +432,96 @@ export default function ProfileScreen() {
           <Text style={styles.cancelButtonText}>Cancel Changes</Text>
         </Pressable>
       ) : null}
+
+      <View style={styles.accountSection}>
+        <Text style={styles.accountHeading}>ACCOUNT</Text>
+
+        {isSignedIn && user ? (
+          <>
+            <View style={styles.accountCard}>
+              <View style={styles.accountIcon}>
+                <Ionicons
+                  name="person-circle-outline"
+                  size={30}
+                  color={Colors.gold}
+                />
+              </View>
+
+              <View style={styles.accountContent}>
+                <Text style={styles.accountStatus}>SIGNED IN</Text>
+
+                <Text style={styles.accountName}>
+                  {typeof user.user_metadata?.name === "string" &&
+                  user.user_metadata.name.trim()
+                    ? user.user_metadata.name
+                    : displayName.trim() || "Unique Spirits Member"}
+                </Text>
+
+                <Text style={styles.accountEmail}>
+                  {user.email ?? "Email unavailable"}
+                </Text>
+              </View>
+
+              <Ionicons name="checkmark-circle" size={24} color={Colors.gold} />
+            </View>
+
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Sign out"
+              accessibilityState={{ disabled: isSigningOut }}
+              disabled={isSigningOut}
+              onPress={handleSignOut}
+              style={({ pressed }) => [
+                styles.signOutButton,
+                isSigningOut && styles.signOutButtonDisabled,
+                pressed && !isSigningOut && styles.pressed,
+              ]}
+            >
+              <Ionicons name="log-out-outline" size={20} color="#E57373" />
+
+              <Text style={styles.signOutButtonText}>
+                {isSigningOut ? "Signing Out..." : "Sign Out"}
+              </Text>
+            </Pressable>
+          </>
+        ) : (
+          <>
+            <View style={styles.guestAccountCard}>
+              <View style={styles.accountIcon}>
+                <Ionicons name="person-outline" size={28} color={Colors.gold} />
+              </View>
+
+              <View style={styles.accountContent}>
+                <Text style={styles.accountStatus}>GUEST MODE</Text>
+
+                <Text style={styles.accountName}>
+                  You are browsing as a guest
+                </Text>
+
+                <Text style={styles.accountEmail}>
+                  Sign in to preserve your account across devices.
+                </Text>
+              </View>
+            </View>
+
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Sign in or create an account"
+              onPress={() => router.push("/auth")}
+              style={({ pressed }) => [
+                styles.accountActionButton,
+                pressed && styles.pressed,
+              ]}
+            >
+              <Text style={styles.accountActionButtonText}>
+                Sign In or Create Account
+              </Text>
+
+              <Ionicons name="arrow-forward" size={19} color="#111111" />
+            </Pressable>
+          </>
+        )}
+      </View>
 
       <View style={styles.appInformationSection}>
         <Text style={styles.appInformationHeading}>APP & SUPPORT</Text>
@@ -675,6 +808,121 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 15,
     fontWeight: "700",
+  },
+
+  accountSection: {
+    marginTop: 38,
+    paddingTop: 28,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+  },
+
+  accountHeading: {
+    color: Colors.gold,
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 2.2,
+    marginBottom: 14,
+    textAlign: "center",
+  },
+
+  accountCard: {
+    minHeight: 96,
+    backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: "rgba(217, 164, 65, 0.5)",
+    borderRadius: 22,
+    padding: 17,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+  },
+
+  guestAccountCard: {
+    minHeight: 96,
+    backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 22,
+    padding: 17,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+  },
+
+  accountIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 17,
+    backgroundColor: "rgba(217, 164, 65, 0.14)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  accountContent: {
+    flex: 1,
+  },
+
+  accountStatus: {
+    color: Colors.gold,
+    fontSize: 10,
+    fontWeight: "900",
+    letterSpacing: 1.5,
+    marginBottom: 5,
+  },
+
+  accountName: {
+    color: Colors.text,
+    fontSize: 17,
+    fontWeight: "900",
+    marginBottom: 4,
+  },
+
+  accountEmail: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    lineHeight: 19,
+  },
+
+  signOutButton: {
+    minHeight: 54,
+    borderWidth: 1,
+    borderColor: "rgba(229, 115, 115, 0.5)",
+    borderRadius: 999,
+    marginTop: 14,
+    paddingHorizontal: 22,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+
+  signOutButtonDisabled: {
+    opacity: 0.55,
+  },
+
+  signOutButtonText: {
+    color: "#E57373",
+    fontSize: 15,
+    fontWeight: "900",
+  },
+
+  accountActionButton: {
+    minHeight: 56,
+    backgroundColor: Colors.gold,
+    borderRadius: 999,
+    marginTop: 14,
+    paddingHorizontal: 22,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+
+  accountActionButtonText: {
+    color: "#111111",
+    fontSize: 15,
+    fontWeight: "900",
   },
 
   appInformationSection: {
