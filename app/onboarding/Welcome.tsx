@@ -44,16 +44,26 @@ export default function WelcomeScreen() {
               </Text>
 
               <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Start exploring"
+                onPress={() => router.push("/onboarding/AgeVerification")}
                 style={({ pressed }) => [
                   styles.primaryButton,
                   pressed && styles.buttonPressed,
                 ]}
-                onPress={() => router.push("/onboarding/AgeVerification")}
               >
                 <Text style={styles.primaryButtonText}>Start Exploring</Text>
               </Pressable>
 
-              <Pressable style={styles.secondaryButton} onPress={handleSkip}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Skip onboarding"
+                onPress={handleSkip}
+                style={({ pressed }) => [
+                  styles.secondaryButton,
+                  pressed && styles.buttonPressed,
+                ]}
+              >
                 <Text style={styles.secondaryButtonText}>Skip for Now</Text>
               </Pressable>
             </View>
@@ -67,7 +77,7 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "#000000",
     overflow: "hidden",
   },
 
@@ -89,12 +99,14 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
   },
 
   content: {
     width: "100%",
     maxWidth: 560,
-    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 26,
     paddingVertical: 36,
     backgroundColor: "rgba(8, 8, 8, 0.58)",
@@ -105,6 +117,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
     letterSpacing: 3,
+    textAlign: "center",
     marginBottom: 10,
   },
 
@@ -113,21 +126,27 @@ const styles = StyleSheet.create({
     fontSize: 42,
     fontWeight: "800",
     letterSpacing: 0.5,
+    lineHeight: 48,
+    textAlign: "center",
   },
 
   titleAccent: {
     color: "#C9A227",
     fontSize: 42,
     fontWeight: "800",
-    lineHeight: 44,
+    lineHeight: 46,
+    textAlign: "center",
     marginTop: -4,
     marginBottom: 18,
   },
 
   description: {
+    width: "100%",
+    maxWidth: 480,
     color: "#D0D0D0",
     fontSize: 17,
     lineHeight: 26,
+    textAlign: "center",
     marginBottom: 30,
   },
 
@@ -139,32 +158,41 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     borderRadius: 999,
     alignItems: "center",
+    justifyContent: "center",
     shadowColor: "#C9A227",
     shadowOpacity: 0.35,
     shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
     elevation: 6,
-  },
-
-  buttonPressed: {
-    transform: [{ scale: 0.98 }],
-    opacity: 0.88,
   },
 
   primaryButtonText: {
     color: "#0B0B0B",
     fontSize: 16,
     fontWeight: "800",
+    textAlign: "center",
   },
 
   secondaryButton: {
+    minWidth: 180,
     paddingVertical: 16,
+    paddingHorizontal: 20,
     alignItems: "center",
+    justifyContent: "center",
   },
 
   secondaryButtonText: {
     color: "#D0D0D0",
     fontSize: 15,
     fontWeight: "600",
+    textAlign: "center",
+  },
+
+  buttonPressed: {
+    transform: [{ scale: 0.98 }],
+    opacity: 0.88,
   },
 });

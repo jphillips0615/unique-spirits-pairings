@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
+
 const GOLD = "#C9A227";
 
 export default function AgeVerificationScreen() {
@@ -40,11 +41,13 @@ export default function AgeVerificationScreen() {
                 </Text>
 
                 <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Return to welcome"
+                  onPress={() => router.replace("/onboarding/Welcome")}
                   style={({ pressed }) => [
                     styles.primaryButton,
                     pressed && styles.buttonPressed,
                   ]}
-                  onPress={() => router.replace("/onboarding/Welcome")}
                 >
                   <Text style={styles.primaryButtonText}>
                     Return to Welcome
@@ -72,14 +75,15 @@ export default function AgeVerificationScreen() {
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Go back"
+              onPress={() => router.back()}
               style={({ pressed }) => [
                 styles.backButton,
                 pressed && styles.buttonPressed,
               ]}
-              onPress={() => router.back()}
             >
               <Ionicons name="chevron-back" size={38} color={GOLD} />
             </Pressable>
+
             <View style={styles.content}>
               <Text style={styles.kicker}>BEFORE WE BEGIN</Text>
 
@@ -91,21 +95,25 @@ export default function AgeVerificationScreen() {
               </Text>
 
               <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Confirm legal drinking age"
+                onPress={() => router.push("/auth")}
                 style={({ pressed }) => [
                   styles.primaryButton,
                   pressed && styles.buttonPressed,
                 ]}
-                onPress={() => router.push("/auth")}
               >
                 <Text style={styles.primaryButtonText}>Yes, Continue</Text>
               </Pressable>
 
               <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="I am under 21"
+                onPress={() => setIsUnderage(true)}
                 style={({ pressed }) => [
                   styles.secondaryButton,
                   pressed && styles.buttonPressed,
                 ]}
-                onPress={() => setIsUnderage(true)}
               >
                 <Text style={styles.secondaryButtonText}>No</Text>
               </Pressable>
@@ -121,6 +129,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: "#000000",
+    overflow: "hidden",
   },
 
   background: {
@@ -140,13 +149,15 @@ const styles = StyleSheet.create({
 
   safeArea: {
     flex: 1,
+    alignItems: "center",
     justifyContent: "center",
   },
 
   content: {
     width: "100%",
     maxWidth: 560,
-    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 26,
     paddingVertical: 38,
     backgroundColor: "rgba(8, 8, 8, 0.58)",
@@ -157,32 +168,42 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
     letterSpacing: 3,
+    textAlign: "center",
     marginBottom: 14,
   },
 
   title: {
+    width: "100%",
+    maxWidth: 500,
     color: "#F5F5F5",
     fontSize: 38,
     fontWeight: "800",
     lineHeight: 44,
+    textAlign: "center",
     marginBottom: 18,
   },
 
   description: {
+    width: "100%",
+    maxWidth: 480,
     color: "#CFCFCF",
     fontSize: 17,
     lineHeight: 26,
+    textAlign: "center",
     marginBottom: 34,
   },
 
   primaryButton: {
     width: "100%",
     maxWidth: 460,
+    minHeight: 58,
     alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: GOLD,
+    paddingHorizontal: 24,
     paddingVertical: 17,
     borderRadius: 999,
-    alignItems: "center",
     marginBottom: 16,
     shadowColor: GOLD,
     shadowOpacity: 0.35,
@@ -198,20 +219,25 @@ const styles = StyleSheet.create({
     color: "#111111",
     fontSize: 17,
     fontWeight: "800",
+    textAlign: "center",
   },
 
   secondaryButton: {
     width: "100%",
     maxWidth: 460,
+    minHeight: 54,
     alignSelf: "center",
-    paddingVertical: 16,
     alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    paddingVertical: 16,
   },
 
   secondaryButtonText: {
     color: "#D0D0D0",
     fontSize: 16,
     fontWeight: "700",
+    textAlign: "center",
   },
 
   backButton: {

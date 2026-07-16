@@ -180,91 +180,119 @@ export default function CreateProfileScreen() {
             {profileImageUri ? "Tap to change photo" : "Add profile photo"}
           </Text>
 
-          <Text style={styles.label}>What should we call you?</Text>
+          <View style={styles.section}>
+            <Text style={styles.label}>What should we call you?</Text>
 
-          <TextInput
-            value={displayName}
-            onChangeText={setDisplayName}
-            placeholder="Your name"
-            placeholderTextColor="#777777"
-            autoCapitalize="words"
-            autoCorrect={false}
-            maxLength={30}
-            returnKeyType="done"
-            style={styles.input}
-          />
-
-          <Text style={styles.label}>Experience level</Text>
-
-          <View style={styles.options}>
-            {EXPERIENCE_LEVELS.map((level) => {
-              const selected = experienceLevel === level;
-
-              return (
-                <Pressable
-                  key={level}
-                  onPress={() => setExperienceLevel(level)}
-                  style={({ pressed }) => [
-                    styles.option,
-                    selected && styles.optionSelected,
-                    pressed && styles.optionPressed,
-                  ]}
-                >
-                  <Text
-                    style={[styles.optionText, selected && styles.selectedText]}
-                  >
-                    {level}
-                  </Text>
-
-                  {selected ? (
-                    <Ionicons name="checkmark-circle" size={23} color={GOLD} />
-                  ) : null}
-                </Pressable>
-              );
-            })}
+            <TextInput
+              value={displayName}
+              onChangeText={setDisplayName}
+              placeholder="Your name"
+              placeholderTextColor="#777777"
+              autoCapitalize="words"
+              autoCorrect={false}
+              autoComplete="name"
+              textContentType="name"
+              maxLength={30}
+              returnKeyType="done"
+              style={styles.input}
+            />
           </View>
 
-          <Text style={styles.label}>Favorite flavors</Text>
+          <View style={styles.section}>
+            <Text style={styles.label}>Experience level</Text>
 
-          <Text style={styles.helperText}>
-            Choose as many as you like. You can change these later from your
-            profile.
-          </Text>
+            <View style={styles.options}>
+              {EXPERIENCE_LEVELS.map((level) => {
+                const selected = experienceLevel === level;
 
-          <View style={styles.flavorGrid}>
-            {FLAVOR_PREFERENCES.map((flavor) => {
-              const selected = favoriteFlavors.includes(flavor);
-
-              return (
-                <Pressable
-                  key={flavor}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected }}
-                  onPress={() => toggleFlavor(flavor)}
-                  style={({ pressed }) => [
-                    styles.flavorChip,
-                    selected && styles.flavorChipSelected,
-                    pressed && styles.optionPressed,
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.flavorChipText,
-                      selected && styles.selectedText,
+                return (
+                  <Pressable
+                    key={level}
+                    accessibilityRole="radio"
+                    accessibilityLabel={level}
+                    accessibilityState={{ selected }}
+                    onPress={() => setExperienceLevel(level)}
+                    style={({ pressed }) => [
+                      styles.option,
+                      selected && styles.optionSelected,
+                      pressed && styles.optionPressed,
                     ]}
                   >
-                    {flavor}
-                  </Text>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        selected && styles.selectedText,
+                      ]}
+                    >
+                      {level}
+                    </Text>
 
-                  {selected ? (
-                    <Ionicons name="checkmark" size={17} color={GOLD} />
-                  ) : null}
-                </Pressable>
-              );
-            })}
+                    {selected ? (
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={23}
+                        color={GOLD}
+                      />
+                    ) : (
+                      <Ionicons
+                        name="ellipse-outline"
+                        size={23}
+                        color="#666666"
+                      />
+                    )}
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.label}>Favorite flavors</Text>
+
+            <Text style={styles.helperText}>
+              Choose as many as you like. You can change these later from your
+              profile.
+            </Text>
+
+            <View style={styles.flavorGrid}>
+              {FLAVOR_PREFERENCES.map((flavor) => {
+                const selected = favoriteFlavors.includes(flavor);
+
+                return (
+                  <Pressable
+                    key={flavor}
+                    accessibilityRole="checkbox"
+                    accessibilityLabel={flavor}
+                    accessibilityState={{ checked: selected }}
+                    onPress={() => toggleFlavor(flavor)}
+                    style={({ pressed }) => [
+                      styles.flavorChip,
+                      selected && styles.flavorChipSelected,
+                      pressed && styles.optionPressed,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.flavorChipText,
+                        selected && styles.selectedText,
+                      ]}
+                    >
+                      {flavor}
+                    </Text>
+
+                    {selected ? (
+                      <Ionicons name="checkmark" size={17} color={GOLD} />
+                    ) : null}
+                  </Pressable>
+                );
+              })}
+            </View>
           </View>
 
           <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Create profile"
+            accessibilityState={{ disabled: !canContinue || isSaving }}
             onPress={handleContinue}
             disabled={!canContinue || isSaving}
             style={({ pressed }) => [
@@ -295,9 +323,9 @@ const styles = StyleSheet.create({
 
   content: {
     flexGrow: 1,
-    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 24,
-    paddingTop: 88,
+    paddingTop: 92,
     paddingBottom: 54,
   },
 
@@ -315,7 +343,7 @@ const styles = StyleSheet.create({
   formContainer: {
     width: "100%",
     maxWidth: 560,
-    alignSelf: "center",
+    alignItems: "center",
   },
 
   kicker: {
@@ -323,21 +351,27 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 3,
     fontWeight: "800",
+    textAlign: "center",
     marginBottom: 12,
   },
 
   title: {
+    width: "100%",
     color: "#FFFFFF",
     fontSize: 38,
     lineHeight: 44,
     fontWeight: "900",
+    textAlign: "center",
     marginBottom: 16,
   },
 
   subtitle: {
+    width: "100%",
+    maxWidth: 500,
     color: "#CFCFCF",
     fontSize: 17,
     lineHeight: 26,
+    textAlign: "center",
     marginBottom: 28,
   },
 
@@ -391,41 +425,57 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "800",
     textAlign: "center",
-    marginBottom: 28,
+    marginBottom: 30,
+  },
+
+  section: {
+    width: "100%",
+    maxWidth: 500,
+    alignItems: "center",
+    marginBottom: 8,
   },
 
   label: {
+    width: "100%",
     color: "#F5F5F5",
     fontSize: 17,
     fontWeight: "800",
+    textAlign: "center",
     marginBottom: 12,
   },
 
   helperText: {
+    width: "100%",
+    maxWidth: 460,
     color: "#A9A9A9",
     fontSize: 14,
     lineHeight: 21,
+    textAlign: "center",
     marginTop: -4,
-    marginBottom: 16,
+    marginBottom: 18,
   },
 
   input: {
+    width: "100%",
     backgroundColor: "#151515",
     borderWidth: 1,
     borderColor: "#2A2A2A",
     borderRadius: 18,
     color: "#FFFFFF",
     fontSize: 17,
+    textAlign: "center",
     paddingHorizontal: 18,
     paddingVertical: 17,
     marginBottom: 30,
   },
 
   options: {
+    width: "100%",
     marginBottom: 20,
   },
 
   option: {
+    width: "100%",
     minHeight: 60,
     backgroundColor: "#151515",
     borderRadius: 18,
@@ -437,6 +487,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    gap: 12,
   },
 
   optionSelected: {
@@ -449,9 +500,12 @@ const styles = StyleSheet.create({
   },
 
   optionText: {
+    flex: 1,
     color: "#F5F5F5",
     fontSize: 16,
     fontWeight: "700",
+    textAlign: "center",
+    paddingLeft: 23,
   },
 
   selectedText: {
@@ -460,8 +514,10 @@ const styles = StyleSheet.create({
   },
 
   flavorGrid: {
+    width: "100%",
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "center",
     gap: 12,
     marginBottom: 30,
   },
@@ -489,6 +545,7 @@ const styles = StyleSheet.create({
     color: "#F5F5F5",
     fontSize: 15,
     fontWeight: "700",
+    textAlign: "center",
   },
 
   primaryButton: {
@@ -518,5 +575,6 @@ const styles = StyleSheet.create({
     color: "#111111",
     fontSize: 17,
     fontWeight: "900",
+    textAlign: "center",
   },
 });
