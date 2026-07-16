@@ -1,7 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -13,26 +14,58 @@ import {
 } from "react-native";
 
 import { Colors } from "@/constants/colors";
+import { supabase } from "@/lib/supabase";
+
+type MessageType = "info" | "error" | "success";
 
 export default function SignInScreen() {
+  const params = useLocalSearchParams<{
+    accountCreated?: string;
+    email?: string;
+  }>();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isSigningIn, setIsSigningIn] = useState(false);
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [formMessage, setFormMessage] = useState("");
+  const [messageType, setMessageType] = useState<MessageType>("info");
+
+  useEffect(() => {
+    if (typeof params.email === "string") {
+      setEmail(params.email);
+    }
+
+    if (params.accountCreated === "true") {
+      setMessageType("success");
+      setFormMessage(
+        "Your account was created. Confirm your email if required, then sign in.",
+      );
+    }
+  }, [params.accountCreated, params.email]);
 
   function validateEmail(value: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
   }
 
-  function handleSignIn() {
-    const trimmedEmail = email.trim();
+  function clearMessage() {
+    setFormMessage("");
+    setMessageType("info");
+  }
+
+  async function handleSignIn() {
+    if (isSigningIn) {
+      return;
+    }
+
+    const trimmedEmail = email.trim().toLowerCase();
 
     setEmailError("");
     setPasswordError("");
-    setFormMessage("");
+    clearMessage();
 
     let hasError = false;
 
@@ -47,8 +80,8 @@ export default function SignInScreen() {
     if (!password) {
       setPasswordError("Enter your password.");
       hasError = true;
-    } else if (password.length < 6) {
-      setPasswordError("Password must contain at least 6 characters.");
+    } else if (password.length < 8) {
+      setPasswordError("Password must contain at least 8 characters.");
       hasError = true;
     }
 
@@ -56,10 +89,120 @@ export default function SignInScreen() {
       return;
     }
 
-    setFormMessage(
-      "The form is working. Secure online sign-in will be connected next.",
-    );
+    try {
+      setIsSigningIn(true);
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: trimmedEmail,
+        password,
+      });
+
+      if (error) {
+        const normalizedMessage = error.message.toLowerCase();
+
+        if (
+          normalizedMessage.includes("invalid login credentials") ||
+          normalizedMessage.includes("invalid credentials")
+        ) {
+          setMessageType("error");
+          setFormMessage(
+            "The email address or password is incorrect. Please try again.",
+          );
+        } else if (
+          normalizedMessage.includes("email not confirmed") ||
+          normalizedMessage.includes("email_not_confirmed")
+        ) {
+          setMessageType("error");
+          setFormMessage(
+            "Confirm your email address before signing in. Check your inbox and spam folder.",
+          );
+        } else if (normalizedMessage.includes("email")) {
+          setEmailError(error.message);
+        } else if (normalizedMessage.includes("password")) {
+          setPasswordError(error.message);
+        } else {
+          setMessageType("error");
+          setFormMessage(error.message);
+        }
+
+        return;
+      }
+
+      if (!data.session || !data.user) {
+        setMessageType("error");
+        setFormMessage(
+          "Supabase did not return an active session. Please try again.",
+        );
+        return;
+      }
+
+      router.replace("/(tabs)");
+    } catch (error) {
+      console.error("Sign-in failed:", error);
+
+      setMessageType("error");
+      setFormMessage(
+        "We could not reach the account service. Check your internet connection and try again.",
+      );
+    } finally {
+      setIsSigningIn(false);
+    }
   }
+
+  async function handleForgotPassword() {
+    const trimmedEmail = email.trim().toLowerCase();
+
+    setEmailError("");
+    clearMessage();
+
+    if (!trimmedEmail) {
+      setEmailError(
+        "Enter your email address first, then press Forgot password.",
+      );
+      return;
+    }
+
+    if (!validateEmail(trimmedEmail)) {
+      setEmailError("Enter a valid email address.");
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail);
+
+      if (error) {
+        setMessageType("error");
+        setFormMessage(error.message);
+        return;
+      }
+
+      setMessageType("success");
+      setFormMessage(
+        "Password recovery instructions were sent. Check your inbox and spam folder.",
+      );
+    } catch (error) {
+      console.error("Password recovery failed:", error);
+
+      setMessageType("error");
+      setFormMessage(
+        "We could not send the recovery email. Check your connection and try again.",
+      );
+    }
+  }
+
+  const messageIcon =
+    messageType === "success"
+      ? "checkmark-circle-outline"
+      : messageType === "error"
+        ? "alert-circle-outline"
+        : "information-circle-outline";
+
+  const messageColor =
+    messageType === "success"
+      ? "#68C78D"
+      : messageType === "error"
+        ? "#E57373"
+        : Colors.gold;
 
   return (
     <KeyboardAvoidingView
@@ -116,13 +259,15 @@ export default function SignInScreen() {
               onChangeText={(value) => {
                 setEmail(value);
                 setEmailError("");
-                setFormMessage("");
+                clearMessage();
               }}
               placeholder="you@example.com"
               placeholderTextColor="#777777"
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
+              autoComplete="email"
+              textContentType="emailAddress"
               returnKeyType="next"
               style={styles.input}
             />
@@ -151,13 +296,15 @@ export default function SignInScreen() {
               onChangeText={(value) => {
                 setPassword(value);
                 setPasswordError("");
-                setFormMessage("");
+                clearMessage();
               }}
               placeholder="Enter your password"
               placeholderTextColor="#777777"
               secureTextEntry={!showPassword}
               autoCapitalize="none"
               autoCorrect={false}
+              autoComplete="current-password"
+              textContentType="password"
               returnKeyType="done"
               onSubmitEditing={handleSignIn}
               style={styles.input}
@@ -184,11 +331,10 @@ export default function SignInScreen() {
           ) : null}
 
           <Pressable
-            onPress={() =>
-              setFormMessage(
-                "Password recovery will be connected with account authentication.",
-              )
-            }
+            accessibilityRole="button"
+            accessibilityLabel="Reset password"
+            disabled={isSigningIn}
+            onPress={handleForgotPassword}
             style={({ pressed }) => [
               styles.forgotButton,
               pressed && styles.pressed,
@@ -198,27 +344,42 @@ export default function SignInScreen() {
           </Pressable>
 
           {formMessage ? (
-            <View style={styles.messageBox}>
-              <Ionicons
-                name="information-circle-outline"
-                size={21}
-                color={Colors.gold}
-              />
+            <View
+              style={[
+                styles.messageBox,
+                messageType === "error" && styles.messageBoxError,
+                messageType === "success" && styles.messageBoxSuccess,
+              ]}
+            >
+              <Ionicons name={messageIcon} size={21} color={messageColor} />
 
               <Text style={styles.messageText}>{formMessage}</Text>
             </View>
           ) : null}
 
           <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Sign in"
+            accessibilityState={{ disabled: isSigningIn }}
+            disabled={isSigningIn}
             onPress={handleSignIn}
             style={({ pressed }) => [
               styles.primaryButton,
-              pressed && styles.pressed,
+              isSigningIn && styles.primaryButtonDisabled,
+              pressed && !isSigningIn && styles.pressed,
             ]}
           >
-            <Text style={styles.primaryButtonText}>Sign In</Text>
-
-            <Ionicons name="arrow-forward" size={20} color="#0B0B0B" />
+            {isSigningIn ? (
+              <>
+                <ActivityIndicator size="small" color="#0B0B0B" />
+                <Text style={styles.primaryButtonText}>Signing In...</Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.primaryButtonText}>Sign In</Text>
+                <Ionicons name="arrow-forward" size={20} color="#0B0B0B" />
+              </>
+            )}
           </Pressable>
 
           <View style={styles.createAccountRow}>
@@ -227,6 +388,7 @@ export default function SignInScreen() {
             </Text>
 
             <Pressable
+              accessibilityRole="button"
               onPress={() => router.replace("/auth/create-account")}
               style={({ pressed }) => pressed && styles.pressed}
             >
@@ -235,6 +397,7 @@ export default function SignInScreen() {
           </View>
 
           <Pressable
+            accessibilityRole="button"
             onPress={() => router.replace("/onboarding/CreateProfile")}
             style={({ pressed }) => [
               styles.guestButton,
@@ -380,6 +543,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
+  messageBoxError: {
+    borderColor: "rgba(229, 115, 115, 0.5)",
+    backgroundColor: "rgba(229, 115, 115, 0.08)",
+  },
+
+  messageBoxSuccess: {
+    borderColor: "rgba(104, 199, 141, 0.5)",
+    backgroundColor: "rgba(104, 199, 141, 0.08)",
+  },
+
   messageText: {
     flex: 1,
     color: "#D7D7D7",
@@ -399,6 +572,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 9,
     marginBottom: 24,
+  },
+
+  primaryButtonDisabled: {
+    opacity: 0.65,
   },
 
   primaryButtonText: {

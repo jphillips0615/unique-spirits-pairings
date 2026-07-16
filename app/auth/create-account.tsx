@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -13,6 +14,9 @@ import {
 } from "react-native";
 
 import { Colors } from "@/constants/colors";
+import { supabase } from "@/lib/supabase";
+
+type FormMessageType = "success" | "error" | "info";
 
 export default function CreateAccountScreen() {
   const [name, setName] = useState("");
@@ -23,28 +27,41 @@ export default function CreateAccountScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false);
 
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [ageError, setAgeError] = useState("");
+
   const [formMessage, setFormMessage] = useState("");
+  const [formMessageType, setFormMessageType] =
+    useState<FormMessageType>("info");
 
   function validateEmail(value: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
   }
 
-  function handleCreateAccount() {
+  function clearFormMessage() {
+    setFormMessage("");
+    setFormMessageType("info");
+  }
+
+  async function handleCreateAccount() {
+    if (isCreatingAccount) {
+      return;
+    }
+
     const trimmedName = name.trim();
-    const trimmedEmail = email.trim();
+    const trimmedEmail = email.trim().toLowerCase();
 
     setNameError("");
     setEmailError("");
     setPasswordError("");
     setConfirmPasswordError("");
     setAgeError("");
-    setFormMessage("");
+    clearFormMessage();
 
     let hasError = false;
 
@@ -89,10 +106,106 @@ export default function CreateAccountScreen() {
       return;
     }
 
-    setFormMessage(
-      "The form is working. Secure account creation will be connected next.",
-    );
+    try {
+      setIsCreatingAccount(true);
+
+      const { data, error } = await supabase.auth.signUp({
+        email: trimmedEmail,
+        password,
+        options: {
+          data: {
+            name: trimmedName,
+            legal_drinking_age_confirmed: true,
+          },
+        },
+      });
+
+      if (error) {
+        const normalizedMessage = error.message.toLowerCase();
+
+        if (
+          normalizedMessage.includes("already registered") ||
+          normalizedMessage.includes("already exists") ||
+          normalizedMessage.includes("user already")
+        ) {
+          setEmailError("An account already exists with this email address.");
+        } else if (normalizedMessage.includes("password")) {
+          setPasswordError(error.message);
+        } else if (normalizedMessage.includes("email")) {
+          setEmailError(error.message);
+        } else {
+          setFormMessageType("error");
+          setFormMessage(error.message);
+        }
+
+        return;
+      }
+
+      /*
+       * Some Supabase configurations hide whether an email is already
+       * registered. In that situation, signUp can return a user with no
+       * identities instead of returning an error.
+       */
+      if (data.user && data.user.identities?.length === 0) {
+        setEmailError(
+          "An account may already exist with this email address. Try signing in instead.",
+        );
+        return;
+      }
+
+      /*
+       * When email confirmation is disabled, Supabase returns a session
+       * immediately and the user can continue into onboarding.
+       */
+      if (data.session) {
+        router.replace("/onboarding/CreateProfile");
+        return;
+      }
+
+      /*
+       * When email confirmation is enabled, Supabase creates the user but
+       * does not return a session until the confirmation link is opened.
+       */
+      if (data.user) {
+        router.replace({
+          pathname: "/auth/sign-in",
+          params: {
+            accountCreated: "true",
+            email: trimmedEmail,
+          },
+        });
+        return;
+      }
+
+      setFormMessageType("error");
+      setFormMessage(
+        "Supabase did not return an account. Please try creating the account again.",
+      );
+    } catch (error) {
+      console.error("Account creation failed:", error);
+
+      setFormMessageType("error");
+      setFormMessage(
+        "We could not reach the account service. Check your internet connection and try again.",
+      );
+    } finally {
+      setIsCreatingAccount(false);
+    }
   }
+
+  const messageIcon =
+    formMessageType === "success"
+      ? "checkmark-circle-outline"
+      : formMessageType === "error"
+        ? "alert-circle-outline"
+        : "information-circle-outline";
+
+  const messageColor =
+    formMessageType === "success"
+      ? "#68C78D"
+      : formMessageType === "error"
+        ? "#E57373"
+        : Colors.gold;
 
   return (
     <KeyboardAvoidingView
@@ -149,12 +262,14 @@ export default function CreateAccountScreen() {
               onChangeText={(value) => {
                 setName(value);
                 setNameError("");
-                setFormMessage("");
+                clearFormMessage();
               }}
               placeholder="Your name"
               placeholderTextColor="#777777"
               autoCapitalize="words"
               autoCorrect={false}
+              autoComplete="name"
+              textContentType="name"
               returnKeyType="next"
               style={styles.input}
             />
@@ -181,13 +296,15 @@ export default function CreateAccountScreen() {
               onChangeText={(value) => {
                 setEmail(value);
                 setEmailError("");
-                setFormMessage("");
+                clearFormMessage();
               }}
               placeholder="you@example.com"
               placeholderTextColor="#777777"
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
+              autoComplete="email"
+              textContentType="emailAddress"
               returnKeyType="next"
               style={styles.input}
             />
@@ -216,13 +333,15 @@ export default function CreateAccountScreen() {
               onChangeText={(value) => {
                 setPassword(value);
                 setPasswordError("");
-                setFormMessage("");
+                clearFormMessage();
               }}
               placeholder="At least 8 characters"
               placeholderTextColor="#777777"
               secureTextEntry={!showPassword}
               autoCapitalize="none"
               autoCorrect={false}
+              autoComplete="new-password"
+              textContentType="newPassword"
               returnKeyType="next"
               style={styles.input}
             />
@@ -266,13 +385,15 @@ export default function CreateAccountScreen() {
               onChangeText={(value) => {
                 setConfirmPassword(value);
                 setConfirmPasswordError("");
-                setFormMessage("");
+                clearFormMessage();
               }}
               placeholder="Enter your password again"
               placeholderTextColor="#777777"
               secureTextEntry={!showConfirmPassword}
               autoCapitalize="none"
               autoCorrect={false}
+              autoComplete="new-password"
+              textContentType="newPassword"
               returnKeyType="done"
               onSubmitEditing={handleCreateAccount}
               style={styles.input}
@@ -302,13 +423,12 @@ export default function CreateAccountScreen() {
 
           <Pressable
             accessibilityRole="checkbox"
-            accessibilityState={{
-              checked: ageConfirmed,
-            }}
+            accessibilityLabel="Confirm legal drinking age"
+            accessibilityState={{ checked: ageConfirmed }}
             onPress={() => {
               setAgeConfirmed((current) => !current);
               setAgeError("");
-              setFormMessage("");
+              clearFormMessage();
             }}
             style={({ pressed }) => [styles.ageRow, pressed && styles.pressed]}
           >
@@ -334,33 +454,51 @@ export default function CreateAccountScreen() {
           ) : null}
 
           {formMessage ? (
-            <View style={styles.messageBox}>
-              <Ionicons
-                name="information-circle-outline"
-                size={21}
-                color={Colors.gold}
-              />
+            <View
+              style={[
+                styles.messageBox,
+                formMessageType === "error" && styles.messageBoxError,
+                formMessageType === "success" && styles.messageBoxSuccess,
+              ]}
+            >
+              <Ionicons name={messageIcon} size={21} color={messageColor} />
 
               <Text style={styles.messageText}>{formMessage}</Text>
             </View>
           ) : null}
 
           <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Create account"
+            accessibilityState={{ disabled: isCreatingAccount }}
+            disabled={isCreatingAccount}
             onPress={handleCreateAccount}
             style={({ pressed }) => [
               styles.primaryButton,
-              pressed && styles.pressed,
+              isCreatingAccount && styles.primaryButtonDisabled,
+              pressed && !isCreatingAccount && styles.pressed,
             ]}
           >
-            <Text style={styles.primaryButtonText}>Create Account</Text>
-
-            <Ionicons name="arrow-forward" size={20} color="#0B0B0B" />
+            {isCreatingAccount ? (
+              <>
+                <ActivityIndicator size="small" color="#0B0B0B" />
+                <Text style={styles.primaryButtonText}>
+                  Creating Account...
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.primaryButtonText}>Create Account</Text>
+                <Ionicons name="arrow-forward" size={20} color="#0B0B0B" />
+              </>
+            )}
           </Pressable>
 
           <View style={styles.signInRow}>
             <Text style={styles.signInText}>Already have an account?</Text>
 
             <Pressable
+              accessibilityRole="button"
               onPress={() => router.replace("/auth/sign-in")}
               style={({ pressed }) => pressed && styles.pressed}
             >
@@ -369,6 +507,7 @@ export default function CreateAccountScreen() {
           </View>
 
           <Pressable
+            accessibilityRole="button"
             onPress={() => router.replace("/onboarding/CreateProfile")}
             style={({ pressed }) => [
               styles.guestButton,
@@ -551,6 +690,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
+  messageBoxError: {
+    borderColor: "rgba(229, 115, 115, 0.5)",
+    backgroundColor: "rgba(229, 115, 115, 0.08)",
+  },
+
+  messageBoxSuccess: {
+    borderColor: "rgba(104, 199, 141, 0.5)",
+    backgroundColor: "rgba(104, 199, 141, 0.08)",
+  },
+
   messageText: {
     flex: 1,
     color: "#D7D7D7",
@@ -571,6 +720,10 @@ const styles = StyleSheet.create({
     gap: 9,
     marginTop: 12,
     marginBottom: 24,
+  },
+
+  primaryButtonDisabled: {
+    opacity: 0.65,
   },
 
   primaryButtonText: {
