@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import * as Linking from "expo-linking";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -109,10 +110,13 @@ export default function CreateAccountScreen() {
     try {
       setIsCreatingAccount(true);
 
+      const emailRedirectTo = Linking.createURL("/auth/callback");
+
       const { data, error } = await supabase.auth.signUp({
         email: trimmedEmail,
         password,
         options: {
+          emailRedirectTo,
           data: {
             name: trimmedName,
             legal_drinking_age_confirmed: true,
