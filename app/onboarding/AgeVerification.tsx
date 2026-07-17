@@ -23,7 +23,6 @@ export default function AgeVerificationScreen() {
           style={styles.background}
           imageStyle={styles.backgroundImage}
           resizeMode="cover"
-          blurRadius={2}
         >
           <View style={styles.overlay}>
             <SafeAreaView style={styles.safeArea}>
@@ -68,7 +67,6 @@ export default function AgeVerificationScreen() {
         style={styles.background}
         imageStyle={styles.backgroundImage}
         resizeMode="cover"
-        blurRadius={2}
       >
         <View style={styles.overlay}>
           <SafeAreaView style={styles.safeArea}>

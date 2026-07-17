@@ -16,7 +16,6 @@ export default function SplashScreen() {
       source={require("../../assets/images/splash-cocktail.jpg")}
       style={styles.background}
       imageStyle={styles.backgroundImage}
-      blurRadius={2}
     >
       <View style={styles.overlay}>
         <View style={styles.brandCard}>

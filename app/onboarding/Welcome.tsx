@@ -28,7 +28,6 @@ export default function WelcomeScreen() {
         style={styles.background}
         imageStyle={styles.backgroundImage}
         resizeMode="cover"
-        blurRadius={2}
       >
         <View style={styles.overlay}>
           <SafeAreaView style={styles.safeArea}>
