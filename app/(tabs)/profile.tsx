@@ -20,13 +20,13 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View
+  View,
 } from "react-native";
 
 export default function ProfileScreen() {
   const { preferences, savePreferences } = usePreferences();
 
-  const { user, isSignedIn, signOut } = useAuth();
+  const { user, isSignedIn, signOut, deleteAccount } = useAuth();
 
   const [displayName, setDisplayName] = useState(preferences.displayName);
 
@@ -47,6 +47,7 @@ export default function ProfileScreen() {
 
   const [isSaving, setIsSaving] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
 
   useEffect(() => {
@@ -214,6 +215,68 @@ export default function ProfileScreen() {
 
               setIsSigningOut(false);
             }
+          },
+        },
+      ],
+    );
+  }
+
+  function handleDeleteAccount() {
+    if (isDeletingAccount) {
+      return;
+    }
+
+    Alert.alert(
+      "Delete Account",
+      "This permanently deletes your profile, preferences, favorites, bar inventory, profile photo, and sign-in account. This cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Continue",
+          style: "destructive",
+          onPress: () => {
+            Alert.alert(
+              "Delete Account Permanently?",
+              "This is your final confirmation. All account data will be permanently removed.",
+              [
+                {
+                  text: "Keep My Account",
+                  style: "cancel",
+                },
+                {
+                  text: "Delete Permanently",
+                  style: "destructive",
+                  onPress: async () => {
+                    try {
+                      setIsDeletingAccount(true);
+
+                      await deleteAccount();
+
+                      router.replace("/auth");
+
+                      Alert.alert(
+                        "Account Deleted",
+                        "Your account and associated cloud data have been permanently deleted.",
+                      );
+                    } catch (error) {
+                      console.error("Unable to delete account:", error);
+
+                      Alert.alert(
+                        "Unable to Delete Account",
+                        error instanceof Error
+                          ? error.message
+                          : "Something went wrong while deleting your account. Please try again.",
+                      );
+
+                      setIsDeletingAccount(false);
+                    }
+                  },
+                },
+              ],
+            );
           },
         },
       ],
@@ -483,6 +546,34 @@ export default function ProfileScreen() {
                 {isSigningOut ? "Signing Out..." : "Sign Out"}
               </Text>
             </Pressable>
+
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Delete account"
+              accessibilityHint="Permanently deletes your account and all associated data"
+              accessibilityState={{ disabled: isDeletingAccount }}
+              disabled={isDeletingAccount || isSigningOut}
+              onPress={handleDeleteAccount}
+              style={({ pressed }) => [
+                styles.deleteAccountButton,
+                (isDeletingAccount || isSigningOut) &&
+                  styles.deleteAccountButtonDisabled,
+                pressed &&
+                  !isDeletingAccount &&
+                  !isSigningOut &&
+                  styles.pressed,
+              ]}
+            >
+              <Ionicons name="trash-outline" size={20} color="#FF8A80" />
+
+              <Text style={styles.deleteAccountButtonText}>
+                {isDeletingAccount ? "Deleting Account..." : "Delete Account"}
+              </Text>
+            </Pressable>
+
+            <Text style={styles.deleteAccountWarning}>
+              Permanently removes your account and all synced data.
+            </Text>
           </>
         ) : (
           <>
@@ -905,6 +996,39 @@ const styles = StyleSheet.create({
     color: "#E57373",
     fontSize: 15,
     fontWeight: "900",
+  },
+
+  deleteAccountButton: {
+    minHeight: 54,
+    borderWidth: 1,
+    borderColor: "rgba(255, 138, 128, 0.45)",
+    borderRadius: 999,
+    marginTop: 12,
+    paddingHorizontal: 22,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    backgroundColor: "rgba(255, 138, 128, 0.06)",
+  },
+
+  deleteAccountButtonDisabled: {
+    opacity: 0.55,
+  },
+
+  deleteAccountButtonText: {
+    color: "#FF8A80",
+    fontSize: 15,
+    fontWeight: "900",
+  },
+
+  deleteAccountWarning: {
+    color: Colors.textSecondary,
+    fontSize: 12,
+    lineHeight: 18,
+    textAlign: "center",
+    marginTop: 9,
+    paddingHorizontal: 18,
   },
 
   accountActionButton: {
